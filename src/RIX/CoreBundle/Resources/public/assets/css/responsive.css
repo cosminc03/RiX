@@ -1,0 +1,27 @@
+@media screen and (min-width: 993px) {
+	#navigation{
+		display:block;
+	}
+	#navigation-mobile{
+		display: none;
+	}
+}
+@media screen and (max-width: 993px) {
+	#navigation {
+		display: none;
+	}
+	#navigation-mobile{
+		display: block;
+	}
+	#logo{
+		left:50%;
+		transform: translateX(-50%);
+	}
+		#logo > div:nth-child(2){
+			margin-left:-20px;
+		}
+	#profile-picture{
+		right:30px;
+		top:10px;
+	}
+}

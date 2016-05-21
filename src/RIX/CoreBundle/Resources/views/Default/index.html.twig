@@ -1,0 +1,84 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <section>
+        <div class="container">
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                    <form id="search">
+                        <input type="text" placeholder="Search for documents or skills you want to learn" />
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-8 col-sm-offset-2" id="main-messages">
+                    <div>Learn a New Skill Online, on Your Time</div>
+                    <div>Creative and Technology skills. <br />How-to Tutorials, Inspiration and Videos to help you learn.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row rix-categories">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <a href="#">
+                        {% image '@CoreBundle/Resources/public/assets/img/learn-sf.png' %}
+                        <div class="rix-category" style="background-image: url('{{ asset_url }}')">
+                            <div>Learn symfony</div>
+                        </div>
+                        {% endimage %}
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <a href="#">
+                        {% image '@CoreBundle/Resources/public/assets/img/drupal-track.png' %}
+                        <div class="rix-category" style="background-image: url('{{ asset_url }}')">
+                            <div>Learn Drupal</div>
+                        </div>
+                        {% endimage %}
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <a href="#">
+                        {% image '@CoreBundle/Resources/public/assets/img/learn-rest.png' %}
+                        <div class="rix-category" style="background-image: url('{{ asset_url }}')">
+                            <div>Learn REST</div>
+                        </div>
+                        {% endimage %}
+                    </a>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <a href="#">
+                        {% image '@CoreBundle/Resources/public/assets/img/learn-oo.png' %}
+                        <div class="rix-category" style="background-image: url('{{ asset_url }}')">
+                            <div>Learn OO</div>
+                        </div>
+                        {% endimage %}
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <a href="#">
+                        {% image '@CoreBundle/Resources/public/assets/img/learn-php.png' %}
+                        <div class="rix-category" style="background-image: url('{{ asset_url }}')">
+                            <div>Learn PHP</div>
+                        </div>
+                        {% endimage %}
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <a href="#">
+                        {% image '@CoreBundle/Resources/public/assets/img/learn-sf2.png' %}
+                        <div class="rix-category" style="background-image: url('{{ asset_url }}')">
+                            <div>Learn symfony2</div>
+                        </div>
+                        {% endimage %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

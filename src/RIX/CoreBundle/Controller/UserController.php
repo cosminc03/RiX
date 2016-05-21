@@ -1,0 +1,159 @@
+<?php
+
+namespace RIX\CoreBundle\Controller;
+
+use RIX\CoreBundle\Form\User\RegisterTypeForm;
+use RIX\CoreBundle\Form\User\UserAccountTypeForm;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use RIX\CoreBundle\Entity\User;
+
+class UserController extends Controller
+{
+    /**
+     * @Route("/free/home", name="rix_core_user_free_home")
+     */
+    public function freeHomeAction()
+    {
+        return $this->render('CoreBundle:Default:index.html.twig');
+    }
+
+    /**
+     * @Route("/home", name="rix_core_user_home")
+     */
+    public function homeAction()
+    {
+        $user = $this->getUser();
+        
+       return $this->render(
+           'CoreBundle:Default:index.html.twig',
+            [
+               'user' => $user,
+            ]
+       );
+    }
+
+    /**
+     * @Route("/register", name="rix_core_user_register")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function registerAction(Request $request)
+    {
+        $user = new User;
+        $form = $this->createForm(RegisterTypeForm::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($this->encodePassword($user, $user->getPlainPassword()));
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('rix_core_user_account');
+        }
+        return $this->render(
+            'CoreBundle:Default:register.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/login", name="rix_core_user_login")
+     * 
+     * @return Response
+     */
+    public function loginAction(Request $request)
+    {
+        $this->getUser();
+
+        $authenticationUtils = $this->get('security.authentication_utils');
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+        
+        return $this->render(
+            'CoreBundle:Default:login.html.twig',
+            [
+                'last_username' => $lastUsername,
+                'error' => $error,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/logout", name="rix_core_user_logout")
+     */
+    public function logoutAction()
+    {
+        $this->get('security.token_storage')->setToken(null);
+        $this->get('request')->getSession()->invalidate();
+    }
+
+    /**
+     * @Route("/account", name="rix_core_user_account")
+     *
+     * @var Request $request
+     * @return Response
+     */
+    public function mainAccountAction(Request $request)
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(UserAccountTypeForm::class, $user);
+        $form->handleRequest($request);
+//var_dump($form->isSubmitted());
+//var_dump($form->isValid());
+//var_dump($form->getErrors()[0]);
+//var_dump($form);
+//        die;
+        if ($form->isSubmitted() && $form->isValid()) {
+
+//            dump($user);
+//            die();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return $this->render(
+            'CoreBundle:Default:main_account.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/category-selected", name="core_user_category_selected")
+     *
+     * @return Response
+     */
+    public function categorySelectedAction()
+    {
+        return $this->render('CoreBundle:Default:category_selected.html.twig');
+    }
+
+    /**
+     * @Route("/success", name="rix_core_success")
+     * 
+     * @return Response
+     */
+    public function succesAction()
+    {
+        return $this->render('CoreBundle:Default:success.html.twig');
+    }
+
+    private function encodePassword(User $user, $plainPassword)
+    {
+        $encoder = $this->get('security.encoder_factory')->getEncoder($user);
+
+        return $encoder->encodePassword($plainPassword, $user->getSalt());
+    }
+}

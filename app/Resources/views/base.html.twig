@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}RIX{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bundles/core/assets/bootstrap/css/bootstrap.min.css') }}"/>
+            {% stylesheets '@CoreBundle/Resources/public/assets/css/*' filter='cssrewrite' %}
+                <link rel="stylesheet" href="{{ asset_url }}"/>
+            {% endstylesheets %}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="responsive-wrapper-main">
+            {% block header %}
+                <header>
+                    <nav id="navigation" class="fixed">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div id="logo">
+                                        <a href="
+                                            {% if app.user %}
+                                                {{ path('rix_core_user_home') }}
+                                            {% else %}
+                                                {{ path('rix_core_user_free_home') }}
+                                            {% endif %}
+                                        ">
+                                            <div>RiX.com</div>
+                                            <div>Resource Interactive Explorer</div>
+                                        </a>
+                                    </div>
+                                    {% if app.user %}
+                                        <div id="mini-search">
+                                            <form >
+                                                <input type="text" placeholder="Search for documents or skills you want to learn"/>
+                                            </form>
+                                        </div>
+                                        <div id="account-wrapper">
+                                            <div id="profile-picture">
+                                                {% if user.imageName %}
+                                                    <img src="{{ asset('images/products/' ~ user.imageName) }}"  alt="" />
+                                                {% else %}
+                                                    <img src="{{ asset('bundles/core/assets/img/user.png') }}" alt="" />
+                                                {% endif %}
+                                            </div>
+                                            <div id="profile-name">
+                                                <a href="{{ path('rix_core_user_account') }}">{{ user.username }}</a>
+                                            </div>
+                                            {% image '@CoreBundle/Resources/public/assets/img/arrow-down.png' %}
+                                            <img src="{{ asset_url }}" class="menu-arrow"/>
+                                            {% endimage %}
+                                        </div>
+                                        <ul id="menu">
+                                            <li><a href="{{ path('rix_core_user_home') }}">Home</a></li>
+                                            <li><a href="#">Cateogries</a></li>
+                                            <li><a href="{{ path('rix_core_user_logout') }}" id="sign-up">Sign Out</a></li>
+                                        </ul>
+                                    {% else %}
+                                        <ul id="menu">
+                                            <li><a href="{{ path('rix_core_user_free_home') }}">Home</a></li>
+                                            <li><a href="#">Cateogries</a></li>
+                                            <li><a href="{{ path('rix_core_user_login') }}" id="sign-in">Sign In</a></li>
+                                            <li><a href="{{ path('rix_core_user_register') }}" id="sign-up">Sign Up</a></li>
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                    <nav id="navigation-mobile" >
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div id="menu-sandwich">
+                                        {% image '@CoreBundle/Resources/public/assets/img/menu-mobile.png' %}
+                                        <img src="{{ asset_url }}"/>
+                                        {% endimage %}
+                                    </div>
+                                    <div id="logo">
+                                        <div>RiX.com</div>
+                                        <div>Resource Interactive Explorer</div>
+                                    </div>
+                                    <div id="search-mobile">
+                                        {% image '@CoreBundle/Resources/public/assets/img/search-mobile.png' %}
+                                        <img src="{{ asset_url }}">
+                                        {% endimage %}
+                                    </div>
+                                    <div id="profile-picture"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <!--- Mobile nav -->
+                </header>
+            {% endblock %}
+            {% block body %}{% endblock %}
+            {% block footer %}
+                <footer>
+                    <div id="fat-footer">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-2">
+                                    <ul class="footer-category">
+                                        <li>About Us</li>
+                                        <li><a href="#">Careers</a></li>
+                                        <li><a href="#">Press Center</a></li>
+                                        <li><a href="#">Call for Trainers</a></li>
+                                        <li><a href="#">Video2Brain</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-6 col-sm-2">
+                                    <ul class="footer-category">
+                                        <li>Products</li>
+                                        <li><a href="#">Our Plans</a></li>
+                                        <li><a href="#">Academic Solutions</a></li>
+                                        <li><a href="#">Business Solutions</a></li>
+                                        <li><a href="#">Government Solutions</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-6 col-sm-2">
+                                    <ul class="footer-category">
+                                        <li>Support</li>
+                                        <li><a href="#">Support</a></li>
+                                        <li><a href="#">Contact Us</a></li>
+                                        <li><a href="#">System Requirements</a></li>
+                                        <li><a href="#">Site feedbacks</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-6 col-sm-2">
+                                    <ul class="footer-category">
+                                        <li>iPhone & Ipad</li>
+                                        <li><a href="#">Android</a></li>
+                                        <li><a href="#">Windows 8</a></li>
+                                        <li><a href="#">Desktop App</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-12 col-sm-4" id="connect-wrapper">
+                                    <div id="connect">Connect</div>
+                                    <ul id="social">
+                                        <li>
+                                            <a href="#">
+                                                {% image '@CoreBundle/Resources/public/assets/img/facebook.png' %}
+                                                <img src="{{ asset_url }}"/>
+                                                {% endimage %}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                {% image '@CoreBundle/Resources/public/assets/img/twitter.png' %}
+                                                <img src="{{ asset_url }}"/>
+                                                {% endimage %}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                {% image '@CoreBundle/Resources/public/assets/img/google-plus.png' %}
+                                                <img src="{{ asset_url }}"/>
+                                                {% endimage %}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                {% image '@CoreBundle/Resources/public/assets/img/linkdin.png' %}
+                                                <img src="{{ asset_url }}"/>
+                                                {% endimage %}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                {% image '@CoreBundle/Resources/public/assets/img/email.png' %}
+                                                <img src="{{ asset_url }}"/>
+                                                {% endimage %}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="fit-footer">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div id="copyright">
+                                        &#169;2016 RiX.com
+                                    </div>
+                                    <div id="bottom-logo">
+                                        <div>RiX.com</div>
+                                        <div>Resource Interactive Explorer</div>
+                                        {% image '@CoreBundle/Resources/public/assets/img/scroll-arrow.png' %}
+                                        <img src="{{ asset_url }}" class="scroll"/>
+                                        {% endimage %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            {% endblock %}
+        </div>
+        {% block javascripts %}
+            <script src="{{ asset('bundles/core/assets/js/jquery-1.12.4.min.js') }}"></script>
+            <script src="{{ asset('bundles/core/assets/bootstrap/js/bootstrap.min.js') }}"></script>
+            {% javascripts '@CoreBundle/Resources/public/assets/js/*' %}
+            <script src="{{ asset_url }}"></script>
+            <script>
+                $(document).ready(function(){
+                    $('.scroll').click(function(){
+                        $(document).scrollTop();
+                        $("body,html").animate({ scrollTop: 0 }, "slow");
+                    });
+                });
+            </script>
+            {% endjavascripts %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,32 @@
+security:
+    encoders:
+        RIX\CoreBundle\Entity\User:
+            algorithm: bcrypt
+
+    providers:
+        our_db_provider:
+            entity:
+                class: CoreBundle:User
+                property: email
+
+    firewalls:
+        main:
+            anonymous: ~
+            form_login:
+                login_path: rix_core_user_login
+                check_path: rix_core_user_login
+                default_target_path: rix_core_user_home
+            logout:
+                path: rix_core_user_logout
+                target: rix_core_user_free_home
+            pattern: ^/
+            provider: our_db_provider
+
+    access_control:
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(css|js), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(_wdt|_profiler), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/free/home, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/home, roles: ROLE_USER }
+        - { path: ^/account, roles: ROLE_USER }
