@@ -48,9 +48,9 @@
                                                     <img src="{{ asset('bundles/core/assets/img/user.png') }}" alt="" />
                                                 {% endif %}
                                             </div>
-                                            <div id="profile-name">
+                                            <!--<div id="profile-name">
                                                 <a href="{{ path('rix_core_user_account') }}">{{ user.username }}</a>
-                                            </div>
+                                            </div>-->
                                             {% image '@CoreBundle/Resources/public/assets/img/arrow-down.png' %}
                                             <img src="{{ asset_url }}" class="menu-arrow"/>
                                             {% endimage %}
@@ -215,6 +215,10 @@
                         $(document).scrollTop();
                         $("body,html").animate({ scrollTop: 0 }, "slow");
                     });
+
+                    $('.menu-arrow').hover(function(){
+                        console.log("OK");
+                    }, function(){});
                 });
             </script>
             {% endjavascripts %}

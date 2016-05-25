@@ -106,7 +106,7 @@ header{
 #account-wrapper{
 	margin-top:4px;
 	padding:5px 0;
-	width:200px;
+	width:85px;
 	height: 50px;
 	position: relative;
 	float: right;
@@ -117,7 +117,7 @@ header{
 	}
 #profile-picture{
 	position: absolute;
-	right:140px;
+	right:30px;
 	width: 40px;
 	height: 40px;
 	border-radius:50%;
