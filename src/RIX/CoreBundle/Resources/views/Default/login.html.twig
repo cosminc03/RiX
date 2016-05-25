@@ -10,7 +10,7 @@
                     <div>Don't have an account? <a href="{{ path('rix_core_user_register') }}">Create one now</a></div>
                     {% if error %}
                         <span class="errors">
-                           The email or password you've entered doen't match any account.
+                           The email or password you've entered doesn't match any account.
                         </span>
                     {% endif %}
                     <form action="{{ path('rix_core_user_login') }}" method="post" class="user-form" role="form" novalidate>

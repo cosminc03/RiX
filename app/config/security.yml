@@ -30,3 +30,5 @@ security:
         - { path: ^/free/home, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/home, roles: ROLE_USER }
         - { path: ^/account, roles: ROLE_USER }
+        - { path: ^/change-email, roles: ROLE_USER }
+        - { path: ^/change-password, roles: ROLE_USER }

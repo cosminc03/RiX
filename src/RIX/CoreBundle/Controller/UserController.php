@@ -2,6 +2,8 @@
 
 namespace RIX\CoreBundle\Controller;
 
+use RIX\CoreBundle\Form\User\ChangeEmailTypeForm;
+use RIX\CoreBundle\Form\User\ChangePasswordTypeForm;
 use RIX\CoreBundle\Form\User\RegisterTypeForm;
 use RIX\CoreBundle\Form\User\UserAccountTypeForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -106,16 +108,8 @@ class UserController extends Controller
         $user = $this->getUser();
         $form = $this->createForm(UserAccountTypeForm::class, $user);
         $form->handleRequest($request);
-//var_dump($form->isSubmitted());
-//var_dump($form->isValid());
-//var_dump($form->getErrors()[0]);
-//var_dump($form);
-//        die;
+
         if ($form->isSubmitted() && $form->isValid()) {
-
-//            dump($user);
-//            die();
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -140,6 +134,72 @@ class UserController extends Controller
         return $this->render('CoreBundle:Default:category_selected.html.twig');
     }
 
+    /**
+     * @Route("/change-email", name="rix_core_user_change_email")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function changeEmailAction(Request $request)
+    {
+        $valid = false;
+        $user = $this->getUser();
+        $form = $this->createForm(ChangeEmailTypeForm::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->eraseOldPassword();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $valid = true;
+        }
+
+        return $this->render(
+            '@Core/Default/change_email.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
+                'valid' => $valid,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/change-password", name="rix_core_user_change_password")
+     * 
+     * @param Request $request
+     * @return Response
+     */
+    public function changePasswordAction(Request $request)
+    {
+        $valid = false;
+        $user = $this->getUser();
+        $form = $this->createForm(ChangePasswordTypeForm::class, $user);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($this->encodePassword($user, $user->getPlainPassword()));
+            $user->eraseCredentials();
+            $user->eraseOldPassword();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $valid = true;
+        }
+        
+        return $this->render(
+            '@Core/Default/change_password.html.twig',
+            [
+                'user' => $user,
+                'form' => $form->createView(),
+                'valid' => $valid,
+            ]
+        );
+    }
+    
     /**
      * @Route("/success", name="rix_core_success")
      * 

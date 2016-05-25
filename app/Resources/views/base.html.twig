@@ -51,13 +51,23 @@
                                             <!--<div id="profile-name">
                                                 <a href="{{ path('rix_core_user_account') }}">{{ user.username }}</a>
                                             </div>-->
-                                            {% image '@CoreBundle/Resources/public/assets/img/arrow-down.png' %}
-                                            <img src="{{ asset_url }}" class="menu-arrow"/>
-                                            {% endimage %}
+                                            <div id="dropdown">
+                                                {% image '@CoreBundle/Resources/public/assets/img/arrow-down.png' %}
+                                                    <img src="{{ asset_url }}" class="menu-arrow dropbtn"/>
+                                                {% endimage %}
+                                                <div id="dropdown-content">
+                                                    <div class="arrow-up"></div>
+                                                    <a href="#">My courses</a>
+                                                    <a href="#">Subscription</a>
+                                                    <a href="{{ path('rix_core_user_account') }}">Personal Details</a>
+                                                    <a href="{{ path('rix_core_user_change_email') }}">Change Email</a>
+                                                    <a href="{{ path('rix_core_user_change_password') }}">Change Password</a>
+                                                </div>
+                                            </div>
                                         </div>
                                         <ul id="menu">
                                             <li><a href="{{ path('rix_core_user_home') }}">Home</a></li>
-                                            <li><a href="#">Cateogries</a></li>
+                                            <li><a href="#">Categories</a></li>
                                             <li><a href="{{ path('rix_core_user_logout') }}" id="sign-up">Sign Out</a></li>
                                         </ul>
                                     {% else %}
@@ -216,9 +226,14 @@
                         $("body,html").animate({ scrollTop: 0 }, "slow");
                     });
 
-                    $('.menu-arrow').hover(function(){
-                        console.log("OK");
-                    }, function(){});
+                    $('.dropbtn').hover(function(){
+                        $('#dropdown-content').css('display','block');
+                    }, function(){
+                    });
+
+                    $('#dropdown-content').hover(function(){},function(){
+                        $('#dropdown-content').css('display','none');
+                    });
                 });
             </script>
             {% endjavascripts %}

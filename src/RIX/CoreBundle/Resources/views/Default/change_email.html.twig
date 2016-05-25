@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <section class="container">
+    <div class="row">
+        <form class="user-form" action="{{ path('rix_core_user_change_email') }}" method="POST" novalidate>
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 " id="account">
+                <div id="account-message">Change Email</div>
+                {% if valid %}
+                    <div id="account-validate">
+                        Your email address has been successfully changed!
+                    </div>
+                {% endif %}
+                <div id="account-errors">
+                    {% if form_errors(form.email) %}
+                        <div>{{ form_errors(form.email) }}</div>
+                    {% endif %}
+                    {% if form_errors(form.oldPassword) %}
+                        <div>{{ form_errors(form.oldPassword) }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.oldPassword) }}
+                    {{ form_widget(form.oldPassword, { 'attr': {'class': 'form-control', 'placeholder': 'Enter password'} }) }}
+                </div>
+                    {{ form_rest(form) }}
+                <div class="button-wrapper">
+                    <button type="submit" class="btn">Save Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </section>
+{% endblock %}

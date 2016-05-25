@@ -4,40 +4,30 @@ namespace RIX\CoreBundle\Form\User;
 
 use RIX\CoreBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
-class RegisterTypeForm extends AbstractType
+class ChangeEmailTypeForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('email', TextType::class, [
                 'label' => 'Email:',
+                'invalid_message' => 'Email incorect',
                 'required' => true,
             ])
-            ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'required' => true,
-                'first_options' => array(
-                    'label' => 'Password:',
-                    'constraints' => array(
-                        new NotBlank(array(
-                            "message" => " should not be blank"
-                        ))
-                    )
-                ),
-                'second_options' => array(
-                    'label' => 'Repeat password:',
-                )
+            ->add('oldPassword', PasswordType::class,[
+                 'label' => 'Password:',
+                 'required' => true,
+                 'invalid_message' => 'Password fucked up!',
             ])
         ;
     }
-    
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
@@ -47,6 +37,6 @@ class RegisterTypeForm extends AbstractType
 
     public function getName()
     {
-        return 'user_register';
+        return 'change_email';
     }
 }
