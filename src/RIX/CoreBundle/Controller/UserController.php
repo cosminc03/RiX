@@ -131,9 +131,12 @@ class UserController extends Controller
      */
     public function categorySelectedAction()
     {
+        $api = new Helper;
+        $res = $api->get_slideTag('design',0,25);
         return $this->render(
             'CoreBundle:Default:category_selected.html.twig',
             [
+                'res' => $res,
                 'user' => $this->getUser(),
             ]);
     }
