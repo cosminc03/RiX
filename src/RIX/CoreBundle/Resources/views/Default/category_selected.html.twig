@@ -9,145 +9,40 @@
                 </div>
             </div>
             <div class="row rix-categories">
+                {% for i in 1..7 %}
                 <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
                     <div class="rix-post" >
-                        {% image '@CoreBundle/Resources/public/assets/img/learn-sf.png' %}
-                            <div style="background-image: url('{{ asset_url }}')"></div>
-                        {% endimage %}
-                        <div class="rix-post-details">
-                            <div class="post-tags">
-                                <a href="#">CSS</a>
-                            </div>
-                            <div class="post-title">
-                                <a href="#">Selecting Parent Elements with CSS and jQuery</a>
-                            </div>
-                            <div class="posted-by">
-                                <a href="#">Thoriq Firdaus</a>
-                                {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
-                                    <img src="{{ asset_url }}"/>
-                                {% endimage %}
-                            </div>
-                            <div class="posted-at">10 days ago</div>
-                        </div>
-                        <div class="author"></div>
-                    </div>
-                </div>
-                <div class="col-xs-8 col-xs-offset-2  col-sm-6 col-sm-offset-0 col-md-3">
-                    <div class="rix-post" >
-                        {% image '@CoreBundle/Resources/public/assets/img/learn-sf.png' %}
-                            <div style="background-image: url('{{ asset_url }}')"></div>
-                        {% endimage %}
-                        <div class="rix-post-details">
-                            <div class="post-tags">
-                                <a href="#">CSS</a>
-                            </div>
-                            <div class="post-title">
-                                <a href="#">Selecting Parent Elements with CSS and jQuery</a>
-                            </div>
-                            <div class="posted-by">
-                                <a href="#">Thoriq Firdaus</a>
-                                {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
-                                    <img src="{{ asset_url }}"/>
-                                {% endimage %}
-                            </div>
-                            <div class="posted-at">10 days ago</div>
-                        </div>
-                        <div class="author"></div>
-                    </div>
-                </div>
-                <div class="col-xs-8 col-xs-offset-2  col-sm-6 col-sm-offset-0 col-md-3">
-                    <div class="rix-post" >
-                        {% image '@CoreBundle/Resources/public/assets/img/learn-sf.png' %}
-                            <div style="background-image: url('{{ asset_url }}')"></div>
-                        {% endimage %}
-                        <div class="rix-post-details">
-                            <div class="post-tags">
-                                <a href="#">CSS</a>
-                            </div>
-                            <div class="post-title">
-                                <a href="#">Selecting Parent Elements with CSS and jQuery</a>
-                            </div>
-                            <div class="posted-by">
-                                <a href="#">Thoriq Firdaus</a>
-                                {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
-                                    <img src="{{ asset_url }}"/>
-                                {% endimage %}
-                            </div>
-                            <div class="posted-at">10 days ago</div>
-                        </div>
-                        <div class="author"></div>
-                    </div>
-                </div>
 
-                <div class="col-xs-8 col-xs-offset-2  col-sm-6 col-sm-offset-0 col-md-3">
-                    <div class="rix-post" >
-                        {% image '@CoreBundle/Resources/public/assets/img/learn-sf.png' %}
-                            <div style="background-image: url('{{ asset_url }}')"></div>
-                        {% endimage %}
+                        <img src="{{videos["body"]["data"][i]["pictures"]["sizes"][2]["link"]}}" width="260" height="150">
                         <div class="rix-post-details">
                             <div class="post-tags">
-                                <a href="#">CSS</a>
+                                <a href="#">
+                                    {% for tag in videos["body"]["data"][i]["tags"] %}
+                                        {{ tag["name"] }}
+                                    {% endfor %}
+                                </a>
                             </div>
                             <div class="post-title">
-                                <a href="#">Selecting Parent Elements with CSS and jQuery</a>
+                                <a href="#">
+                                    {{ videos["body"]["data"][i]["name"] }}
+                                </a>
                             </div>
                             <div class="posted-by">
-                                <a href="#">Thoriq Firdaus</a>
+                                <a href="#">
+                                    {{ videos["body"]["data"][i]["user"]["name"] }}
+                                </a>
                                 {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
                                     <img src="{{ asset_url }}"/>
                                 {% endimage %}
                             </div>
-                            <div class="posted-at">10 days ago</div>
+                            <div class="posted-at">
+                                {{ videos["body"]["data"][i]["created_time"][0:10] }}
+                            </div>
                         </div>
                         <div class="author"></div>
                     </div>
                 </div>
-                <div class="col-xs-8 col-xs-offset-2  col-sm-6  col-sm-offset-0 col-md-3">
-                    <div class="rix-post" >
-                        {% image '@CoreBundle/Resources/public/assets/img/learn-sf.png' %}
-                            <div style="background-image: url('{{ asset_url }}')"></div>
-                        {% endimage %}
-                        <div class="rix-post-details">
-                            <div class="post-tags">
-                                <a href="#">CSS</a>
-                            </div>
-                            <div class="post-title">
-                                <a href="#">Selecting Parent Elements with CSS and jQuery</a>
-                            </div>
-                            <div class="posted-by">
-                                <a href="#">Thoriq Firdaus</a>
-                                {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
-                                    <img src="{{ asset_url }}"/>
-                                {% endimage %}
-                            </div>
-                            <div class="posted-at">10 days ago</div>
-                        </div>
-                        <div class="author"></div>
-                    </div>
-                </div>
-                <div class="col-xs-8 col-xs-offset-2  col-sm-6 col-sm-offset-0 col-md-3">
-                    <div class="rix-post" >
-                        {% image '@CoreBundle/Resources/public/assets/img/learn-sf.png' %}
-                            <div style="background-image: url('{{ asset_url }}')"></div>
-                        {% endimage %}
-                        <div class="rix-post-details">
-                            <div class="post-tags">
-                                <a href="#">CSS</a>
-                            </div>
-                            <div class="post-title">
-                                <a href="#">Selecting Parent Elements with CSS and jQuery</a>
-                            </div>
-                            <div class="posted-by">
-                                <a href="#">Thoriq Firdaus</a>
-                                {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
-                                    <img src="{{ asset_url }}"/>
-                                {% endimage %}
-                            </div>
-                            <div class="posted-at">10 days ago</div>
-                        </div>
-                        <div class="author"></div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

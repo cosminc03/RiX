@@ -131,10 +131,12 @@ class UserController extends Controller
      */
     public function categorySelectedAction()
     {
+        $vimeo = new Vimeo('b934c6d8a38fc37a2958bc730ba0259d74ebe3a9', '7Pdi+kUkEqz6R7i4SblRTxpFm8tGrmAMLtQ1lIvL9ThKhiGm+aXuiIiOj0vPGTdy5r8BCipZmkBVVwUAkPS8Kj4j32X9zdGVNkPCRSoGua52eBObaoV1MnORJdUJhAvd', '44c4932c50c0cdce24e06d86d36c85f0');
+        $videos = $vimeo->request("/tags/java/videos");
         return $this->render(
             'CoreBundle:Default:category_selected.html.twig',
             [
-                'user' => $this->getUser(),
+                'videos' => $videos,
             ]);
     }
 
