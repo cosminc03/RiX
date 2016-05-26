@@ -131,7 +131,11 @@ class UserController extends Controller
      */
     public function categorySelectedAction()
     {
-        return $this->render('CoreBundle:Default:category_selected.html.twig');
+        return $this->render(
+            'CoreBundle:Default:category_selected.html.twig',
+            [
+                'user' => $this->getUser(),
+            ]);
     }
 
     /**

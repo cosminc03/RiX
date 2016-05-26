@@ -29,7 +29,7 @@ body{
 }
 /******************* header *****************/
 header{
-	height: 100px;
+	height: 60px;
 }
 #navigation, #navigation-mobile{
 	background-color: #000;
@@ -234,6 +234,56 @@ header{
 		border-right: 9px solid transparent;
 		border-bottom: 11px solid #ffffff;
 	}
+
+/***************** user-menu ******************/
+
+.user-menu{
+	width:100%;
+	background:#eef1f3;
+}
+.user-email{
+	font-size: 2.5rem;
+	font-weight: 600;
+	color:#444;
+	padding:20px 0;
+}
+.user-menu-list{
+	padding:0;
+	margin-top:12px;
+}
+.user-menu-list ul{
+	padding:0;
+	list-style-type: none;
+	width:100%;
+}
+	.user-menu-list ul li{
+		display: inline-block;
+		margin-left:-3px;
+		padding:12px 0;
+		border-bottom:solid 4px #eef1f3;
+	}
+	.user-menu-list ul li a{
+		color:#444;
+		text-decoration: none;
+		font-size:1.2rem;
+		padding:12px 0;
+	}
+	.user-menu-list ul li a:hover{
+		color:#000000;
+	}
+	.first-menu-item{
+		padding-right:277px!important;
+	}
+	.menu-item{
+		padding-left:22px!important;
+		padding-right:22px!important;
+	}
+	.menu-item-active{
+		border-bottom:solid 4px #000000!important;
+	}
+		.menu-item-active a{
+			color:#000000!important;
+		}
 /****************** footer *********************/
 footer{
 	margin-top:50px;

@@ -82,6 +82,10 @@ class User implements AdvancedUserInterface, \Serializable
     private $plainPassword;
 
     /**
+     * Add SecurityAssert\UserPassword(
+     *     message = "Wrong value for your current password"
+     * )
+     *
      * Just stores the old password when password and email are changed
      *
      * @var string

@@ -5,10 +5,16 @@
 	#navigation-mobile{
 		display: none;
 	}
+	#user-menu-wrapper{
+		display:block;
+	}
 }
 @media screen and (max-width: 993px) {
 	#navigation {
 		display: none;
+	}
+	#user-menu-wrapper{
+		display:none;
 	}
 	#navigation-mobile{
 		display: block;
@@ -25,3 +31,9 @@
 		top:10px;
 	}
 }
+@media screen and (max-width:1199px) {
+	.first-menu-item{
+		padding-right: 110px!important;
+	}
+}
+
