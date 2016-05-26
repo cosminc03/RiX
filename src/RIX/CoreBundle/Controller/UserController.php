@@ -26,7 +26,6 @@ class UserController extends Controller
     public function homeAction()
     {
         $user = $this->getUser();
-        
        return $this->render(
            'CoreBundle:Default:index.html.twig',
             [
@@ -43,6 +42,7 @@ class UserController extends Controller
      */
     public function registerAction(Request $request)
     {
+        dump('<IOE');
         $user = new User;
         $form = $this->createForm(RegisterTypeForm::class, $user);
         $form->handleRequest($request);
