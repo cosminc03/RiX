@@ -7,6 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -49,7 +50,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
-     * @Assert\Email(message = "The email '{{ value }}' is not a valid email")
+     * @Assert\Email(message = "The email {{ value }} is not a valid email")
      */
     private $email;
 
@@ -64,12 +65,42 @@ class User implements AdvancedUserInterface, \Serializable
      * Just stores the plain password temporarily
      *
      * @var string
+     * @Assert\NotBlank(
+     *     message="Your password should not be blank"
+     * )
      * @Assert\Regex(
      *     pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/",
-     *     message="Use 1 upper case letter, 1 lower case letter, and 1 number"
+     *     message="Your password should contain at least 1 lower case letter, 1 upper case letter and 1 number"
+     * )
+     * @Assert\Length(
+     *     min = 6,
+     *     max = 15,
+     *     minMessage = "Your password must be at least {{ limit }} characters long",
+     *     maxMessage= "Your password cannot be longer then {{ limit }} characters"
      * )
      */
     private $plainPassword;
+
+    /**
+     * Add SecurityAssert\UserPassword(
+     *     message = "Wrong value for your current password"
+     * )
+     *
+     * Just stores the old password when password and email are changed
+     *
+     * @var string
+     * @Assert\Regex(
+     *     pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/",
+     *     message="Your password should contain at least 1 lower case letter, 1 upper case letter and 1 number"
+     * )
+     * @Assert\Length(
+     *     min = 6,
+     *     max = 15,
+     *     minMessage = "Your password must be at least {{ limit }} characters long",
+     *     maxMessage= "Your password cannot be longer then {{ limit }} characters"
+     * )
+     */
+    private $oldPassword;
 
     /**
      * @var \DateTime
@@ -170,6 +201,11 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->setPlainPassword(null);
     }
+    
+    public function eraseOldPassword()
+    {
+        $this->setOldPassword(null);
+    }
 
     /**
      * @return string
@@ -269,6 +305,22 @@ class User implements AdvancedUserInterface, \Serializable
     public function getPlainPassword()
     {
         return $this->plainPassword;
+    }
+
+    /**
+     * @param string $oldPassword
+     */
+    public function setOldPassword($oldPassword)
+    {
+        $this->oldPassword = $oldPassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOldPassword()
+    {
+        return $this->oldPassword;
     }
 
     /**

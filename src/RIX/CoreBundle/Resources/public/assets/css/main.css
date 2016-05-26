@@ -29,7 +29,7 @@ body{
 }
 /******************* header *****************/
 header{
-	height: 100px;
+	height: 60px;
 }
 #navigation, #navigation-mobile{
 	background-color: #000;
@@ -106,7 +106,7 @@ header{
 #account-wrapper{
 	margin-top:4px;
 	padding:5px 0;
-	width:200px;
+	width:85px;
 	height: 50px;
 	position: relative;
 	float: right;
@@ -117,7 +117,7 @@ header{
 	}
 #profile-picture{
 	position: absolute;
-	right:140px;
+	right:30px;
 	width: 40px;
 	height: 40px;
 	border-radius:50%;
@@ -152,7 +152,7 @@ header{
 .menu-arrow{
 	position: absolute;
 	right: 0;
-	top:50%;
+	top:18px;
 	transform: translateY(-50%);
 	height: 15px;
 	width:17px;
@@ -194,6 +194,96 @@ header{
 		top:14px;
 	}
 
+	/****************** dropdown menu *************/
+	#dropdown{
+		position:relative;
+	}
+	#dropdown-content{
+		display: none;
+		position:absolute;
+		top: 44px;
+		left:-40px;
+		width:155px;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+		padding: 10px;
+		border-radius: 5px;
+		background: #ffffff;
+		z-index:20000;
+	}
+	#dropdown-content a{
+		display:block;
+		color:#000;
+		padding:5px 5px;
+		font-size:1.1rem;
+	}
+	#dropdown-content a:hover{
+		text-decoration: none;
+		font-weight: 700;
+	}
+	.menu-arrow:hover #dropdown-content{
+		display: block;
+	}
+
+	.arrow-up {
+		position:absolute;
+		top:-11px;
+		right:28px;
+		width: 0;
+		height: 0;
+		border-left: 9px solid transparent;
+		border-right: 9px solid transparent;
+		border-bottom: 11px solid #ffffff;
+	}
+
+/***************** user-menu ******************/
+
+.user-menu{
+	width:100%;
+	background:#eef1f3;
+}
+.user-email{
+	font-size: 2.5rem;
+	font-weight: 600;
+	color:#444;
+	padding:20px 0;
+}
+.user-menu-list{
+	padding:0;
+	margin-top:12px;
+}
+.user-menu-list ul{
+	padding:0;
+	list-style-type: none;
+	width:100%;
+}
+	.user-menu-list ul li{
+		display: inline-block;
+		margin-left:-3px;
+		padding:12px 0;
+		border-bottom:solid 4px #eef1f3;
+	}
+	.user-menu-list ul li a{
+		color:#444;
+		text-decoration: none;
+		font-size:1.2rem;
+		padding:12px 0;
+	}
+	.user-menu-list ul li a:hover{
+		color:#000000;
+	}
+	.first-menu-item{
+		padding-right:277px!important;
+	}
+	.menu-item{
+		padding-left:22px!important;
+		padding-right:22px!important;
+	}
+	.menu-item-active{
+		border-bottom:solid 4px #000000!important;
+	}
+		.menu-item-active a{
+			color:#000000!important;
+		}
 /****************** footer *********************/
 footer{
 	margin-top:50px;
@@ -499,6 +589,7 @@ footer{
 	#account-message{
 		font-size: 2rem;
 		text-align: center;
+		padding-bottom: 20px;
 	}
 	#account-errors ul{
 		padding:0;
@@ -511,6 +602,13 @@ footer{
 	#account-errors div{
 		color:#ff0000;
 	}
+
+#account-validate{
+	color: green;
+	font-weight: 700;
+	padding-bottom: 10px;
+}
+
 .vich-image{
 	text-align: center;
 }

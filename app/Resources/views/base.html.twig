@@ -51,13 +51,23 @@
                                             <!--<div id="profile-name">
                                                 <a href="{{ path('rix_core_user_account') }}">{{ user.username }}</a>
                                             </div>-->
-                                            {% image '@CoreBundle/Resources/public/assets/img/arrow-down.png' %}
-                                            <img src="{{ asset_url }}" class="menu-arrow"/>
-                                            {% endimage %}
+                                            <div id="dropdown">
+                                                {% image '@CoreBundle/Resources/public/assets/img/arrow-down.png' %}
+                                                    <img src="{{ asset_url }}" class="menu-arrow dropbtn"/>
+                                                {% endimage %}
+                                                <div id="dropdown-content">
+                                                    <div class="arrow-up"></div>
+                                                    <a href="#">My courses</a>
+                                                    <a href="#">Subscription</a>
+                                                    <a href="{{ path('rix_core_user_account') }}">Personal Details</a>
+                                                    <a href="{{ path('rix_core_user_change_email') }}">Change Email</a>
+                                                    <a href="{{ path('rix_core_user_change_password') }}">Change Password</a>
+                                                </div>
+                                            </div>
                                         </div>
                                         <ul id="menu">
                                             <li><a href="{{ path('rix_core_user_home') }}">Home</a></li>
-                                            <li><a href="#">Cateogries</a></li>
+                                            <li><a href="#">Categories</a></li>
                                             <li><a href="{{ path('rix_core_user_logout') }}" id="sign-up">Sign Out</a></li>
                                         </ul>
                                     {% else %}
@@ -99,7 +109,41 @@
                     <!--- Mobile nav -->
                 </header>
             {% endblock %}
-            {% block body %}{% endblock %}
+            {% if path(app.request.attributes.get('_route')) == path('rix_core_user_account') or
+                  path(app.request.attributes.get('_route')) == path('rix_core_user_change_email') or
+                  path(app.request.attributes.get('_route')) == path('rix_core_user_change_password')
+            %}
+                {% block user %}
+                    <div id="user-menu-wrapper">
+                        <div class="user-menu">
+                            <section class="container">
+                                <div class="row">
+                                    <div class="col-xs-10 col-xs-offset-1 user-email">
+                                        {{ app.user.email }}
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <section>
+                            <section class="container">
+                                <div class="row">
+                                    <div class="col-xs-10 col-xs-offset-1 user-menu-list">
+                                        <ul>
+                                            <li class="first-menu-item"><a href="#">My courses</a></li>
+                                            <li class="menu-item"><a href="#">Subscription</a></li>
+                                            <li class="menu-item {% if path(app.request.attributes.get('_route')) == path('rix_core_user_account') %} menu-item-active {% endif %}"><a href="{{ path('rix_core_user_account') }}">Personal Details</a></li>
+                                            <li class="menu-item {% if path(app.request.attributes.get('_route')) == path('rix_core_user_change_email') %} menu-item-active {% endif %}"><a href="{{ path('rix_core_user_change_email') }}">Change Email</a></li>
+                                            <li class="menu-item {% if path(app.request.attributes.get('_route')) == path('rix_core_user_change_password') %} menu-item-active {% endif %}"><a href="{{ path('rix_core_user_change_password') }}">Change Password</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </div>
+                {% endblock %}
+            {% endif %}
+            {% block body %}
+            {% endblock %}
             {% block footer %}
                 <footer>
                     <div id="fat-footer">
@@ -214,6 +258,15 @@
                     $('.scroll').click(function(){
                         $(document).scrollTop();
                         $("body,html").animate({ scrollTop: 0 }, "slow");
+                    });
+
+                    $('.dropbtn').hover(function(){
+                        $('#dropdown-content').css('display','block');
+                    }, function(){
+                    });
+
+                    $('#dropdown-content').hover(function(){},function(){
+                        $('#dropdown-content').css('display','none');
                     });
                 });
             </script>
