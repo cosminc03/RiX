@@ -2,6 +2,7 @@
 
 namespace RIX\CoreBundle\Controller;
 
+use RIX\CoreBundle\Service\SlideShare\Helper;
 use RIX\CoreBundle\Form\User\ChangeEmailTypeForm;
 use RIX\CoreBundle\Form\User\ChangePasswordTypeForm;
 use RIX\CoreBundle\Form\User\RegisterTypeForm;
@@ -132,7 +133,7 @@ class UserController extends Controller
     public function categorySelectedAction()
     {
         $api = new Helper;
-        $res = $api->get_slideTag('design',0,25);
+        $res = $api->get_slideTag('java',0,10);
         return $this->render(
             'CoreBundle:Default:category_selected.html.twig',
             [
