@@ -203,7 +203,7 @@ header{
 		position:absolute;
 		top: 44px;
 		left:-40px;
-		width:160px;
+		width:165px;
 		box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 		padding: 10px;
 		border-radius: 5px;
@@ -227,7 +227,7 @@ header{
 	.arrow-up {
 		position:absolute;
 		top:-11px;
-		right:33px;
+		right:38px;
 		width: 0;
 		height: 0;
 		border-left: 9px solid transparent;
@@ -272,7 +272,7 @@ header{
 		color:#000000;
 	}
 	.first-menu-item{
-		padding-right:277px!important;
+		padding-right:255px!important;
 	}
 	.menu-item{
 		padding-left:22px!important;
@@ -502,9 +502,10 @@ footer{
 		color:#ffffff;
 	}
 .category-title{
-	padding-bottom: 30px;
-    	font-size: 3.2rem;
-    	color: #8e8e8e;	
+	font-size: 2.5rem;
+	font-weight: 600;
+	color: #444;
+	padding: 20px 0;
 }
 
 .rix-post{

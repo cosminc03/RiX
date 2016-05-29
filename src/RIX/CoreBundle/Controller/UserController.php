@@ -35,6 +35,22 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/get/{language}/{type}", name="rix_core_user_get_language_type")
+     * 
+     * @return Response
+     */
+    public function filterByTypeAction($language, $type)
+    {
+        return $this->render(
+            'CoreBundle:Default:ajax_test.html.twig',
+            [
+                'language' => $language,
+                'type' => $type,
+            ]
+        );
+    }
+
+    /**
      * @Route("/home", name="rix_core_user_home")
      */
     public function homeAction()
@@ -214,6 +230,16 @@ class UserController extends Controller
                 'valid' => $valid,
             ]
         );
+    }
+
+    /**
+     * @Route("/ajax/test", name="rix_core_ajax_text")
+     * 
+     * @return Response
+     */
+    public function testAction()
+    {
+        return $this->render('CoreBundle:Default:ajax_test.html.twig');
     }
     
     /**

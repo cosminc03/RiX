@@ -252,7 +252,8 @@
             <script src="{{ asset('bundles/core/assets/js/jquery-1.12.4.min.js') }}"></script>
             <script src="{{ asset('bundles/core/assets/bootstrap/js/bootstrap.min.js') }}"></script>
             {% javascripts '@CoreBundle/Resources/public/assets/js/*' %}
-            <script src="{{ asset_url }}"></script>
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
             <script>
                 $(document).ready(function(){
                     $('.scroll').click(function(){
@@ -270,7 +271,6 @@
                     });
                 });
             </script>
-            {% endjavascripts %}
         {% endblock %}
     </body>
 </html>
