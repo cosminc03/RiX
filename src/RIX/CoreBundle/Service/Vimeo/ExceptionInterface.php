@@ -1,5 +1,5 @@
 <?php
-namespace RIX\CoreBundle\Controller;
+namespace RIX\CoreBundle\Service\Vimeo;
 /**
  * ExceptionInterface
  */

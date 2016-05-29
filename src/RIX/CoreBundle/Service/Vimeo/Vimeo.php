@@ -1,5 +1,5 @@
 <?php
-namespace RIX\CoreBundle\Controller;
+namespace RIX\CoreBundle\Service\Vimeo;
 require_once('ExceptionInterface.php');
 require_once('VimeoRequestException.php');
 require_once('VimeoUploadException.php');
@@ -32,11 +32,11 @@ class Vimeo
     const REPLACE_ENDPOINT = '/files';
     const VERSION_STRING = 'application/vnd.vimeo.*+json; version=3.2';
     const USER_AGENT = 'vimeo.php 1.0; (http://developer.vimeo.com/api/docs)';
-    const CERTIFICATE_PATH = '/CoreBundle/Controller/vimeo-api.pem';
+    const CERTIFICATE_PATH = '/vimeoapi.pem';
 
-    private $_client_id = null;
-    private $_client_secret = null;
-    private $_access_token = null;
+    private $_client_id = 'b934c6d8a38fc37a2958bc730ba0259d74ebe3a9';
+    private $_client_secret = '7Pdi+kUkEqz6R7i4SblRTxpFm8tGrmAMLtQ1lIvL9ThKhiGm+aXuiIiOj0vPGTdy5r8BCipZmkBVVwUAkPS8Kj4j32X9zdGVNkPCRSoGua52eBObaoV1MnORJdUJhAvd';
+    private $_access_token = '44c4932c50c0cdce24e06d86d36c85f0';
 
     protected $_curl_opts = array();
     protected $CURL_DEFAULTS = array();
@@ -48,11 +48,29 @@ class Vimeo
      * @param string $client_secret Your applications client secret. Can be found on developer.vimeo.com/apps
      * @param string $access_token Your applications client id. Can be found on developer.vimeo.com/apps or generated using OAuth 2.
      */
-    public function __construct($client_id, $client_secret, $access_token = null)
+    public function getInfo($response,$tag){
+        for($i = 0;$i< sizeof($response['body']['data']);$i++){
+            $response["body"]["data"][$i]["created_time"] = substr($response["body"]["data"][$i]["created_time"],0,10);
+            $response["body"]["data"][$i]["name"] = strlen($response["body"]["data"][$i]["name"]) <= 67 ? $response["body"]["data"][$i]["name"] : substr($response["body"]["data"][$i]["name"],0,67).'...';
+            $tagsNumber = count($response["body"]["data"][$i]["tags"]);
+            $maxthree = -1;
+            for($j=0; $j <=$tagsNumber - 1;$j++) {
+                if ($maxthree < min($tagsNumber,2) && strcmp($tag, $response["body"]["data"][$i]["tags"][$j]["name"]) != 0) {
+                    $maxthree++;
+                    $response["body"]["data"][$i]["tags"][$maxthree]["name"] = $response["body"]["data"][$i]["tags"][$j]["name"];
+                } else if ($maxthree == 2){
+                    $response["body"]["data"][$i]["tags"][2]["name"] = $response["body"]["data"][$i]["tags"][0]["name"];
+                    $response["body"]["data"][$i]["tags"][0]["name"] = $tag;
+                    break;
+                }
+            }
+            $response["body"]["data"][$i]["tags"][0]["name"] = $tag;
+        }
+        return $response;
+    }
+
+    public function __construct()
     {
-        $this->_client_id = $client_id;
-        $this->_client_secret = $client_secret;
-        $this->_access_token = $access_token;
         $this->CURL_DEFAULTS = array(
             CURLOPT_HEADER => 1,
             CURLOPT_RETURNTRANSFER => true,
@@ -60,7 +78,7 @@ class Vimeo
             CURLOPT_SSL_VERIFYPEER => true,
             //Certificate must indicate that the server is the server to which you meant to connect.
             CURLOPT_SSL_VERIFYHOST => 2,
-            CURLOPT_CAINFO => realpath(__DIR__ .'/../..') . self::CERTIFICATE_PATH
+            CURLOPT_CAINFO => realpath(__DIR__) . self::CERTIFICATE_PATH
         );
     }
 
@@ -125,10 +143,11 @@ class Vimeo
         $curl_opts[CURLOPT_HTTPHEADER] = $headers;
 
         $response = $this->_request($curl_url, $curl_opts);
-
+        $tag = substr($url,strpos($url,'tags')+5,strrpos($url,'/')-strpos($url,'/')-6);
         $response['body'] = json_decode($response['body'], true);
+        $arr = $this->getInfo($response,$tag);
 
-        return $response;
+        return $arr;
     }
 
     /**

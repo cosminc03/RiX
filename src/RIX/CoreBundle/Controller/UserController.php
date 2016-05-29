@@ -6,6 +6,7 @@ use RIX\CoreBundle\Form\User\ChangeEmailTypeForm;
 use RIX\CoreBundle\Form\User\ChangePasswordTypeForm;
 use RIX\CoreBundle\Form\User\RegisterTypeForm;
 use RIX\CoreBundle\Form\User\UserAccountTypeForm;
+use RIX\CoreBundle\Service\Vimeo\Vimeo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +45,6 @@ class UserController extends Controller
      */
     public function registerAction(Request $request)
     {
-        dump('<IOE');
         $user = new User;
         $form = $this->createForm(RegisterTypeForm::class, $user);
         $form->handleRequest($request);
@@ -131,11 +131,13 @@ class UserController extends Controller
      */
     public function categorySelectedAction()
     {
-        $vimeo = new Vimeo('b934c6d8a38fc37a2958bc730ba0259d74ebe3a9', '7Pdi+kUkEqz6R7i4SblRTxpFm8tGrmAMLtQ1lIvL9ThKhiGm+aXuiIiOj0vPGTdy5r8BCipZmkBVVwUAkPS8Kj4j32X9zdGVNkPCRSoGua52eBObaoV1MnORJdUJhAvd', '44c4932c50c0cdce24e06d86d36c85f0');
-        $videos = $vimeo->request("/tags/java/videos");
+        $vimeo = new Vimeo;
+        $videos = $vimeo->request("/tags/hello/videos");
+        $user = $this->getUser();
         return $this->render(
             'CoreBundle:Default:category_selected.html.twig',
             [
+                'user' => $user,
                 'videos' => $videos,
             ]);
     }
