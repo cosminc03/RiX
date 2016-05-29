@@ -6,6 +6,7 @@ use RIX\CoreBundle\Form\User\ChangeEmailTypeForm;
 use RIX\CoreBundle\Form\User\ChangePasswordTypeForm;
 use RIX\CoreBundle\Form\User\RegisterTypeForm;
 use RIX\CoreBundle\Form\User\UserAccountTypeForm;
+use RIX\CoreBundle\Service\Vimeo\Vimeo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,10 +28,16 @@ class UserController extends Controller
      */
     public function freeCategoryAction($language)
     {
+        $vimeo = new Vimeo;
+        $videos = $vimeo->request("/tags/hello/videos");
+        $user = $this->getUser();
+
         return $this->render(
             "CoreBundle:Default:category_selected.html.twig",
             [
                 'language' => $language,
+                'user' => $user,
+                'videos' => $videos,
             ]);
     }
 
@@ -56,7 +63,6 @@ class UserController extends Controller
     public function homeAction()
     {
         $user = $this->getUser();
-        
        return $this->render(
            'CoreBundle:Default:index.html.twig',
             [
@@ -159,10 +165,14 @@ class UserController extends Controller
      */
     public function categorySelectedAction()
     {
+        $vimeo = new Vimeo;
+        $videos = $vimeo->request("/tags/hello/videos");
+        $user = $this->getUser();
         return $this->render(
             'CoreBundle:Default:category_selected.html.twig',
             [
-                'user' => $this->getUser(),
+                'user' => $user,
+                'videos' => $videos,
             ]);
     }
 
