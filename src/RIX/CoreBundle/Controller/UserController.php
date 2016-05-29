@@ -23,6 +23,18 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/free/category/{language}", name="rix_core_user_free_category")
+     */
+    public function freeCategoryAction($language)
+    {
+        return $this->render(
+            "CoreBundle:Default:category_selected.html.twig",
+            [
+                'language' => $language,
+            ]);
+    }
+
+    /**
      * @Route("/home", name="rix_core_user_home")
      */
     public function homeAction()

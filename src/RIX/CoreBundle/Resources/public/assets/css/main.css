@@ -203,7 +203,7 @@ header{
 		position:absolute;
 		top: 44px;
 		left:-40px;
-		width:155px;
+		width:160px;
 		box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 		padding: 10px;
 		border-radius: 5px;
@@ -227,7 +227,7 @@ header{
 	.arrow-up {
 		position:absolute;
 		top:-11px;
-		right:28px;
+		right:33px;
 		width: 0;
 		height: 0;
 		border-left: 9px solid transparent;

@@ -109,9 +109,9 @@
                     <!--- Mobile nav -->
                 </header>
             {% endblock %}
-            {% if path(app.request.attributes.get('_route')) == path('rix_core_user_account') or
-                  path(app.request.attributes.get('_route')) == path('rix_core_user_change_email') or
-                  path(app.request.attributes.get('_route')) == path('rix_core_user_change_password')
+            {% if app.request.get('_route') == 'rix_core_user_account' or
+                  app.request.get('_route') == 'rix_core_user_change_email' or
+                  app.request.get('_route') == 'rix_core_user_change_password'
             %}
                 {% block user %}
                     <div id="user-menu-wrapper">
@@ -131,9 +131,9 @@
                                         <ul>
                                             <li class="first-menu-item"><a href="#">My courses</a></li>
                                             <li class="menu-item"><a href="#">Subscription</a></li>
-                                            <li class="menu-item {% if path(app.request.attributes.get('_route')) == path('rix_core_user_account') %} menu-item-active {% endif %}"><a href="{{ path('rix_core_user_account') }}">Personal Details</a></li>
-                                            <li class="menu-item {% if path(app.request.attributes.get('_route')) == path('rix_core_user_change_email') %} menu-item-active {% endif %}"><a href="{{ path('rix_core_user_change_email') }}">Change Email</a></li>
-                                            <li class="menu-item {% if path(app.request.attributes.get('_route')) == path('rix_core_user_change_password') %} menu-item-active {% endif %}"><a href="{{ path('rix_core_user_change_password') }}">Change Password</a></li>
+                                            <li class="menu-item {% if app.request.get('_route') == 'rix_core_user_account' %} menu-item-active {% endif %}"><a href="{{ path('rix_core_user_account') }}">Personal Details</a></li>
+                                            <li class="menu-item {% if app.request.get('_route') == 'rix_core_user_change_email' %} menu-item-active {% endif %}"><a href="{{ path('rix_core_user_change_email') }}">Change Email</a></li>
+                                            <li class="menu-item {% if app.request.get('_route') == 'rix_core_user_change_password' %} menu-item-active {% endif %}"><a href="{{ path('rix_core_user_change_password') }}">Change Password</a></li>
                                         </ul>
                                     </div>
                                 </div>
