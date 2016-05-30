@@ -24,7 +24,11 @@
         <div class="container">
             <div class="row rix-categories">
                 <div class="col-xs-12 col-sm-6 col-md-4">
-                    <a href="{{ path('rix_core_user_free_category', {'language': 'php'}) }}">
+                    {% if app.user %}
+                        <a href="{{ path('rix_core_user_category', {'language': 'java'}) }}">
+                    {% else %}
+                        <a href="{{ path('rix_core_free_user_category', {'language': 'java'}) }}">
+                    {% endif %}
                         {% image '@CoreBundle/Resources/public/assets/img/java.png' %}
                         <div class="rix-category" style="background-image: url('{{ asset_url }}')">
                             <div>Learn Java</div>
@@ -33,7 +37,11 @@
                     </a>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4">
-                    <a href="#">
+                    {% if app.user %}
+                        <a href="{{ path('rix_core_user_category', {'language': 'python'}) }}">
+                    {% else %}
+                        <a href="{{ path('rix_core_free_user_category', {'language': 'python'}) }}">
+                    {% endif %}
                         {% image '@CoreBundle/Resources/public/assets/img/python.jpg' %}
                         <div class="rix-category" style="background-image: url('{{ asset_url }}')">
                             <div>Learn Python</div>
@@ -42,7 +50,11 @@
                     </a>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4">
-                    <a href="#">
+                    {% if app.user %}
+                        <a href="{{ path('rix_core_user_category', {'language': 'php'}) }}">
+                    {% else %}
+                        <a href="{{ path('rix_core_free_user_category', {'language': 'php'}) }}">
+                    {% endif %}
                         {% image '@CoreBundle/Resources/public/assets/img/php.jpg' %}
                         <div class="rix-category" style="background-image: url('{{ asset_url }}')">
                             <div>Learn PHP</div>
@@ -52,7 +64,11 @@
                 </div>
 
                 <div class="col-xs-12 col-sm-6 col-md-4">
-                    <a href="#">
+                    {% if app.user %}
+                        <a href="{{ path('rix_core_user_category', {'language': 'ruby'}) }}">
+                    {% else %}
+                        <a href="{{ path('rix_core_free_user_category', {'language': 'ruby'}) }}">
+                    {% endif %}
                         {% image '@CoreBundle/Resources/public/assets/img/ruby.jpg' %}
                         <div class="rix-category" style="background-image: url('{{ asset_url }}')">
                             <div>Learn Ruby</div>
@@ -61,7 +77,11 @@
                     </a>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4">
-                    <a href="#">
+                    {% if app.user %}
+                        <a href="{{ path('rix_core_user_category', {'language': 'symfony'}) }}">
+                    {% else %}
+                        <a href="{{ path('rix_core_free_user_category', {'language': 'symfony'}) }}">
+                    {% endif %}
                         {% image '@CoreBundle/Resources/public/assets/img/symf.jpg' %}
                         <div class="rix-category" style="background-image: url('{{ asset_url }}')">
                             <div>Learn Symfony</div>
@@ -70,7 +90,11 @@
                     </a>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4">
-                    <a href="#">
+                    {% if app.user %}
+                        <a href="{{ path('rix_core_user_category', {'language': 'android'}) }}">
+                    {% else %}
+                        <a href="{{ path('rix_core_free_user_category', {'language': 'android'}) }}">
+                    {% endif %}
                         {% image '@CoreBundle/Resources/public/assets/img/android.png' %}
                         <div class="rix-category" style="background-image: url('{{ asset_url }}')">
                             <div>Learn Android</div>

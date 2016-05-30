@@ -15,21 +15,26 @@ use RIX\CoreBundle\Entity\User;
 
 class UserController extends Controller
 {
+
     /**
-     * @Route("/free/home", name="rix_core_user_free_home")
+     * @Route("/", name="rix_core_user_home")
+     * 
+     * @return Response
      */
-    public function freeHomeAction()
+    public function homeAction()
     {
-        return $this->render('CoreBundle:Default:index.html.twig');
+        return $this->render('CoreBundle:Default:home.html.twig');
     }
 
     /**
-     * @Route("/free/category/{language}", name="rix_core_user_free_category")
+     * @Route("/category/{language}", name="rix_core_user_category")
+     * 
+     * @return Response
      */
-    public function freeCategoryAction($language)
+    public function categoryAction($language)
     {
-        $vimeo = new Vimeo;
-        $videos = $vimeo->request("/tags/hello/videos");
+        $vimeo = $this->get('rix_vimeo');
+        $videos = $vimeo->request("/tags/php/videos");
         $user = $this->getUser();
 
         return $this->render(
@@ -55,20 +60,6 @@ class UserController extends Controller
                 'type' => $type,
             ]
         );
-    }
-
-    /**
-     * @Route("/home", name="rix_core_user_home")
-     */
-    public function homeAction()
-    {
-        $user = $this->getUser();
-       return $this->render(
-           'CoreBundle:Default:index.html.twig',
-            [
-               'user' => $user,
-            ]
-       );
     }
 
     /**

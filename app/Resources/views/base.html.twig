@@ -27,7 +27,7 @@
                                             {% if app.user %}
                                                 {{ path('rix_core_user_home') }}
                                             {% else %}
-                                                {{ path('rix_core_user_free_home') }}
+                                                {{ path('rix_core_free_user_home') }}
                                             {% endif %}
                                         ">
                                             <div>RiX.com</div>
@@ -42,14 +42,14 @@
                                         </div>
                                         <div id="account-wrapper">
                                             <div id="profile-picture">
-                                                {% if user.imageName %}
-                                                    <img src="{{ asset('images/products/' ~ user.imageName) }}"  alt="" />
+                                                {% if app.user.imageName %}
+                                                    <img src="{{ asset('images/products/' ~ app.user.imageName) }}"  alt="" />
                                                 {% else %}
                                                     <img src="{{ asset('bundles/core/assets/img/user.png') }}" alt="" />
                                                 {% endif %}
                                             </div>
                                             <!--<div id="profile-name">
-                                                <a href="{{ path('rix_core_user_account') }}">{{ user.username }}</a>
+                                                <a href="{{ path('rix_core_user_account') }}">{{ app.user.username }}</a>
                                             </div>-->
                                             <div id="dropdown">
                                                 {% image '@CoreBundle/Resources/public/assets/img/arrow-down.png' %}
@@ -72,7 +72,7 @@
                                         </ul>
                                     {% else %}
                                         <ul id="menu">
-                                            <li><a href="{{ path('rix_core_user_free_home') }}">Home</a></li>
+                                            <li><a href="{{ path('rix_core_free_user_home') }}">Home</a></li>
                                             <li><a href="#">Cateogries</a></li>
                                             <li><a href="{{ path('rix_core_user_login') }}" id="sign-in">Sign In</a></li>
                                             <li><a href="{{ path('rix_core_user_register') }}" id="sign-up">Sign Up</a></li>

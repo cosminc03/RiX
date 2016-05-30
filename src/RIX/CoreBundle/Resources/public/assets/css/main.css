@@ -27,6 +27,9 @@ body{
 .text-align-center{
 	text-align:center;
 }
+.margin-bottom-50{
+	margin-bottom:50px;
+}
 /******************* header *****************/
 header{
 	height: 60px;
