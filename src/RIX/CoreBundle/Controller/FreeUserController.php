@@ -24,14 +24,16 @@ class FreeUserController extends Controller
     {
         $vimeo = $this->get('rix_vimeo');
         $videos = $vimeo->request("/tags/". $language ."/videos", array('per_page' => 8), 'GET');
-        $user = $this->getUser();
 
+        $slideshare = $this->get('rix_slideshare');
+        $slideshares = $slideshare->get_slideTag($language,0,8);
+        
         return $this->render(
             "CoreBundle:FreeUser:category_selected.html.twig",
             [
                 'language' => $language,
-                'user' => $user,
                 'videos' => $videos,
+                'slideshares' => $slideshares,
             ]);
     }
 }

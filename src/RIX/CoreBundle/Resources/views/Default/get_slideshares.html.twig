@@ -1,0 +1,28 @@
+<div class="row rix-categories">
+    {% for i in 0..15 %}
+        <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
+            <div class="rix-post" >
+                <div style="background-image: url('http://{{slideshares[i]['THUMBNAILXLARGEURL']}}')"></div>
+                <div class="rix-post-details">
+                    <div class="post-tags">
+                        {% set foo = slideshares[i]['TAG']|split(',') %}
+                        {% for tag in foo %}
+                            <a href="#">{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="post-title">
+                        <a href="#">{{slideshares[i]['TITLE']}}</a>
+                    </div>
+                    <div class="posted-by">
+                        <a href="#">{{slideshares[i]['USERNAME']}}</a>
+                        {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
+                        <img src="{{ asset_url }}"/>
+                        {% endimage %}
+                    </div>
+                    <div class="posted-at">{{ slideshares[i]['CREATED'] }}</div>
+                </div>
+                <div class="author"></div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

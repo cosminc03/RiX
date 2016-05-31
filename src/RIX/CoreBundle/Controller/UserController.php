@@ -2,6 +2,7 @@
 
 namespace RIX\CoreBundle\Controller;
 
+use RIX\CoreBundle\Service\SlideShare\Helper;
 use RIX\CoreBundle\Form\User\ChangeEmailTypeForm;
 use RIX\CoreBundle\Form\User\ChangePasswordTypeForm;
 use RIX\CoreBundle\Form\User\RegisterTypeForm;
@@ -34,18 +35,20 @@ class UserController extends Controller
     public function categoryAction($language)
     {
         $vimeo = $this->get('rix_vimeo');
-        $videos = $vimeo->request("/tags/php/videos");
-        $user = $this->getUser();
+        $videos = $vimeo->request("/tags/". $language ."/videos", array('per_page' => 16), 'GET');
+
+        $slideshare = $this->get('rix_slideshare');
+        $slideshares = $slideshare->get_slideTag($language,0,16);
 
         return $this->render(
             "CoreBundle:Default:category_selected.html.twig",
             [
                 'language' => $language,
-                'user' => $user,
                 'videos' => $videos,
+                'slideshares' => $slideshares,
             ]);
     }
-
+    
     /**
      * @Route("/get/{language}/{type}", name="rix_core_user_get_language_type")
      * 
@@ -53,13 +56,34 @@ class UserController extends Controller
      */
     public function filterByTypeAction($language, $type)
     {
-        return $this->render(
-            'CoreBundle:Default:ajax_test.html.twig',
-            [
-                'language' => $language,
-                'type' => $type,
-            ]
-        );
+        if ($type == 'article') {
+            return $this->render(
+                "CoreBundle:Default:get_articles.html.twig",
+                [
+                    'language' => $language,
+                ]);
+
+        } elseif ($type == 'slides') {
+            $slideshare = $this->get('rix_slideshare');
+            $slideshares = $slideshare->get_slideTag($language,0,16);
+
+            return $this->render(
+                "CoreBundle:Default:get_slideshares.html.twig",
+                [
+                    'language' => $language,
+                    'slideshares' => $slideshares,
+                ]);
+        } else {
+            $vimeo = $this->get('rix_vimeo');
+            $videos = $vimeo->request("/tags/". $language ."/videos", array('per_page' => 16), 'GET');
+
+            return $this->render(
+                "CoreBundle:Default:get_vimeo.html.twig",
+                [
+                    'language' => $language,
+                    'videos' => $videos,
+                ]);
+        }
     }
 
     /**
@@ -159,11 +183,15 @@ class UserController extends Controller
         $vimeo = new Vimeo;
         $videos = $vimeo->request("/tags/hello/videos");
         $user = $this->getUser();
+       
+        $api = new Helper;
+        $res = $api->get_slideTag('java',0,10);
         return $this->render(
             'CoreBundle:Default:category_selected.html.twig',
             [
-                'user' => $user,
-                'videos' => $videos,
+                'res' => $res,
+                'video' => $videos,
+                'user' => $this->getUser(),
             ]);
     }
 
