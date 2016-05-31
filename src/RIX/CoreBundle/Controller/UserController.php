@@ -151,12 +151,18 @@ class UserController extends Controller
     public function feedSelectedAction($feedId)
     {
         $feedly = new Feedly(false, false);
-        $res=$feedly-> getStreamContent($feedId, $count=3, $ranked=NULL,$unreadOnly=NULL, $newerThan=NULL, $continuation=NULL, $feedly->_accesToken);
+        $count=10;
+        $data=array();
+        $res=$feedly-> getStreamContent($feedId, $count, $ranked=NULL,$unreadOnly=NULL, $newerThan=NULL, $continuation=NULL, $feedly->_accesToken);
+        for($i=0;$i<$count;$i++)
+        $data[$i]=date("m-d-Y H:i", $res['items'][$i]['published']/1000);
+
         return $this->render(
             'CoreBundle:Default:feed_selected.html.twig',
             [   
                 'res' => $res['items'],
                 'user' => $this->getUser(),
+                'data' => $data,
             ]);
 
 
