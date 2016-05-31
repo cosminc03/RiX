@@ -48,7 +48,18 @@ class UserController extends Controller
                 'slideshares' => $slideshares,
             ]);
     }
-    
+
+    /**
+     * @Route("/category/{language}/{api}/{title}", name="rix_detailed")
+     *
+     * @return Response
+     */
+    public function selectedAction($language,$api,$title)
+    {
+        return $this->render(
+            "CoreBundle:Default:detailed_vimeo.html.twig.html.twig");
+    }
+
     /**
      * @Route("/get/{language}/{type}", name="rix_core_user_get_language_type")
      * 

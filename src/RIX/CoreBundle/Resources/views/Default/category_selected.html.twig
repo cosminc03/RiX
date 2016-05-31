@@ -37,8 +37,11 @@
                 {% for i in 0..15 %}
                 <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
                     <div class="rix-post" >
-                        <div style="background-image:url('{{videos["body"]["data"][i]["pictures"]["sizes"][2]["link"]}}')">
-                        </div>
+                        <a href="{{ path('rix_detailed', {'language': language , 'api' : 'vimeo' , 'title': videos["body"]["data"][i]["name"] }) }}">
+                        <div class="rix-category" style="background-image:url('{{videos["body"]["data"][i]["pictures"]["sizes"][2]["link"]}}')">
+                            </div>
+                        </a>
+
                         <div class="rix-post-details">
                             <div class="post-tags">
                                 {% for j in 0..2 %}
