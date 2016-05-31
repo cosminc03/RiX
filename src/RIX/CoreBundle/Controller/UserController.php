@@ -271,6 +271,19 @@ class UserController extends Controller
             ]
         );
     }
+    /**
+     * @Route("/category/{language}/{api}/{id}", name="rix_core_user_category_detail")
+     */
+    public function showDetailAction($language,$api,$id){
+        $slideshare = $this->get('rix_slideshare');
+        $slideinfo = $slideshare->get_slideInfo($id);
+        return $this->render(
+            "CoreBundle:FreeUser:detailed_slideshare.html.twig",
+            [
+                'api' => $api,
+                'slideinfo' => $slideinfo,
+            ]);
+    }
 
     /**
      * @Route("/ajax/test", name="rix_core_ajax_text")

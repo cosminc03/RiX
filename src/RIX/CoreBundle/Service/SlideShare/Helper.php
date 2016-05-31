@@ -11,11 +11,16 @@ class Helper{
 	private $apiurl='https://www.slideshare.net/api/2/';
     
     private function checkTag($tag){
-   		for ($k='a' ; $k <= 'z' ; $k++)
-			if(strchr($tag,$k)){
-				return true;
+			for ($i = 0 ; $i < strlen($tag); $i ++){
+				$sw = false;
+				for ($k='a' ; $k <= 'z' ; $k++)
+					if($tag[$i] == $k)
+						$sw = true;
+				if ($sw == false)
+					return false;
 			}
-		return false;
+
+		return true;
     }
 
 	private function XMLtoArray($data)
@@ -74,6 +79,7 @@ class Helper{
 
 	private function XMLtoArray4Tag($data,$tag)
 	{
+		error_reporting( error_reporting() & ~E_NOTICE );
 		$parser = xml_parser_create("ISO-8859-1");
 		xml_parse_into_struct($parser, $data, $values, $tags);
 		xml_parser_free($parser);
@@ -84,14 +90,14 @@ class Helper{
 				return $finarr;
 			}
 			if ((strtolower($key) == "description") || (strtolower($key) == "username")
-				|| (strtolower($key) == "url") || (strtolower($key) == "embed")) {
-				for($i = 0;$i < count($val);$i++) {
+				|| (strtolower($key) == "url") || (strtolower($key) == "embed") || (strtolower($key) == "id")) {
+				for($i = 0;$i < sizeof($val);$i++) {
 					$finarr[$i][$key]=$values[$val[$i]]["value"];
 				}
 			}
 			else if(strtolower($key) == "title"){
 				for($i = 0;$i < count($val);$i++) {
-					$finarr[$i][$key]=strlen($values[$val[$i]]["value"]) <= 67 ? $values[$val[$i]]["value"] : substr($values[$val[$i]]["value"],0,67) . '...';
+					$finarr[$i][$key]=strlen($values[$val[$i]]["value"]) <= 40 ? $values[$val[$i]]["value"] : substr($values[$val[$i]]["value"],0,40) . '...';
 				}
 			}
 			else if(strtolower($key) == "created"){
@@ -150,6 +156,8 @@ class Helper{
 	/* Get all the slide information in a simple array */
 	public function get_slideInfo($id) {
 		$data=$this->XMLtoArray($this->get_data("get_slideshow","&slideshow_id=$id&detailed=1"));
+		$strfindpos = strrpos($data[0]['EMBED'],'</iframe>');
+		$data[0]['EMBED'] = substr($data[0]['EMBED'],0,$strfindpos+9);
 		return $data[0];
 	}
 
