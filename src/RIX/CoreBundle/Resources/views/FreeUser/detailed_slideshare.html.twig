@@ -1,0 +1,10 @@
+<h3> Title :  {{ slideinfo['TITLE']}}</h3>
+<h3> Author  : {{ slideinfo['USERNAME']}}</h3>
+<h3> Creation Time  : {{ slideinfo['CREATED']}}</h3>
+<h3> URL :  {{ slideinfo['URL']}}</h3>
+<h3> Tags  : {{ slideinfo['TAG']}} </h3>
+<h3> Description  :  {{ slideinfo['DESCRIPTION']}}</h3>
+<h3> Presentation : </h3>
+{% autoescape %}
+{{ slideinfo['EMBED']|raw }}
+{% endautoescape %}

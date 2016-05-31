@@ -23,8 +23,8 @@ class FreeUserController extends Controller
     public function categoryAction($language)
     {
         $vimeo = $this->get('rix_vimeo');
+        $language = str_replace("%20"," ",$language);
         $videos = $vimeo->request("/tags/". $language ."/videos", array('per_page' => 8), 'GET');
-
         $slideshare = $this->get('rix_slideshare');
         $slideshares = $slideshare->get_slideTag($language,0,8);
         
@@ -36,4 +36,18 @@ class FreeUserController extends Controller
                 'slideshares' => $slideshares,
             ]);
     }
+    /**
+     * @Route("/free/category/{language}/{api}/{id}", name="rix_core_free_user_category_detail")
+     */
+    public function showDetailAction($language,$api,$id){
+        $slideshare = $this->get('rix_slideshare');
+        $slideinfo = $slideshare->get_slideInfo($id);
+        return $this->render(
+            "CoreBundle:FreeUser:detailed_slideshare.html.twig",
+            [
+                'api' => $api,
+                'slideinfo' => $slideinfo,
+            ]);   
+    }
+    
 }

@@ -51,7 +51,7 @@ class Vimeo
     public function getInfo($response,$tag){
         for($i = 0;$i< sizeof($response['body']['data']);$i++){
             $response["body"]["data"][$i]["created_time"] = substr($response["body"]["data"][$i]["created_time"],0,10);
-            $response["body"]["data"][$i]["name"] = strlen($response["body"]["data"][$i]["name"]) <= 67 ? $response["body"]["data"][$i]["name"] : substr($response["body"]["data"][$i]["name"],0,67).'...';
+            $response["body"]["data"][$i]["name"] = strlen($response["body"]["data"][$i]["name"]) <= 40 ? $response["body"]["data"][$i]["name"] : substr($response["body"]["data"][$i]["name"],0,40).'...';
             $tagsNumber = count($response["body"]["data"][$i]["tags"]);
             $maxthree = -1;
             for($j=0; $j <=$tagsNumber - 1;$j++) {
