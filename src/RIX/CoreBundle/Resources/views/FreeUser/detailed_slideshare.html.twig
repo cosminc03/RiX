@@ -1,10 +1,10 @@
-<h3> Title :  {{ slideinfo['TITLE']}}</h3>
-<h3> Author  : {{ slideinfo['USERNAME']}}</h3>
-<h3> Creation Time  : {{ slideinfo['CREATED']}}</h3>
-<h3> URL :  {{ slideinfo['URL']}}</h3>
-<h3> Tags  : {{ slideinfo['TAG']}} </h3>
-<h3> Description  :  {{ slideinfo['DESCRIPTION']}}</h3>
-<h3> Presentation : </h3>
 {% autoescape %}
-{{ slideinfo['EMBED']|raw }}
+    <h3> Title : {{slideinfo['TITLE']|raw}}</h3>
+    <h3> Author  : {{ slideinfo['USERNAME']|raw}}</h3>
+    <h3> Creation Time  : {{ slideinfo['CREATED']|raw}}</h3>
+    <h3> URL :  {{ slideinfo['URL']|raw}}</h3>
+    <h3> Tags  : {{ slideinfo['TAG']|raw}} </h3>
+    <h3> Description  :  {{ slideinfo['DESCRIPTION']|raw}}</h3>
+    <h3> Presentation : </h3>
+    {{ slideinfo['EMBED']|raw }}
 {% endautoescape %}

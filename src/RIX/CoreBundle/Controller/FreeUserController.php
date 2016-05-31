@@ -40,14 +40,29 @@ class FreeUserController extends Controller
      * @Route("/free/category/{language}/{api}/{id}", name="rix_core_free_user_category_detail")
      */
     public function showDetailAction($language,$api,$id){
-        $slideshare = $this->get('rix_slideshare');
-        $slideinfo = $slideshare->get_slideInfo($id);
-        return $this->render(
-            "CoreBundle:FreeUser:detailed_slideshare.html.twig",
-            [
-                'api' => $api,
-                'slideinfo' => $slideinfo,
-            ]);   
+
+        if($api == 'slide') {
+            $slideshare = $this->get('rix_slideshare');
+            $slideinfo = $slideshare->get_slideInfo($id);
+
+
+            return $this->render(
+                "CoreBundle:FreeUser:detailed_slideshare.html.twig",
+                [
+                    'api' => $api,
+                    'slideinfo' => $slideinfo,
+                ]);
+        }
+        elseif($api == 'vimeo'){
+            $vimeo = $this->get('rix_vimeo');
+            $video = $vimeo->requestId("/videos/". $id);
+            return $this->render(
+                "CoreBundle:FreeUser:detailed_vimeo.html.twig",
+                [
+                    'api' => $api,
+                    'vimeo' => $video,
+                ]);
+        }
     }
     
 }

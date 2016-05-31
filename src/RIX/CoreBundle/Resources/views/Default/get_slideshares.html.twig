@@ -14,7 +14,11 @@
                         {% endfor %}
                     </div>
                     <div class="post-title">
-                        <a href="{{ path('rix_core_free_user_category_detail', {'language':language, 'api': 'slide', 'id':slideshares[i]['ID']}) }}">{{slideshares[i]['TITLE']}}</a>
+                        <a href="{{ path('rix_core_free_user_category_detail', {'language':language, 'api': 'slide', 'id':slideshares[i]['ID']}) }}">
+                            {% autoescape %}
+                                {{slideshares[i]['TITLE']|raw }}
+                            {% endautoescape %}
+                        </a>
                     </div>
                     <div class="posted-by">
                         <a href="#">{{slideshares[i]['USERNAME']}}</a>

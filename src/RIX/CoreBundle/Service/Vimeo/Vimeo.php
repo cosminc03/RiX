@@ -150,6 +150,64 @@ class Vimeo
         return $arr;
     }
 
+    public function requestId($url, $params = array(), $method = 'GET', $json_body = true)
+    {
+        // add accept header hardcoded to version 3.0
+        $headers[] = 'Accept: ' . self::VERSION_STRING;
+        $headers[] = 'User-Agent: ' . self::USER_AGENT;
+
+        // add bearer token, or client information
+        if (!empty($this->_access_token)) {
+            $headers[] = 'Authorization: Bearer ' . $this->_access_token;
+        }
+        else {
+            //  this may be a call to get the tokens, so we add the client info.
+            $headers[] = 'Authorization: Basic ' . $this->_authHeader();
+        }
+
+        //  Set the methods, determine the URL that we should actually request and prep the body.
+        $curl_opts = array();
+        switch (strtoupper($method)) {
+            case 'GET' :
+                if (!empty($params)) {
+                    $query_component = '?' . http_build_query($params, '', '&');
+                } else {
+                    $query_component = '';
+                }
+
+                $curl_url = self::ROOT_ENDPOINT . $url . $query_component;
+                break;
+
+            case 'POST' :
+            case 'PATCH' :
+            case 'PUT' :
+            case 'DELETE' :
+                if ($json_body && !empty($params)) {
+                    $headers[] = 'Content-Type: application/json';
+                    $body = json_encode($params);
+                } else {
+                    $body = http_build_query($params, '', '&');
+                }
+
+                $curl_url = self::ROOT_ENDPOINT . $url;
+                $curl_opts = array(
+                    CURLOPT_POST => true,
+                    CURLOPT_CUSTOMREQUEST => $method,
+                    CURLOPT_POSTFIELDS => $body
+                );
+                break;
+        }
+
+        // Set the headers
+        $curl_opts[CURLOPT_HTTPHEADER] = $headers;
+
+        $response = $this->_request($curl_url, $curl_opts);
+
+        $response['body'] = json_decode($response['body'], true);
+
+        return $response;
+    }
+
     /**
      * Internal function to handle requests, both authenticated and by the upload function.
      *

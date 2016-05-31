@@ -9,19 +9,18 @@ class Helper{
 	private $user;
 	private $password;
 	private $apiurl='https://www.slideshare.net/api/2/';
-    
-    private function checkTag($tag){
-			for ($i = 0 ; $i < strlen($tag); $i ++){
-				$sw = false;
-				for ($k='a' ; $k <= 'z' ; $k++)
-					if($tag[$i] == $k)
-						$sw = true;
-				if ($sw == false)
-					return false;
-			}
 
+	private function checkTag($tag){
+		for ($i = 0 ; $i < strlen($tag); $i ++){
+			$sw = false;
+			for ($k='a' ; $k <= 'z' ; $k++)
+				if($tag[$i] == $k)
+					$sw = true;
+			if ($sw == false)
+				return false;
+		}
 		return true;
-    }
+	}
 
 	private function XMLtoArray($data)
 	{

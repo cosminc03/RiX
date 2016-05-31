@@ -50,17 +50,6 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/category/{language}/{api}/{title}", name="rix_detailed")
-     *
-     * @return Response
-     */
-    public function selectedAction($language,$api,$title)
-    {
-        return $this->render(
-            "CoreBundle:Default:detailed_vimeo.html.twig.html.twig");
-    }
-
-    /**
      * @Route("/get/{language}/{type}", name="rix_core_user_get_language_type")
      * 
      * @return Response
@@ -275,24 +264,29 @@ class UserController extends Controller
      * @Route("/category/{language}/{api}/{id}", name="rix_core_user_category_detail")
      */
     public function showDetailAction($language,$api,$id){
-        $slideshare = $this->get('rix_slideshare');
-        $slideinfo = $slideshare->get_slideInfo($id);
-        return $this->render(
-            "CoreBundle:FreeUser:detailed_slideshare.html.twig",
-            [
-                'api' => $api,
-                'slideinfo' => $slideinfo,
-            ]);
-    }
 
-    /**
-     * @Route("/ajax/test", name="rix_core_ajax_text")
-     * 
-     * @return Response
-     */
-    public function testAction()
-    {
-        return $this->render('CoreBundle:Default:ajax_test.html.twig');
+        if($api == 'slide') {
+            $slideshare = $this->get('rix_slideshare');
+            $slideinfo = $slideshare->get_slideInfo($id);
+
+
+            return $this->render(
+                "CoreBundle:FreeUser:detailed_slideshare.html.twig",
+                [
+                    'api' => $api,
+                    'slideinfo' => $slideinfo,
+                ]);
+        }
+        elseif($api == 'vimeo'){
+            $vimeo = $this->get('rix_vimeo');
+            $video = $vimeo->requestId("/videos/". $id);
+            return $this->render(
+                "CoreBundle:FreeUser:detailed_vimeo.html.twig",
+                [
+                    'api' => $api,
+                    'vimeo' => $video,
+                ]);
+        }
     }
     
     /**

@@ -1,0 +1,11 @@
+<h3> Title :  {{ vimeo['body']['name'] }}</h3>
+<h3> Description :  {{ vimeo['body']['description'] }}</h3>
+<h3> Created time :  {{ vimeo['body']['created_time'] }}</h3>
+<h3> User :  {{ vimeo['body']['user']['name'] }}</h3>
+<h3> Link: {{ vimeo['body']['link'] }}</h3>
+<h3>Tags :
+    {% for tags in vimeo['body']['tags']  %}
+        {{ tags["name"] }}
+    {% endfor %}
+</h3>
+{{ vimeo['body']['embed']['html']|raw }}
