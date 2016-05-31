@@ -2,7 +2,7 @@
 
 namespace RIX\CoreBundle\Controller;
 
-use RIX\CoreBundle\Service\SlideShare\Helper;
+use RIX\CoreBundle\Service\Feedly\Feedly;
 use RIX\CoreBundle\Form\User\ChangeEmailTypeForm;
 use RIX\CoreBundle\Form\User\ChangePasswordTypeForm;
 use RIX\CoreBundle\Form\User\RegisterTypeForm;
@@ -132,14 +132,34 @@ class UserController extends Controller
      */
     public function categorySelectedAction()
     {
-        $api = new Helper;
-        $res = $api->get_slideTag('java',0,10);
+        $feedly = new Feedly(false, false);
+        $res = $feedly->searchFeeds('java',10,"en_EN",$feedly->_accesToken);
         return $this->render(
             'CoreBundle:Default:category_selected.html.twig',
             [
-                'res' => $res,
+                'res' => $res['results'],
                 'user' => $this->getUser(),
             ]);
+    }
+    /**
+     * @Route("/feed-selected/{feedId}" , name="rix_core_feed_selected" ,requirements={"feedId"=".+"})
+     *
+     * @param $feedId
+     * @return Response
+     */
+
+    public function feedSelectedAction($feedId)
+    {
+        $feedly = new Feedly(false, false);
+        $res=$feedly-> getStreamContent($feedId, $count=3, $ranked=NULL,$unreadOnly=NULL, $newerThan=NULL, $continuation=NULL, $feedly->_accesToken);
+        return $this->render(
+            'CoreBundle:Default:feed_selected.html.twig',
+            [   
+                'res' => $res['items'],
+                'user' => $this->getUser(),
+            ]);
+
+
     }
 
     /**

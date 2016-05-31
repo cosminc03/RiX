@@ -12,24 +12,29 @@
                 {%  for i in 0..9 %}
                 <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
                     <div class="rix-post" >
-                        <div style="background-image: url('http://{{res[i]['THUMBNAILXLARGEURL']}}')"></div>
+                        {%   if res[i]['visualUrl'] is defined    %}
+                        <div style="background-image: url({{res[i]['visualUrl']}})"></div>
+                            {% else %}
+                                <div style="background-image: url('https://www.dwolla.com/avatars/812-999-0092')"></div>
+                        {% endif %}
                         <div class="rix-post-details">
                             <div class="post-tags">
-                                {% set foo = res[i]['TAG']|split(',') %}
+                                {% set foo = res[i]['deliciousTags']%}
                                 {% for tag in foo %}
                                     <a href="#">{{ tag }}</a>
                                 {% endfor %}
                             </div>
                             <div class="post-title">
-                                <a href="#">{{res[i]['TITLE']}}</a>
+                                 <a href="{{ path('rix_core_feed_selected',{'feedId' : res[i]['feedId']}) }}" > {{res[i]['title']}}</a>
+{#, {'feedId' : res[i]['feedId']} #}
                             </div>
                             <div class="posted-by">
-                                <a href="#">{{res[i]['USERNAME']}}</a>
+                                <a href="#">{{res[i]['website']}}</a>
                                 {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
                                     <img src="{{ asset_url }}"/>
                                 {% endimage %}
                             </div>
-                            <div class="posted-at">{{ res[i]['CREATED'] }}</div>
+                            <div class="posted-at">{{ res[i]['subscribers'] }}</div>
                         </div>
                         <div class="author"></div>
                     </div>
