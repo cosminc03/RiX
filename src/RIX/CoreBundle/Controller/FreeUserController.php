@@ -23,7 +23,6 @@ class FreeUserController extends Controller
     public function categoryAction($language)
     {
         $vimeo = $this->get('rix_vimeo');
-        $language = str_replace("%20"," ",$language);
         $videos = $vimeo->request("/tags/". $language ."/videos", array('per_page' => 8), 'GET');
         $slideshare = $this->get('rix_slideshare');
         $slideshares = $slideshare->get_slideTag($language,0,8);

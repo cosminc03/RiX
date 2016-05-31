@@ -11,15 +11,10 @@ class Helper{
 	private $apiurl='https://www.slideshare.net/api/2/';
 
 	private function checkTag($tag){
-		for ($i = 0 ; $i < strlen($tag); $i ++){
-			$sw = false;
-			for ($k='a' ; $k <= 'z' ; $k++)
-				if($tag[$i] == $k)
-					$sw = true;
-			if ($sw == false)
-				return false;
-		}
-		return true;
+		for ($k='a' ; $k <= 'z' ; $k++)
+			if(strchr($tag,$k) || strchr($tag,strtoupper($k)))
+				return true;
+		return false;
 	}
 
 	private function XMLtoArray($data)
@@ -78,7 +73,6 @@ class Helper{
 
 	private function XMLtoArray4Tag($data,$tag)
 	{
-		error_reporting( error_reporting() & ~E_NOTICE );
 		$parser = xml_parser_create("ISO-8859-1");
 		xml_parse_into_struct($parser, $data, $values, $tags);
 		xml_parser_free($parser);
@@ -137,7 +131,7 @@ class Helper{
 		return $finarr;
 	}
 
-	public function Helper() {
+	public function __construct() {
 		error_reporting( error_reporting() & ~E_NOTICE );
 	}
 
@@ -175,7 +169,8 @@ class Helper{
 	}
 	/* Get all the tags's slide information  in a simple multi-dimensional array */
 	public function get_slideTag($tag,$offset=0,$limit=0) {
-		$data = $this->XMLtoArray4Tag($this->get_data("get_slideshows_by_tag","&tag=$tag&offset=$offset&limit=$limit&detailed=1"),$tag);
+		$tag2 = str_replace(' ','-',$tag);
+		$data = $this->XMLtoArray4Tag($this->get_data("get_slideshows_by_tag","&tag=$tag2&offset=$offset&limit=$limit&detailed=1"),$tag);
 		for ($i = 0; $i < sizeof($data); $i ++){
 			$tags = strlen($data[$i]['TAG']) ? $tag . ', '.$data[$i]['TAG'] : $tag;
 			$data[$i]['TAG'] = $tags;

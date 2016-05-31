@@ -48,6 +48,18 @@ class Vimeo
      * @param string $client_secret Your applications client secret. Can be found on developer.vimeo.com/apps
      * @param string $access_token Your applications client id. Can be found on developer.vimeo.com/apps or generated using OAuth 2.
      */
+    private function checkTag($tag){
+        for ($i = 0 ; $i < strlen($tag); $i ++){
+            $sw = false;
+            for ($k='a' ; $k <= 'z' ; $k++)
+                if($tag[$i] == $k)
+                    $sw = true;
+            if ($sw == false)
+                return false;
+        }
+        return true;
+    }
+
     public function getInfo($response,$tag){
         for($i = 0;$i< sizeof($response['body']['data']);$i++){
             $response["body"]["data"][$i]["created_time"] = substr($response["body"]["data"][$i]["created_time"],0,10);
@@ -55,22 +67,23 @@ class Vimeo
             $tagsNumber = count($response["body"]["data"][$i]["tags"]);
             $maxthree = -1;
             for($j=0; $j <=$tagsNumber - 1;$j++) {
-                if ($maxthree < min($tagsNumber,2) && strcmp($tag, $response["body"]["data"][$i]["tags"][$j]["name"]) != 0) {
+                if ($maxthree < min($tagsNumber, 2) && strcmp($tag, $response["body"]["data"][$i]["tags"][$j]["name"]) != 0) {
                     $maxthree++;
                     $response["body"]["data"][$i]["tags"][$maxthree]["name"] = $response["body"]["data"][$i]["tags"][$j]["name"];
-                } else if ($maxthree == 2){
+                } else if ($maxthree == 2) {
                     $response["body"]["data"][$i]["tags"][2]["name"] = $response["body"]["data"][$i]["tags"][0]["name"];
                     $response["body"]["data"][$i]["tags"][0]["name"] = $tag;
                     break;
                 }
             }
-            $response["body"]["data"][$i]["tags"][0]["name"] = $tag;
+            $response["body"]["data"][$i]["tags"][0]["name"] = str_replace('%20',' ',$tag);
         }
         return $response;
     }
 
     public function __construct()
     {
+        error_reporting( error_reporting() & ~E_NOTICE );
         $this->CURL_DEFAULTS = array(
             CURLOPT_HEADER => 1,
             CURLOPT_RETURNTRANSFER => true,
@@ -93,6 +106,7 @@ class Vimeo
      */
     public function request($url, $params = array(), $method = 'GET', $json_body = true)
     {
+        $url = str_replace(' ','%20',$url);
         // add accept header hardcoded to version 3.0
         $headers[] = 'Accept: ' . self::VERSION_STRING;
         $headers[] = 'User-Agent: ' . self::USER_AGENT;

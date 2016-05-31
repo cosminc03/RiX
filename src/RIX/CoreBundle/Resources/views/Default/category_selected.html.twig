@@ -33,8 +33,15 @@
     <!--<section id="div-test">Test</section>-->
     <section>
         <div class="container" id="div-test">
+            <div class="row">
+                <div class="col-xs-12 delimiter">
+                    Videos
+                </div>
+            </div>
             <div class="row rix-categories">
-                {% for i in 0..15 %}
+                {% if videos["body"]["data"] is defined %}
+                {% if videos["body"]["data"]|length != 0 %}
+                {% for i in 0..min(videos["body"]["data"]|length - 1,15) %}
                 <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
                     <div class="rix-post" >
                         <a href="{{ path('rix_core_user_category_detail', {'language':language, 'api': 'vimeo', 'id':videos["body"]["data"][i]["uri"][8:]}) }}">
@@ -46,7 +53,7 @@
                             <div class="post-tags">
                                 {% for j in 0..2 %}
                                     {% if(videos["body"]["data"][i]["tags"]|length > j) %}
-                                        <a href="{{ path('rix_core_user_category', {'language':videos["body"]["data"][i]["tags"][j]["name"]|trim}) }}">{{videos["body"]["data"][i]["tags"][j]["name"]}}</a>
+                                        <a href="{{ path('rix_core_user_category', {'language':videos["body"]["data"][i]["tags"][j]["name"]|trim|replace({'/':''})}) }}">{{videos["body"]["data"][i]["tags"][j]["name"]}}</a>
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -57,7 +64,7 @@
                             </div>
                             <div class="posted-by">
                                 <a href="#">
-                                    {{ videos["body"]["data"][i]["user"]["name"] }}
+                                    {{ videos["body"]["data"][i]["user"]["name"][0:17] }}
                                 </a>
                                 {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
                                     <img src="{{ asset_url }}"/>
@@ -71,6 +78,8 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% endif %}
+                {% endif %}
             </div>
         </div>
     </section>
