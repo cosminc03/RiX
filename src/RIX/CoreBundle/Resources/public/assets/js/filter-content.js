@@ -12,3 +12,13 @@
     });
 }
 filter();*/
+function addToFavorite() {
+    $(".add-to-favorite").click(function(){
+        var link = $(this).attr("data-link");
+        console.log(link);
+        $.ajax({url: link, success: function(){
+            console.log("OK");
+        }});
+    });
+}
+addToFavorite();

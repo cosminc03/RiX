@@ -2,6 +2,7 @@
 
 namespace RIX\CoreBundle\Controller;
 
+use RIX\CoreBundle\Entity\Favorite;
 use RIX\CoreBundle\Service\SlideShare\Helper;
 use RIX\CoreBundle\Form\User\ChangeEmailTypeForm;
 use RIX\CoreBundle\Form\User\ChangePasswordTypeForm;
@@ -106,7 +107,7 @@ class UserController extends Controller
         if ($type == "video") {
             $page = 1;
             $vimeo = $this->get('rix_vimeo');
-            $videos = $vimeo->request("/tags/java/videos?per_page=16&page=".$page);
+            $videos = $vimeo->request("/tags/" . $language . "/videos?per_page=16&page=".$page);
             $lastPage = $videos["body"]["paging"]["last"];
             $startPos = strrpos($lastPage, "=");
             $lastPage = substr($lastPage, $startPos + 1);
@@ -222,7 +223,7 @@ class UserController extends Controller
      * 
      * @return Response
      */
-    public function loginAction(Request $request)
+    public function loginAction()
     {
         $this->getUser();
 
@@ -273,28 +274,6 @@ class UserController extends Controller
                 'form' => $form->createView(),
             ]
         );
-    }
-
-    /**
-     * @Route("/category-selected", name="core_user_category_selected")
-     *
-     * @return Response
-     */
-    public function categorySelectedAction()
-    {
-        $vimeo = new Vimeo;
-        $videos = $vimeo->request("/tags/hello/videos");
-        $user = $this->getUser();
-       
-        $api = new Helper;
-        $res = $api->get_slideTag('java',0,10);
-        return $this->render(
-            'CoreBundle:Default:category_selected.html.twig',
-            [
-                'res' => $res,
-                'video' => $videos,
-                'user' => $this->getUser(),
-            ]);
     }
 
     /**
@@ -390,7 +369,59 @@ class UserController extends Controller
                 ]);
         }
     }
-    
+
+    /**
+     * @Route("/my-courses", name="rix_core_user_my_courses")
+     * @return Response
+     */
+    public function myCoursesAction()
+    {
+        $vimeo = $this->get('rix_vimeo');
+        $em = $this->getDoctrine()->getManager();
+        
+        $videos = $em
+            ->getRepository(Favorite::class)
+            ->findBy([
+                'user' => $this->getUser(),
+                'apiType' => 'video',
+            ]);
+        
+        $vimeoVideos = array();
+        $iterator = 0;
+        foreach ($videos as $video) {
+            $vimeoVideos[$iterator] = $vimeo->requestId("/videos/". $video->getApiKey());
+            $vimeoVideos[$iterator]['topic'] = $video->getTopic();
+            $iterator++;
+        }
+        
+        return $this->render(
+            "CoreBundle:Default:my_courses.html.twig",
+            [
+                'videos' => $vimeoVideos,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/favorite/add/{language}/{type}/{key}", name="rix_core_user_favorite_add")
+     *
+     * @return Response
+     */
+    public function addToFavoriteAction($language, $type, $key)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $favorite = new Favorite();
+        $favorite->setUser($this->getUser());
+        $favorite->setTopic($language);
+        $favorite->setApiKey($key);
+        $favorite->setApiType($type);
+
+        $em->persist($favorite);
+        $em->flush();
+
+        return new Response('New course added');
+    }
+
     /**
      * @Route("/success", name="rix_core_success")
      * 

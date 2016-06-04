@@ -65,7 +65,7 @@
                                         <div class="posted-by">
                                             <a href="#">{{slideshares[i]['USERNAME'][0:17]}}</a>
                                             {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
-                                            <img src="{{ asset_url }}"/>
+                                            <img class="add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': language, 'type': 'slide', 'key': slideshares[i]['ID']}) }}" src="{{ asset_url }}"/>
                                             {% endimage %}
                                         </div>
                                         <div class="posted-at">{{ slideshares[i]['CREATED'] }}</div>
