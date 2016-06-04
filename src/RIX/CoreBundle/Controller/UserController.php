@@ -28,26 +28,20 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/category/{language}/{api}/page/{page}", name="rix_core_user_category_by_page")
-     *
+     * @Route("/category/{language}/video/page/{page}", name="rix_core_user_category_type_video")
+     * 
      * @return Response
      */
-    public function categoryByPageAction($language, $api, $page)
+    public function categoryTypeVideoAction($language, $page)
     {
-        //var_dump("/tags/". $language ."/videos?page=".$page);
-        //die();
         $vimeo = $this->get('rix_vimeo');
-        //$videos = $vimeo->request("/tags/". $language ."/videos?page=".$page, array('per_page' => 16), 'GET');
-        $videos = $vimeo->request("/tags/java/videos?per_page=16&page=".$page);
+        $videos = $vimeo->request("/tags/" . $language . "/videos?per_page=16&page=" . $page);
         $lastPage = $videos["body"]["paging"]["last"];
-        //var_dump($lastPage);
         $startPos = strrpos($lastPage, "=");
         $lastPage = substr($lastPage, $startPos + 1);
 
-       // var_dump($lastPage);
-       // die();
         return $this->render(
-            "CoreBundle:Default:category_selected.html.twig",
+            "CoreBundle:Default:category_type_video.html.twig",
             [
                 'language' => $language,
                 'videos' => $videos,
@@ -57,29 +51,104 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/category/{language}", name="rix_core_user_category")
+     * @Route("/category/{language}/slides/page/{page}", name="rix_core_user_category_type_slide")
+     *
+     * @return Response
+     */
+    public function categoryTypeSlideAction($language, $page)
+    {
+        $offset = ($page - 1) * 16 + 1;
+        $slideshare = $this->get('rix_slideshare');
+        $slideshares = $slideshare->get_slideTag($language,$offset,16);
+
+
+        $slidesCount = $slideshares[0]['COUNT'];
+        $lastPage = intval($slidesCount/16);
+
+        return $this->render(
+            "CoreBundle:Default:category_type_slides.html.twig",
+            [
+                'language' => $language,
+                'slideshares' => $slideshares,
+                'page' => $page,
+                'lastPage' => $lastPage,
+            ]);
+    }
+
+    /**
+     * @Route("/category/{language}/articles/page/{page}", name="rix_core_user_category_type_article")
+     *
+     * @return Response
+     */
+    public function categoryTypeArticleAction($language, $page)
+    {
+        $page = 1;
+        $lastPage = 1000;
+        $articles = 'article';
+
+        return $this->render(
+            "CoreBundle:Default:category_type_article.html.twig",
+            [
+                'language' => $language,
+                'articles' => $articles,
+                'page' => $page,
+                'lastPage' => $lastPage,
+            ]);
+    }
+
+    /**
+     * @Route("/category/{language}/{type}", defaults={"type" = "video"}, name="rix_core_user_category")
      * 
      * @return Response
      */
-    public function categoryAction($language)
+    public function categoryAction($language, $type)
     {
-        $vimeo = $this->get('rix_vimeo');
-        $videos = $vimeo->request("/tags/". $language ."/videos", array('per_page' => 16), 'GET');
-        $lastPage = $videos["body"]["paging"]["last"];
-        $startPos = strrpos($lastPage, "=");
-        $lastPage = substr($lastPage, $startPos + 1);
+        if ($type == "video") {
+            $page = 1;
+            $vimeo = $this->get('rix_vimeo');
+            $videos = $vimeo->request("/tags/java/videos?per_page=16&page=".$page);
+            $lastPage = $videos["body"]["paging"]["last"];
+            $startPos = strrpos($lastPage, "=");
+            $lastPage = substr($lastPage, $startPos + 1);
 
-        $slideshare = $this->get('rix_slideshare');
-        $slideshares = $slideshare->get_slideTag($language,0,16);
+            return $this->render(
+                "CoreBundle:Default:category_type_video.html.twig",
+                [
+                    'language' => $language,
+                    'videos' => $videos,
+                    'page' => $page,
+                    'lastPage' => $lastPage,
+                ]);
+        } elseif ($type == "slides") {
+            $page = 1;
+            $slideshare = $this->get('rix_slideshare');
+            $slideshares = $slideshare->get_slideTag($language,0,16);
+            
+            $slidesCount = $slideshares[0]['COUNT'];
+            $lastPage = intval($slidesCount/16);
 
-        return $this->render(
-            "CoreBundle:Default:category_selected.html.twig",
-            [
-                'language' => $language,
-                'videos' => $videos,
-                'slideshares' => $slideshares,
-                'lastPage' => $lastPage,
-            ]);
+            return $this->render(
+                "CoreBundle:Default:category_type_slides.html.twig",
+                [
+                    'language' => $language,
+                    'slideshares' => $slideshares,
+                    'page' => $page,
+                    'lastPage' => $lastPage,
+                ]);
+        } else {
+            $page = 1;
+            $lastPage = 1000;
+            $articles = 'article';
+
+            return $this->render(
+                "CoreBundle:Default:category_type_article.html.twig",
+                [
+                    'language' => $language,
+                    'articles' => $articles,
+                    'page' => $page,
+                    'lastPage' => $lastPage,
+                ]);
+        }
     }
 
     /**

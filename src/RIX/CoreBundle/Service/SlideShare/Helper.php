@@ -124,7 +124,10 @@ class Helper{
 					else $i ++;
 				}
 			}
-			else {
+			else if(strtolower($key) == "count") {
+				$finarr[0][$key]=$values[$val[0]]["value"];
+			}
+			else{
 				continue;
 			}
 		}

@@ -55,15 +55,6 @@ body{
 	background-color: #008cc9!important;
 	border-color:#008cc9!important;
 }
-#preloader{
-	width:100%;
-	text-align: center;
-	display: none;
-}
-#preloader img{
-	margin-top:100px;
-	margin-bottom: 100px;
-}
 /******************* header *****************/
 header{
 	height: 60px;
