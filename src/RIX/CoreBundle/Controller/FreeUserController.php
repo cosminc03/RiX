@@ -40,7 +40,7 @@ class FreeUserController extends Controller
      */
     public function showDetailAction($language,$api,$id){
 
-        if($api == 'slide') {
+        if ($api == 'slide') {
             $slideshare = $this->get('rix_slideshare');
             $slideinfo = $slideshare->get_slideInfo($id);
 
@@ -51,10 +51,10 @@ class FreeUserController extends Controller
                     'api' => $api,
                     'slideinfo' => $slideinfo,
                 ]);
-        }
-        elseif($api == 'vimeo'){
+        } elseif ($api == 'vimeo'){
             $vimeo = $this->get('rix_vimeo');
             $video = $vimeo->requestId("/videos/". $id);
+            
             return $this->render(
                 "CoreBundle:FreeUser:detailed_vimeo.html.twig",
                 [

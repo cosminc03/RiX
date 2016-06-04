@@ -30,12 +30,18 @@
             </div>
         </div>
     </section>
-    <!--<section id="div-test">Test</section>-->
     <section>
+        <div id="preloader">
+            {% image '@CoreBundle/Resources/public/assets/img/preloader.gif' %}
+            <img src="{{ asset_url }}"/>
+            {% endimage %}
+        </div>
         <div class="container" id="div-test">
             <div class="row">
                 <div class="col-xs-12 delimiter">
-                    Videos
+                    Videos<br />
+                    {# videos["body"]["total"] }} <br />
+                    {{ videos["body"]["paging"]["last"] #}
                 </div>
             </div>
             <div class="row rix-categories">
@@ -74,12 +80,57 @@
                                 {{ videos["body"]["data"][i]["created_time"] }}
                             </div>
                         </div>
-                        <div class="author"></div>
+                        <!--<div class="author"></div>-->
                     </div>
                 </div>
                 {% endfor %}
                 {% endif %}
                 {% endif %}
+            </div>
+            <div class="row">
+            <div class="col-xs-12 pagination">
+                {% if page is not defined %}
+                    {% set page = 1 %}
+                {% endif %}
+                <a class="pagination_arrow-button pagination_prev-button"  href="{{ path('rix_core_user_category_by_page', {'language': language, 'api': 'video', 'page': page - 1}) }}">
+                    {% image '@CoreBundle/Resources/public/assets/img/arrow-right.png' %}
+                        <img src="{{ asset_url }}"/>
+                    {% endimage %}
+                </a>
+                <a class="pagination_button {% if page == 1 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category', {'language': language }) }}">1</a>
+                {% if page < 6 %}
+                    {% for i  in 2..page + 1 %}
+                        <a class="pagination_button {% if page == i %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_by_page', {'language': language, 'api': 'video', 'page': i}) }}">{{ i }}</a>
+                    {% endfor %}
+                {% else %}
+                    <a class="pagination_button {% if page == 2 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_by_page', {'language': language, 'api': 'video', 'page': '2'}) }}">2</a>
+                    <a class="pagination_button {% if page == 3 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_by_page', {'language': language, 'api': 'video', 'page': '3'}) }}">3</a>
+                    <div class="pagination-delimiter">...</div>
+                    {% if page >= lastPage-2 %}
+                        {% if page == lastPage-2 %}
+                            <a class="pagination_button {% if page == lastPage-3 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_by_page', {'language': language, 'api': 'video', 'page': lastPage-3}) }}">{{ lastPage-3 }}</a>
+                        {% endif %}
+                        <a class="pagination_button {% if page == lastPage-2 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_by_page', {'language': language, 'api': 'video', 'page': lastPage-2}) }}">{{ lastPage-2 }}</a>
+                        <a class="pagination_button {% if page == lastPage-1 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_by_page', {'language': language, 'api': 'video', 'page': lastPage-1}) }}">{{ lastPage-1 }}</a>
+                    {% else %}
+                        {% for i  in page - 2..page + 2 %}
+                            <a class="pagination_button {% if page == i %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_by_page', {'language': language, 'api': 'video', 'page': i}) }}">{{ i }}</a>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+                {% if page < lastPage-4 %}
+                <div class="pagination-delimiter">...</div>
+                    {% for i in lastPage-2..lastPage-1 %}
+                        <a class="pagination_button {% if page == i %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_by_page', {'language': language, 'api': 'video', 'page': i}) }}">{{ i }}</a>
+                    {% endfor %}
+                {% endif %}
+                <a class="pagination_button {% if page == lastPage %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_by_page', {'language': language, 'api': 'video', 'page': lastPage}) }}">{{ lastPage }}</a>
+                <a class="pagination_arrow-button pagination_next-button" href="{{ path('rix_core_user_category_by_page', {'language': language, 'api': 'video', 'page': page + 1}) }}">
+                    {% image '@CoreBundle/Resources/public/assets/img/arrow-right.png' %}
+                    <img src="{{ asset_url }}"/>
+                    {% endimage %}
+                </a>
+            </div>
             </div>
         </div>
     </section>

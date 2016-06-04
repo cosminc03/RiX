@@ -28,6 +28,35 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/category/{language}/{api}/page/{page}", name="rix_core_user_category_by_page")
+     *
+     * @return Response
+     */
+    public function categoryByPageAction($language, $api, $page)
+    {
+        //var_dump("/tags/". $language ."/videos?page=".$page);
+        //die();
+        $vimeo = $this->get('rix_vimeo');
+        //$videos = $vimeo->request("/tags/". $language ."/videos?page=".$page, array('per_page' => 16), 'GET');
+        $videos = $vimeo->request("/tags/java/videos?per_page=16&page=".$page);
+        $lastPage = $videos["body"]["paging"]["last"];
+        //var_dump($lastPage);
+        $startPos = strrpos($lastPage, "=");
+        $lastPage = substr($lastPage, $startPos + 1);
+
+       // var_dump($lastPage);
+       // die();
+        return $this->render(
+            "CoreBundle:Default:category_selected.html.twig",
+            [
+                'language' => $language,
+                'videos' => $videos,
+                'page' => $page,
+                'lastPage' => $lastPage,
+            ]);
+    }
+
+    /**
      * @Route("/category/{language}", name="rix_core_user_category")
      * 
      * @return Response
@@ -36,6 +65,9 @@ class UserController extends Controller
     {
         $vimeo = $this->get('rix_vimeo');
         $videos = $vimeo->request("/tags/". $language ."/videos", array('per_page' => 16), 'GET');
+        $lastPage = $videos["body"]["paging"]["last"];
+        $startPos = strrpos($lastPage, "=");
+        $lastPage = substr($lastPage, $startPos + 1);
 
         $slideshare = $this->get('rix_slideshare');
         $slideshares = $slideshare->get_slideTag($language,0,16);
@@ -46,6 +78,7 @@ class UserController extends Controller
                 'language' => $language,
                 'videos' => $videos,
                 'slideshares' => $slideshares,
+                'lastPage' => $lastPage,
             ]);
     }
 

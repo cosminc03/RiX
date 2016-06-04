@@ -1,10 +1,43 @@
-{% autoescape %}
-    <h3> Title : {{slideinfo['TITLE']|raw}}</h3>
-    <h3> Author  : {{ slideinfo['USERNAME']|raw}}</h3>
-    <h3> Creation Time  : {{ slideinfo['CREATED']|raw}}</h3>
-    <h3> URL :  {{ slideinfo['URL']|raw}}</h3>
-    <h3> Tags  : {{ slideinfo['TAG']|raw}} </h3>
-    <h3> Description  :  {{ slideinfo['DESCRIPTION']|raw}}</h3>
-    <h3> Presentation : </h3>
-    {{ slideinfo['EMBED']|raw }}
-{% endautoescape %}
+{% extends('::base.html.twig') %}
+
+{% block body %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-10 col-md-offset-1">
+                    <div class="article-title">
+                        {{slideinfo['TITLE']|raw}}
+                    </div>
+                    <div class="article-details">
+                        <div class="article-authorship">
+                            by <span class="article-author">{{ slideinfo['USERNAME']|raw}}</span>
+                            <time datetime="{{ slideinfo['CREATED']|raw }}">{{ slideinfo['CREATED']|raw }}</time>
+                        </div>
+
+                    </div>
+                    <div class="article-tags">
+                        {% set tags = slideinfo['TAG']|raw|split(',') %}
+                        {% for tag in tags %}
+                            <div class="article-tag">{{ tag }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-2">
+                            <div class="article-video">
+                                {{ slideinfo['EMBED']|raw }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article-description">
+                        <div class="article-description-title">Description</div>
+                        {{ slideinfo['DESCRIPTION']|raw }}
+                    </div>
+                    <div class="article-resource">
+                        <span>Resource: </span>
+                        <a href="{{ slideinfo['URL']|raw }}" target="_blank">{{ slideinfo['URL']|raw }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
