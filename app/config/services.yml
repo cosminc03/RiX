@@ -10,3 +10,5 @@ services:
 
       rix_slideshare:
          class: RIX\CoreBundle\Service\SlideShare\Helper
+      rix_direction:
+         class: RIX\CoreBundle\Service\Feedly\Direction

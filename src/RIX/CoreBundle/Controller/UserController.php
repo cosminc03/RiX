@@ -3,6 +3,9 @@
 namespace RIX\CoreBundle\Controller;
 
 use RIX\CoreBundle\Service\SlideShare\Helper;
+use RIX\CoreBundle\Service\Feedly\Feedly;
+use RIX\CoreBundle\Entity\Direction;
+
 use RIX\CoreBundle\Form\User\ChangeEmailTypeForm;
 use RIX\CoreBundle\Form\User\ChangePasswordTypeForm;
 use RIX\CoreBundle\Form\User\RegisterTypeForm;
@@ -17,6 +20,7 @@ use RIX\CoreBundle\Entity\User;
 class UserController extends Controller
 {
 
+    
     /**
      * @Route("/", name="rix_core_user_home")
      * 
@@ -76,24 +80,88 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/category/{language}/articles/page/{page}", name="rix_core_user_category_type_article")
+     * @Route("/category/article/user/{direction}/{nextId}/{previousId}/{language}", name="rix_core_user_category_type_article",defaults={"nextId" = "NO","previousId"="NO","direction"="no direction"} ,requirements={"language"=".+"})
      *
+     * 
      * @return Response
      */
-    public function categoryTypeArticleAction($language, $page)
+    public function categoryTypeArticleAction($direction,$nextId,$previousId,$language)
     {
-        $page = 1;
-        $lastPage = 1000;
-        $articles = 'article';
 
+        $feedly = new Feedly(false, false);
+        $count=16;
+        $continuation=NULL;
+
+        $dir=new Direction();
+            $aux=$previousId;
+
+        if($direction=="back")
+        {
+
+            $id = $this->getDoctrine()
+                ->getRepository('CoreBundle:Direction')
+                ->find($previousId);
+
+            if($id)
+            $previousId = $id->previousId;
+
+            if ($previousId == "NO")
+
+                $continuation = NULL;
+
+            else
+
+                $continuation=$previousId;
+
+
+        }
+        
+        if($direction=="next")
+        {
+            $continuation=$nextId;
+            $previousId=$nextId;
+
+
+            $isIn = $this->getDoctrine()->getRepository('CoreBundle:Direction')->find($nextId);
+
+            if (!$isIn)
+            {
+                $dir->id=$nextId;
+                $dir->previousId=$aux;
+
+                $em = $this->getDoctrine()->getManager();
+
+                $em->persist($dir);
+
+                $em->flush();
+            }
+        }
+
+
+
+            $cont=$continuation;
+
+            $res = $feedly->getStreamContent($language, $count, $ranked = NULL, $unreadOnly = NULL, $newerThan = NULL, $cont , $feedly->_accesToken);
+
+            $nextId = $res['continuation'];
+
+          for($i=0;$i<$count;$i++)
+            $data[$i]=date("m-d-Y H:i", $res['items'][$i]['published']/1000);
+        if($cont=="")
+            $cont="NO";
         return $this->render(
-            "CoreBundle:Default:category_type_article.html.twig",
+            'CoreBundle:Default:feed_selected.html.twig',
             [
-                'language' => $language,
-                'articles' => $articles,
-                'page' => $page,
-                'lastPage' => $lastPage,
+                'res' => $res['items'],
+                'user' => $this->getUser(),
+                'data' => $data,
+                'feedId' => $language,
+                'nextId' => $nextId,
+                'previousId'=> $previousId,
+                'continuation'=> $cont,
             ]);
+
+
     }
 
     /**
@@ -136,17 +204,21 @@ class UserController extends Controller
                     'lastPage' => $lastPage,
                 ]);
         } else {
-            $page = 1;
-            $lastPage = 1000;
-            $articles = 'article';
+            $feedly = new Feedly(false, false);
+            $feeds = $feedly->searchFeeds($language,16,"en_EN",$feedly->_accesToken);
+
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery(
+                'Delete from CoreBundle:Direction'
+            );
+
+            $query->getResult();
 
             return $this->render(
                 "CoreBundle:Default:category_type_article.html.twig",
                 [
+                    'articles' => $feeds['results'],
                     'language' => $language,
-                    'articles' => $articles,
-                    'page' => $page,
-                    'lastPage' => $lastPage,
                 ]);
         }
     }
@@ -363,9 +435,11 @@ class UserController extends Controller
         );
     }
     /**
-     * @Route("/category/{language}/{api}/{id}", name="rix_core_user_category_detail")
-     */
-    public function showDetailAction($language,$api,$id){
+     * @Route("/category/{api}/{id}/{cont}/{language}", name="rix_core_user_category_detail" ,defaults={"cont" = "NO"},requirements={"language"=".+"} )
+     *
+     * @return Response
+     * */
+    public function showDetailAction($api,$id,$cont,$language){
 
         if($api == 'slide') {
             $slideshare = $this->get('rix_slideshare');
@@ -389,6 +463,29 @@ class UserController extends Controller
                     'vimeo' => $video,
                 ]);
         }
+        elseif($api =='feedly') {
+            $feedly = new Feedly(false, false);
+            if($cont=="NO")
+                $continuation=NULL;
+            else
+                $continuation=$cont;
+
+            $article = $feedly->getStreamContent($language, 16, $ranked = NULL, $unreadOnly = NULL, $newerThan = NULL, $continuation, $feedly->_accesToken);
+
+
+
+            $data=date("m-d-Y H:i", $article['items'][$id]['published']/1000);
+
+            return $this->render(
+                "CoreBundle:FreeUser:detailed_feedly.html.twig",
+                [
+                    'api' => $api,
+                    'article' => $article['items'][$id],
+                    'data'=> $data,
+                ]);
+        }
+
+
     }
     
     /**
