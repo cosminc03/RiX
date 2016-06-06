@@ -1,0 +1,46 @@
+{% extends('::base.html.twig') %}
+
+{% block body %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-10 col-md-offset-1">
+                    <div class="article-title">
+                        {{article['title']|raw}}
+                    </div>
+                    <div class="article-details">
+                        <div class="article-authorship">
+                            by  {%   if article['summary']['content'] is defined    %}
+                                <span class="article-author">{{ article['author']|raw}}</span>
+                            {% else %}
+                                <span class="article-author">No author</span>
+                                <time datetime="{{ data|raw }}">{{ data|raw }}</time>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                    <div class="article-tags">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-2">
+                            <div class="article-video">
+
+                                {%   if article['summary']['content'] is defined    %}
+                                    {{ article['summary']['content']|raw}}
+                                {% else %}
+                                    {{article['content']['content']|raw}}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="article-resource">
+                        <span>Resource: </span>
+                        <a href="{{ article['originId']|raw }}" target="_blank">{{ article['originId']|raw }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

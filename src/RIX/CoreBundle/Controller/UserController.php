@@ -3,12 +3,10 @@
 namespace RIX\CoreBundle\Controller;
 
 use RIX\CoreBundle\Entity\Favorite;
-use RIX\CoreBundle\Service\SlideShare\Helper;
 use RIX\CoreBundle\Form\User\ChangeEmailTypeForm;
 use RIX\CoreBundle\Form\User\ChangePasswordTypeForm;
 use RIX\CoreBundle\Form\User\RegisterTypeForm;
 use RIX\CoreBundle\Form\User\UserAccountTypeForm;
-use RIX\CoreBundle\Service\Vimeo\Vimeo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,23 +75,27 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/category/{language}/articles/page/{page}", name="rix_core_user_category_type_article")
+     * @Route("/category/{language}/articles", name="rix_core_user_category_type_article", requirements={"language"=".+"})
      *
      * @return Response
      */
-    public function categoryTypeArticleAction($language, $page)
+    public function categoryTypeArticleAction($language)
     {
-        $page = 1;
-        $lastPage = 1000;
-        $articles = 'article';
+        $feedly = $this->get('rix_feedly');
+        $count = 16;
+        $res = $feedly->getStreamContent($language, $count, $ranked = NULL, $unreadOnly = NULL, $newerThan = NULL, $cont = NULL, $feedly->_accesToken);
+        //$nextId = $res['continuation'];
+        $data = array();
+        for($i=0;$i<$count;$i++)
+            $data[$i]=date("m-d-Y H:i", $res['items'][$i]['published']/1000);
 
         return $this->render(
-            "CoreBundle:Default:category_type_article.html.twig",
+            "CoreBundle:Default:category_type_feed_selected.html.twig",
             [
-                'language' => $language,
-                'articles' => $articles,
-                'page' => $page,
-                'lastPage' => $lastPage,
+                'feedId' => $language,
+                'res' => $res['items'],
+                'data' => $data,
+                'continuation' => $res['continuation'],
             ]);
     }
 
@@ -137,17 +139,14 @@ class UserController extends Controller
                     'lastPage' => $lastPage,
                 ]);
         } else {
-            $page = 1;
-            $lastPage = 1000;
-            $articles = 'article';
+            $feedly = $this->get('rix_feedly');
+            $feeds = $feedly->searchFeeds($language,32,"en_EN",$feedly->_accesToken);
 
             return $this->render(
                 "CoreBundle:Default:category_type_article.html.twig",
                 [
+                    'articles' => $feeds['results'],
                     'language' => $language,
-                    'articles' => $articles,
-                    'page' => $page,
-                    'lastPage' => $lastPage,
                 ]);
         }
     }
@@ -305,7 +304,7 @@ class UserController extends Controller
         );
     }
     /**
-     * @Route("/category/{language}/{api}/{id}", name="rix_core_user_category_detail")
+     * @Route("/category/{language}/{api}/{id}", name="rix_core_user_category_detail", requirements={"language"=".+", "id"=".+"})
      */
     public function showDetailAction($language,$api,$id){
 
@@ -321,7 +320,7 @@ class UserController extends Controller
                     'slideinfo' => $slideinfo,
                 ]);
         }
-        elseif($api == 'vimeo'){
+        elseif ($api == 'vimeo') {
             $vimeo = $this->get('rix_vimeo');
             $video = $vimeo->requestId("/videos/". $id);
             return $this->render(
@@ -329,6 +328,24 @@ class UserController extends Controller
                 [
                     'api' => $api,
                     'vimeo' => $video,
+                ]);
+        } else {
+            $feedly = $this->get('rix_feedly');
+            $article = $feedly->getEntries($id,$feedly->_accesToken);
+            dump($article);
+
+
+            if(array_key_exists('updated', $article['0']))
+                $data=date("m-d-Y H:i", $article['0']['updated']/1000);
+            else
+                $data=date("m-d-Y H:i", $article['0']['published']/1000);
+
+            return $this->render(
+                "CoreBundle:FreeUser:detailed_feedly.html.twig",
+                [
+                    'api' => $api,
+                    'article' => $article[0],
+                    'data'=> $data,
                 ]);
         }
     }
