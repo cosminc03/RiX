@@ -1,1 +1,44 @@
-{{ language }}
+<div class="row">
+    <div class="col-xs-12 delimiter">
+        Slides
+    </div>
+</div>
+<div class="row rix-categories">
+    {% if slideshares|length != 0 %}
+        {% for i in 0..min(slideshares|length - 1,15) %}
+            {% if(slideshares[i]['ID'] is defined and slideshares[i]['TAG'] is defined
+            and slideshares[i]['USERNAME'] is defined and slideshares[i]['CREATED'] is defined and slideshares[i]['TITLE'] is defined)%}
+                <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
+                    <div class="rix-post" >
+                        <a href="{{ path('rix_core_user_category_detail', {'language':language, 'api': 'slide', 'id':slideshares[i]['ID']}) }}">
+                            <div class="rix-category"
+                                 style="background-image: url('http://{{slideshares[i]['THUMBNAILXLARGEURL']}}')"></div>
+                        </a>
+                        <div class="rix-post-details">
+                            <div class="post-tags">
+                                {% set foo = slideshares[i]['TAG']|split(',') %}
+                                {% for tag in foo %}
+                                    <a href="{{ path('rix_core_user_category', {'language':tag|trim|replace({'/':''})}) }}">{{tag}}</a>
+                                {% endfor %}
+                            </div>
+                            <div class="post-title">
+                                <a href="{{ path('rix_core_user_category_detail', {'language':language, 'api': 'slide', 'id':slideshares[i]['ID']}) }}">
+                                    {% autoescape %}
+                                        {{slideshares[i]['TITLE']|raw}}
+                                    {% endautoescape %}
+                                </a>
+                            </div>
+                            <div class="posted-by">
+                                <a href="#">{{slideshares[i]['USERNAME'][0:17]}}</a>
+                                {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
+                                <img class="add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': language, 'type': 'slide', 'key': slideshares[i]['ID']}) }}" src="{{ asset_url }}"/>
+                                {% endimage %}
+                            </div>
+                            <div class="posted-at">{{ slideshares[i]['CREATED'] }}</div>
+                        </div>
+                    </div>
+                </div>
+            {%endif %}
+        {% endfor %}
+    {% endif %}
+</div>

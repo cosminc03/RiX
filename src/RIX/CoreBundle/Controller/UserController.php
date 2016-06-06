@@ -396,15 +396,16 @@ class UserController extends Controller
             $slidesArr = array();
             $iterator = 0;
             foreach ($slides as $slide) {
-                //$slidesArr[$iterator] = 'apel api';
+                $slidesArr[$iterator] = $slideshare->get_slideInfo($slide->getApiKey());
+                $slidesArr[$iterator]['ID'] = $slide->getApiKey();
                 $slidesArr[$iterator]['topic'] = $slide->getTopic();
                 $iterator++;
             }
 
             return $this->render(
-                "CoreBundle:Default:get_articles.html.twig",
+                "CoreBundle:Default:get_slideshares.html.twig",
                 [
-                    'language' => $type,
+                    'slideshares' => $slidesArr,
                 ]);
         } else {
             $vimeo = $this->get('rix_vimeo');
