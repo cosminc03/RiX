@@ -153,43 +153,6 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/get/{language}/{type}", name="rix_core_user_get_language_type")
-     * 
-     * @return Response
-     */
-    public function filterByTypeAction($language, $type)
-    {
-        if ($type == 'article') {
-            return $this->render(
-                "CoreBundle:Default:get_articles.html.twig",
-                [
-                    'language' => $language,
-                ]);
-
-        } elseif ($type == 'slides') {
-            $slideshare = $this->get('rix_slideshare');
-            $slideshares = $slideshare->get_slideTag($language,0,16);
-
-            return $this->render(
-                "CoreBundle:Default:get_slideshares.html.twig",
-                [
-                    'language' => $language,
-                    'slideshares' => $slideshares,
-                ]);
-        } else {
-            $vimeo = $this->get('rix_vimeo');
-            $videos = $vimeo->request("/tags/". $language ."/videos", array('per_page' => 16), 'GET');
-
-            return $this->render(
-                "CoreBundle:Default:get_vimeo.html.twig",
-                [
-                    'language' => $language,
-                    'videos' => $videos,
-                ]);
-        }
-    }
-
-    /**
      * @Route("/register", name="rix_core_user_register")
      *
      * @param Request $request
@@ -378,7 +341,8 @@ class UserController extends Controller
     {
         $vimeo = $this->get('rix_vimeo');
         $em = $this->getDoctrine()->getManager();
-        
+
+        /** @var Favorite[] $videos */
         $videos = $em
             ->getRepository(Favorite::class)
             ->findBy([
@@ -400,6 +364,74 @@ class UserController extends Controller
                 'videos' => $vimeoVideos,
             ]
         );
+    }
+
+    /**
+     * @Route("/get/{type}", name="rix_core_user_get_language_type")
+     *
+     * @return Response
+     */
+    public function filterByTypeAction($type)
+    {
+        if ($type == 'article') {
+
+            return $this->render(
+                "CoreBundle:Default:get_articles.html.twig",
+                [
+                    'language' => $type,
+                ]);
+
+        } elseif ($type == 'slide') {
+            $slideshare = $this->get('rix_slideshare');
+            $em = $this->getDoctrine()->getManager();
+
+            /** @var Favorite[] $slides */
+            $slides = $em
+                ->getRepository(Favorite::class)
+                ->findBy([
+                    'user' => $this->getUser(),
+                    'apiType' => 'slide',
+                ]);
+
+            $slidesArr = array();
+            $iterator = 0;
+            foreach ($slides as $slide) {
+                //$slidesArr[$iterator] = 'apel api';
+                $slidesArr[$iterator]['topic'] = $slide->getTopic();
+                $iterator++;
+            }
+
+            return $this->render(
+                "CoreBundle:Default:get_articles.html.twig",
+                [
+                    'language' => $type,
+                ]);
+        } else {
+            $vimeo = $this->get('rix_vimeo');
+            $em = $this->getDoctrine()->getManager();
+
+            /** @var Favorite[] $videos */
+            $videos = $em
+                ->getRepository(Favorite::class)
+                ->findBy([
+                    'user' => $this->getUser(),
+                    'apiType' => 'video',
+                ]);
+
+            $vimeoVideos = array();
+            $iterator = 0;
+            foreach ($videos as $video) {
+                $vimeoVideos[$iterator] = $vimeo->requestId("/videos/". $video->getApiKey());
+                $vimeoVideos[$iterator]['topic'] = $video->getTopic();
+                $iterator++;
+            }
+
+            return $this->render(
+                "CoreBundle:Default:get_vimeo.html.twig",
+                [
+                    'videos' => $vimeoVideos,
+                ]);
+        }
     }
 
     /**

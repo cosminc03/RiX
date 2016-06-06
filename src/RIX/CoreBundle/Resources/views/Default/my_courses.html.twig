@@ -9,9 +9,9 @@
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter by type
                             <span class="caret"></span></button>
                         <ul class="dropdown-menu filter-by-type">
-                            <li><a href="">Article</a></li>
-                            <li><a href="">Slides</a></li>
-                            <li><a href="">Video</a></li>
+                            <li><a href="#" data-link="{{ path('rix_core_user_get_language_type', {type: 'article'}) }}">Article</a></li>
+                            <li><a href="#" data-link="{{ path('rix_core_user_get_language_type', {type: 'slide'}) }}">Slides</a></li>
+                            <li><a href="#" data-link="{{ path('rix_core_user_get_language_type', {type: 'video'}) }}">Video</a></li>
                         </ul>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                 <img src="{{ asset_url }}"/>
             {% endimage %}
         </div>
-        <div class="container">
+        <div class="container" id="favorite-container">
             <div class="row">
                 <div class="col-xs-12 delimiter">
                     Videos
