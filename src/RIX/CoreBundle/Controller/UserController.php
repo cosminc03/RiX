@@ -440,8 +440,6 @@ class UserController extends Controller
                 $data[$iterator]=date("m-d-Y H:i", $articlesFeedly[$iterator][0]['published']/1000);
                 $iterator++;
             }
-            //dump($articlesFeedly);
-            //die();
 
             return $this->render(
                 "CoreBundle:Default:get_articles.html.twig",

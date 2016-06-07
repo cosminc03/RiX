@@ -345,6 +345,9 @@ footer{
 	background-color: #191919;
 }
 
+	#about-us > li:nth-child(2){
+		color: #666;
+	}
 	.footer-category{
 		list-style-type: none;
 		padding-top:45px;
