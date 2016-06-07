@@ -8,6 +8,7 @@
                     <div class="article-title">
                         {{article['title']|raw}}
                     </div>
+                    {% if article['author'] is defined %}
                     <div class="article-details">
                         <div class="article-authorship">
                             by  {%   if article['summary']['content'] is defined    %}
@@ -17,19 +18,17 @@
                                 <time datetime="{{ data|raw }}">{{ data|raw }}</time>
                             {% endif %}
                         </div>
-
                     </div>
-                    <div class="article-tags">
-
-                    </div>
+                    {% endif  %}
                     <div class="row">
-                        <div class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-2">
-                            <div class="article-video">
-
+                        <div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1">
+                            <div class="article-content-text">
                                 {%   if article['summary']['content'] is defined    %}
                                     {{ article['summary']['content']|raw}}
-                                {% else %}
+                                {% elseif article['content']['content'] is defined %}
                                     {{article['content']['content']|raw}}
+                                {% else %}
+                                    {{ "No content" }}
                                 {% endif %}
                             </div>
                         </div>

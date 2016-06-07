@@ -64,6 +64,20 @@ body{
 	margin-top:100px;
 	margin-bottom: 100px;
 }
+
+.view-more{
+	background-color: #008cc9;
+	padding: 10px 80px;
+	border-radius: 5px;
+	color: #ffffff;
+	display: inline-block;
+	font-size:1.2rem;
+	font-weight: 700;
+	margin:0 auto;
+}
+	.view-more:hover{
+		cursor:pointer;
+	}
 /******************* header *****************/
 header{
 	height: 60px;
@@ -717,6 +731,10 @@ footer{
 }
 .article-video{
 
+}
+.article-content-text{
+	margin-top:40px;
+	font-size: 1.22rem;
 }
 	.article-video > iframe{
 		width:100%;

@@ -84,7 +84,8 @@ class UserController extends Controller
         $feedly = $this->get('rix_feedly');
         $count = 16;
         $res = $feedly->getStreamContent($language, $count, $ranked = NULL, $unreadOnly = NULL, $newerThan = NULL, $cont = NULL, $feedly->_accesToken);
-        //$nextId = $res['continuation'];
+        $nextId = $res['continuation'];
+        
         $data = array();
         for($i=0;$i<$count;$i++)
             $data[$i]=date("m-d-Y H:i", $res['items'][$i]['published']/1000);
@@ -96,7 +97,37 @@ class UserController extends Controller
                 'res' => $res['items'],
                 'data' => $data,
                 'continuation' => $res['continuation'],
+                'nextId' => $nextId,
             ]);
+    }
+
+    /**
+     * @Route("/load-more/{api}/{language}/{nextId}", name="rix_core_user_load_more", requirements={"language"=".+"})
+     *
+     * @return Response
+     */
+    public function loadMoreAction($api, $language, $nextId)
+    {
+        if ($api == 'feedly') {
+            $feedly = $this->get('rix_feedly');
+            $count = 16;
+            $res = $feedly->getStreamContent($language, $count, $ranked = NULL, $unreadOnly = NULL, $newerThan = NULL, $nextId, $feedly->_accesToken);
+            $nextId = $res['continuation'];
+            $data = array();
+            for($i=0;$i<$count;$i++)
+                $data[$i]=date("m-d-Y H:i", $res['items'][$i]['published']/1000);
+
+            return $this->render(
+                "CoreBundle:Default:more_feedly_items.html.twig",
+                [
+                    'feedId' => $language,
+                    'res' => $res['items'],
+                    'data' => $data,
+                    'continuation' => $res['continuation'],
+                    'nextId' => $nextId,
+                ]);
+        }
+
     }
 
     /**
@@ -304,7 +335,7 @@ class UserController extends Controller
         );
     }
     /**
-     * @Route("/category/{language}/{api}/{id}", name="rix_core_user_category_detail", requirements={"language"=".+", "id"=".+"})
+     * @Route("/category/{language}/{api}/{id}", name="rix_core_user_category_detail", requirements={"id"=".+"})
      */
     public function showDetailAction($language,$api,$id){
 
@@ -332,8 +363,6 @@ class UserController extends Controller
         } else {
             $feedly = $this->get('rix_feedly');
             $article = $feedly->getEntries($id,$feedly->_accesToken);
-            dump($article);
-
 
             if(array_key_exists('updated', $article['0']))
                 $data=date("m-d-Y H:i", $article['0']['updated']/1000);
@@ -391,11 +420,34 @@ class UserController extends Controller
     public function filterByTypeAction($type)
     {
         if ($type == 'article') {
+            $feedly = $this->get('rix_feedly');
+
+            $em = $this->getDoctrine()->getManager();
+
+            /** @var Favorite[] $articles */
+            $articles = $em
+                ->getRepository(Favorite::class)
+                ->findBy([
+                    'user' => $this->getUser(),
+                    'apiType' => 'article',
+                ]);
+
+            $articlesFeedly = array();
+            $data = array();
+            $iterator = 0;
+            foreach ($articles as $article) {
+                $articlesFeedly[$iterator] = $feedly->getEntries($article->getApiKey(), $feedly->_accesToken);
+                $data[$iterator]=date("m-d-Y H:i", $articlesFeedly[$iterator][0]['published']/1000);
+                $iterator++;
+            }
+            //dump($articlesFeedly);
+            //die();
 
             return $this->render(
                 "CoreBundle:Default:get_articles.html.twig",
                 [
-                    'language' => $type,
+                    'res' => $articlesFeedly,
+                    'data' => $data,
                 ]);
 
         } elseif ($type == 'slide') {
@@ -453,7 +505,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/favorite/add/{language}/{type}/{key}", name="rix_core_user_favorite_add")
+     * @Route("/favorite/add/{language}/{type}/{key}", name="rix_core_user_favorite_add", requirements={"key"=".+"})
      *
      * @return Response
      */

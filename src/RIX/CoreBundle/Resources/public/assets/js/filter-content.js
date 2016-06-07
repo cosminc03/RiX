@@ -22,5 +22,21 @@ function addToFavorite() {
     });
 }
 
+function loadMore() {
+    $(".more-items").on("click", ".view-more", function(){
+        var link = $(this).attr("data-link");
+        $(this).remove();
+
+        $("#preloader").fadeIn(1000);
+        $.ajax({url: link, success: function(result){
+            $("#preloader").remove();
+            $(".more-items").append(result);
+            $("#preloader").fadeOut(300);
+            $(".more-items").fadeIn(1000);
+        }});
+    });
+}
+
 filter();
 addToFavorite();
+loadMore();
