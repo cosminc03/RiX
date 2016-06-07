@@ -44,12 +44,7 @@
                                 </a>
                             </div>
                             <div class="posted-by">
-                                <a href="#">
                                     {{ videos["body"]["data"][i]["user"]["name"][0:17] }}
-                                </a>
-                                {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
-                                    <img src="{{ asset_url }}"/>
-                                {% endimage %}
                             </div>
                             <div class="posted-at">
                                 {{ videos["body"]["data"][i]["created_time"] }}
@@ -94,10 +89,7 @@
                                             </a>
                                         </div>
                                         <div class="posted-by">
-                                            <a href="#">{{slideshares[i]['USERNAME'][0:17]}}</a>
-                                            {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
-                                            <img src="{{ asset_url }}"/>
-                                            {% endimage %}
+                                            {{slideshares[i]['USERNAME'][0:17]}}
                                         </div>
                                         <div class="posted-at">{{ slideshares[i]['CREATED'] }}</div>
                                     </div>
@@ -133,8 +125,6 @@
                                 </a>
                                 <div class="rix-post-details">
                                     <div class="post-tags">
-
-
                                         {% set foo = articles[i]['deliciousTags']%}
                                         {% for tag in foo %}
                                             <a href="{{ path('rix_core_free_user_category', {'language':tag|trim|replace({'/':''})}) }}">{{tag}}</a>
@@ -148,7 +138,7 @@
                                         </a>
                                     </div>
                                     <div class="posted-by">
-                                        <a href="#">{{articles[i]['website'][0:17]}}</a>
+                                        {{articles[i]['website'][0:17]}}
                                     </div>
                                     <div class="posted-at">{{ articles[i]['subscribers'] }}</div>
                                 </div>

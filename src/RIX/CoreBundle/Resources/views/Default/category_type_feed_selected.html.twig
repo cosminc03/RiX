@@ -26,9 +26,9 @@
                                 </div>
                                 <div class="posted-by">
                                     {%   if res[i]['author'] is defined    %}
-                                        <a href="#">{{res[i]['author'][0:17]}}</a>
+                                        {{res[i]['author'][0:17]}}
                                     {% else %}
-                                        <a>No author</a>
+                                        No author
                                     {% endif %}
                                 </div>
 

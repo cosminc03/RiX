@@ -40,9 +40,9 @@
                         </div>
                         <div class="posted-by">
                             {%   if res[i][0]['author'] is defined    %}
-                                <a href="#">{{res[i][0]['author'][0:17]}}</a>
+                                {{res[i][0]['author'][0:17]}}
                             {% else %}
-                                <a>No author</a>
+                                No author
                             {% endif %}
                             {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
                             <img class="add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': res[i][0]['origin']['title'], 'type': 'article', 'key': res[i][0]['id']}) }}" src="{{ asset_url }}"/>
