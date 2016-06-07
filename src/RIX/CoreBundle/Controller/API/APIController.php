@@ -28,7 +28,7 @@ class APIController extends Controller{
             }
         }
     }
-
+    
     /**
      * @Route("/api/get_videos_by_tag/{tag}/{per_page}/{page}")
      * @Method("GET")
@@ -39,6 +39,7 @@ class APIController extends Controller{
         $tag = str_replace(' ','%20',$tag);
         $vimeo = $this->get('rix_vimeo');
         $videos = $vimeo->request("/tags/" . $tag. "/videos?".$per_page."&page=" . $page);
+
         $this->utf8_encode_deep($videos);
 
         $response = [

@@ -17,7 +17,6 @@ class Feedly {
     public
         $_accesToken = "A0fNyqtpgU-yJOsLmux8FUx1_QjHnrxDM90TBcSDbUXNvO5l0UGg8zoq4dK57vDxOyGPRTdWmYvPDP0pNIxXCcv0D7bZHEPKgPigRYmy0eJpU_gb5VYtlKg44C6Y2Rl7FRETp6RBfpQ68ZK3JCYhAghpMEaVlJPgT9I6C7U9RvO9BOrn68yhb7WTmt-RgjR4rNy1zrCSgTg5SPsWiPkhIfWtjxqiyQ:feedlydev";
 
-
     /**
      * @param boolean $sandbox                   Enable/Disable Sandbox Mode
      * @param boolean $storeAccessTokenToSession Choose whether to store the Access token

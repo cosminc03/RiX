@@ -26,6 +26,27 @@ class UserController extends Controller
         return $this->render('CoreBundle:Default:home.html.twig');
     }
 
+
+    /**
+     * @Route("/search", name = "rix_core_mini_search")
+     *
+     * @return Response
+     */
+    public function miniSearchAction(Request $request)
+    {
+
+
+        $language = $request->request->get('miniSearch');
+        if($language=="")
+            $language="rix";
+        return  $this->categoryAction($language, "video");
+
+
+
+
+
+
+    }
     /**
      * @Route("/category/{language}/video/page/{page}", name="rix_core_user_category_type_video")
      * 
@@ -136,8 +157,12 @@ class UserController extends Controller
      * 
      * @return Response
      */
-    public function categoryAction($language, $type)
+    public function categoryAction(Request $request,$language, $type)
     {
+        if($request->request->get('miniSearch')!="")
+             $language = $request->request->get('miniSearch');
+
+
         if ($type == "video") {
         $page = 1;
         $vimeo = $this->get('rix_vimeo');

@@ -17,6 +17,22 @@ class Helper{
 		return false;
 	}
 
+	private function checkTitle($title){
+		$count = 0;
+		$pl = '';
+		for($i = 0 ; $i < strlen($title);$i++){
+			$pl .= $title[$i];
+			if($title[$i] != ' ')
+				$count ++;
+			else $count = 0;
+			if($count == 20){
+				$pl .= ' ';
+				$count = 0;
+			}
+		}
+		return $pl;
+	}
+
 	public function XMLtoArray($data)
 	{
 		$parser = xml_parser_create("UTF-8");
@@ -89,6 +105,7 @@ class Helper{
 				}
 			}
 			else if(strtolower($key) == "title"){
+				$values[$val[$i]]["value"] = $this->checkTitle($values[$val[$i]]["value"]);
 				for($i = 0;$i < count($val);$i++) {
 					$finarr[$i][$key]=strlen($values[$val[$i]]["value"]) <= 40 ? $values[$val[$i]]["value"] : substr($values[$val[$i]]["value"],0,40) . '...';
 				}

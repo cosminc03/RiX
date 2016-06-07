@@ -39,7 +39,7 @@
             </div>
             <div class="row rix-categories">
                 {% if articles|length != 0 %}
-                    {% for i in 0..min(articles|length - 1,15) %}
+                    {% for i in 0..min(articles|length - 1,23) %}
                         {% if(articles[i]['feedId'] is defined and articles[i]['deliciousTags'] is defined
                         and articles[i]['website'] is defined and articles[i]['subscribers'] is defined and articles[i]['title'] is defined)%}
                             <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
@@ -65,7 +65,7 @@
                                         <div class="post-title">
                                             <a href="{{ path('rix_core_user_category_type_article',{'language' : articles[i]['feedId']}) }}" >
                                                 {% autoescape %}
-                                                    {{articles[i]['title']|raw}}
+                                                    {{articles[i]['title'][0:40]|raw}}
                                                 {% endautoescape %}
                                             </a>
                                         </div>
@@ -81,5 +81,5 @@
                 {% endif %}
             </div>
         </div>
-    </section>
+       </section>
 {% endblock %}
