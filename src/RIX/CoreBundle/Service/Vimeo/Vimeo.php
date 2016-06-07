@@ -500,7 +500,7 @@ class Vimeo
 
         // Complete the upload on the server.
         $completion = $this->request($ticket['body']['complete_uri'], array(), 'DELETE');
-        
+
         // Validate that we got back 201 Created
         $status = (int) $completion['status'];
         if ($status != 201) {

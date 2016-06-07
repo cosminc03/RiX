@@ -11,8 +11,13 @@
                 <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
                     <div class="rix-post" >
                         <a href="{{ path('rix_core_user_category_detail', {'language': slideshares[i]['topic'], 'api': 'slide', 'id':slideshares[i]['ID']}) }}">
-                            <div class="rix-category"
-                                 style="background-image: url('http://{{slideshares[i]['THUMBNAILXLARGEURL']}}')"></div>
+                            <div class="rix-category" style="background-image: url('http://{{slideshares[i]['THUMBNAILXLARGEURL']}}')">
+                                <div class="rix-remove-favorite">
+                                    {% image '@CoreBundle/Resources/public/assets/img/remove-favorite.png' %}
+                                        <img src="{{ asset_url }}" class="" data-link="{{ path('rix_core_user_remove_favorite',{'id': slideshares[i]['ID']}) }}"/>
+                                    {% endimage %}
+                                </div>
+                            </div>
                         </a>
                         <div class="rix-post-details">
                             <div class="post-tags">

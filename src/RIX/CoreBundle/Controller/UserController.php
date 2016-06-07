@@ -63,6 +63,7 @@ class UserController extends Controller
 
         $slidesCount = $slideshares[0]['COUNT'];
         $lastPage = intval($slidesCount/16);
+        $lastPage = $lastPage + ($slidesCount % 16 > 0 ? 1 : 0);
 
         return $this->render(
             "CoreBundle:Default:category_type_slides.html.twig",
@@ -88,7 +89,7 @@ class UserController extends Controller
         
         $data = array();
         for($i=0;$i<$count;$i++)
-            $data[$i]=date("m-d-Y H:i", $res['items'][$i]['published']/1000);
+            $data[$i]=date("Y-m-d ", $res['items'][$i]['published']/1000);
 
         return $this->render(
             "CoreBundle:Default:category_type_feed_selected.html.twig",
@@ -115,7 +116,7 @@ class UserController extends Controller
             $nextId = $res['continuation'];
             $data = array();
             for($i=0;$i<$count;$i++)
-                $data[$i]=date("m-d-Y H:i", $res['items'][$i]['published']/1000);
+                $data[$i]=date("Y-m-d ", $res['items'][$i]['published']/1000);
 
             return $this->render(
                 "CoreBundle:Default:more_feedly_items.html.twig",
@@ -138,28 +139,32 @@ class UserController extends Controller
     public function categoryAction($language, $type)
     {
         if ($type == "video") {
-            $page = 1;
-            $vimeo = $this->get('rix_vimeo');
-            $videos = $vimeo->request("/tags/" . $language . "/videos?per_page=16&page=".$page);
-            $lastPage = $videos["body"]["paging"]["last"];
+        $page = 1;
+        $vimeo = $this->get('rix_vimeo');
+        $videos = $vimeo->request("/tags/" . $language . "/videos?per_page=16&page=".$page);
+        $lastPage = $videos["body"]["paging"]["last"];
+        if($lastPage != null) {
             $startPos = strrpos($lastPage, "=");
             $lastPage = substr($lastPage, $startPos + 1);
+        }
 
-            return $this->render(
-                "CoreBundle:Default:category_type_video.html.twig",
-                [
-                    'language' => $language,
-                    'videos' => $videos,
-                    'page' => $page,
-                    'lastPage' => $lastPage,
-                ]);
-        } elseif ($type == "slides") {
+        return $this->render(
+            "CoreBundle:Default:category_type_video.html.twig",
+            [
+                'language' => $language,
+                'videos' => $videos,
+                'page' => $page,
+                'lastPage' => $lastPage,
+            ]);
+        }
+        elseif ($type == "slides") {
             $page = 1;
             $slideshare = $this->get('rix_slideshare');
             $slideshares = $slideshare->get_slideTag($language,0,16);
             
             $slidesCount = $slideshares[0]['COUNT'];
             $lastPage = intval($slidesCount/16);
+            $lastPage = $lastPage + ($slidesCount % 16 > 0 ? 1 : 0);
 
             return $this->render(
                 "CoreBundle:Default:category_type_slides.html.twig",
@@ -365,9 +370,9 @@ class UserController extends Controller
             $article = $feedly->getEntries($id,$feedly->_accesToken);
 
             if(array_key_exists('updated', $article['0']))
-                $data=date("m-d-Y H:i", $article['0']['updated']/1000);
+                $data=date("Y-m-d ", $article['0']['updated']/1000);
             else
-                $data=date("m-d-Y H:i", $article['0']['published']/1000);
+                $data=date("Y-m-d ", $article['0']['published']/1000);
 
             return $this->render(
                 "CoreBundle:FreeUser:detailed_feedly.html.twig",
@@ -433,10 +438,11 @@ class UserController extends Controller
                 ]);
 
             $articlesFeedly = array();
+            $data = array();
             $iterator = 0;
             foreach ($articles as $article) {
                 $articlesFeedly[$iterator] = $feedly->getEntries($article->getApiKey(), $feedly->_accesToken);
-                $data[$iterator]=date("m-d-Y H:i", $articlesFeedly[$iterator][0]['published']/1000);
+                $data[$iterator]=date("Y-m-d ", $articlesFeedly[$iterator][0]['published']/1000);
                 $iterator++;
             }
 
@@ -519,6 +525,14 @@ class UserController extends Controller
         $em->flush();
 
         return new Response('New course added');
+    }
+
+    /**
+     * @Route("/favorite/remove/{id}", name="rix_core_user_remove_favorite")
+     */
+    public function removeFromFavoriteAction($id)
+    {
+        return new Response('Removed');
     }
 
     /**
