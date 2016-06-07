@@ -1,0 +1,43 @@
+{% extends('::base.html.twig') %}
+
+{% block body %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+                <div class="article-title">
+                    {{ vimeo['body']['name'] }}
+                </div>
+                <div class="article-details">
+                    <div class="article-authorship">
+                        {% set time = vimeo['body']['created_time']|split('T') %}
+                        by <span class="article-author">{{ vimeo['body']['user']['name'] }}</span>
+                        <time datetime="{{ vimeo['body']['created_time'] }}">{{ time[0] }}</time>
+                    </div>
+
+                </div>
+                <div class="article-tags">
+                    {% for tags in vimeo['body']['tags']  %}
+                        <div class="article-tag">{{ tags["name"] }}</div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-2">
+                        <div class="article-video">
+                            {{ vimeo['body']['embed']['html']|raw }}
+                        </div>
+                    </div>
+                </div>
+                <div class="article-description">
+                    <div class="article-description-title">Description</div>
+                     {{ vimeo['body']['description'] }}
+                </div>
+                <div class="article-resource">
+                    <span>Resource: </span>
+                    <a href="{{ vimeo['body']['link'] }}" target="_blank">{{ vimeo['body']['link'] }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

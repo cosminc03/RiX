@@ -18,17 +18,18 @@ security:
                 default_target_path: rix_core_user_home
             logout:
                 path: rix_core_user_logout
-                target: rix_core_user_free_home
+                target: rix_core_free_user_home
             pattern: ^/
             provider: our_db_provider
 
     access_control:
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/(css|js), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(css|js|images), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(_wdt|_profiler), roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/free/home, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/home, roles: ROLE_USER }
+        - { path: ^/free, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/free/category/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account, roles: ROLE_USER }
         - { path: ^/change-email, roles: ROLE_USER }
         - { path: ^/change-password, roles: ROLE_USER }
+        - { path: ^/, roles: ROLE_USER }

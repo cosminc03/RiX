@@ -2,6 +2,7 @@
 
 namespace RIX\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -165,12 +166,20 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $enabled;
 
+    /**
+     * @var ArrayCollection|Favorite[]
+     *
+     * @ORM\OneToMany(targetEntity="Favorite", mappedBy="user")
+     */
+    private $favorites;
+
     public function __construct()
     {
         $this->roles = array();
         $this->enabled = true;
         $this->salt = sha1(uniqid('', true));
         $this->resetToken = uniqid('', true);
+        $this->favorites = new ArrayCollection();
     }
 
     /**
@@ -600,5 +609,39 @@ class User implements AdvancedUserInterface, \Serializable
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Add favorite
+     *
+     * @param Favorite $favorite
+     *
+     * @return User
+     */
+    public function addFavorite(Favorite $favorite)
+    {
+        $this->favorites[] = $favorite;
+
+        return $this;
+    }
+
+    /**
+     * Remove favorite
+     *
+     * @param Favorite $favorite
+     */
+    public function removeFavorite(Favorite $favorite)
+    {
+        $this->favorites->removeElement($favorite);
+    }
+
+    /**
+     * Get favorites
+     *
+     * @return ArrayCollection|Favorite[]
+     */
+    public function getFavorites()
+    {
+        return $this->favorites;
     }
 }

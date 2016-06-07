@@ -1,5 +1,3 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/book/service_container.html
 parameters:
 #    parameter_name: value
 
@@ -7,3 +5,11 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+      rix_vimeo:
+         class: RIX\CoreBundle\Service\Vimeo\Vimeo
+
+      rix_slideshare:
+         class: RIX\CoreBundle\Service\SlideShare\Helper
+
+      rix_feedly:
+         class: RIX\CoreBundle\Service\Feedly\Feedly
