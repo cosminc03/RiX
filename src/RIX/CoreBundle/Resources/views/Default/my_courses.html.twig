@@ -31,44 +31,51 @@
                 </div>
             </div>
             <div class="row rix-categories">
-                {% for i in 0..videos|length - 1 %}
-                    <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
-                        <div class="rix-post" >
-                            <a href="{{ path('rix_core_user_category_detail', {'language': videos[i]["topic"], 'api': 'vimeo', 'id':videos[i]["body"]["uri"][8:]}) }}">
+                {% if videos|length %}
+                    {% for i in 0..videos|length - 1 %}
+                        <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
+                            <div class="rix-post" >
                                 <div class="rix-category"
                                      style="background-image: url('{{videos[i]["body"]["pictures"]["sizes"][2]["link"]}}')">
                                     <div class="rix-remove-favorite">
                                         {% image '@CoreBundle/Resources/public/assets/img/remove-favorite.png' %}
-                                            <img src="{{ asset_url }}" class="" data-link="{{ path('rix_core_user_remove_favorite',{'id': videos[i]["body"]["uri"][8:]}) }}"/>
+                                            <img src="{{ asset_url }}" class=""
+                                                 data-link="{{ path('rix_core_user_remove_favorite',{'id': videos[i]["body"]["uri"][8:]}) }}"
+                                                 data-reload="{{ path('rix_core_user_get_language_type', {type: 'video'}) }}"
+                                            />
                                         {% endimage %}
                                     </div>
                                 </div>
-                            </a>
 
-                            <div class="rix-post-details">
-                                <div class="post-tags">
-                                    <a href="{{ path('rix_core_user_category', {'language':videos[i]["topic"]|trim|replace({'/':''})}) }}">{{ videos[i]["topic"] }}</a>
-                                    {% for j in 0..1 %}
-                                            <a href="{{ path('rix_core_user_category', {'language':videos[i]["body"]["tags"][j]["name"]|trim|replace({'/':''})}) }}">{{ videos[i]["body"]["tags"][j]["name"] }}</a>
-                                    {% endfor %}
-                                </div>
-                                <div class="post-title">
-                                    <a href="{{ path('rix_core_free_user_category_detail', {'language':videos[i]["topic"], 'api': 'vimeo', 'id':videos[i]["body"]["uri"][8:]}) }}">
-                                        {{videos[i]["body"]["name"] }}
-                                    </a>
-                                </div>
-                                <div class="posted-by">
-                                    <a href="#">
-                                        {{ videos[i]["body"]["user"]["name"][0:17] }}
-                                    </a>
-                                </div>
-                                <div class="posted-at">
-                                    {{ videos[i]["body"]["created_time"] }}
+                                <div class="rix-post-details">
+                                    <div class="post-tags">
+                                        <a href="{{ path('rix_core_user_category', {'language':videos[i]["topic"]|trim|replace({'/':''})}) }}">{{ videos[i]["topic"] }}</a>
+                                        {% for j in 0..1 %}
+                                                <a href="{{ path('rix_core_user_category', {'language':videos[i]["body"]["tags"][j]["name"]|trim|replace({'/':''})}) }}">{{ videos[i]["body"]["tags"][j]["name"] }}</a>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="post-title">
+                                        <a href="{{ path('rix_core_free_user_category_detail', {'language':videos[i]["topic"], 'api': 'vimeo', 'id':videos[i]["body"]["uri"][8:]}) }}">
+                                            {{videos[i]["body"]["name"] }}
+                                        </a>
+                                    </div>
+                                    <div class="posted-by">
+                                        <a href="#">
+                                            {{ videos[i]["body"]["user"]["name"][0:17] }}
+                                        </a>
+                                    </div>
+                                    <div class="posted-at">
+                                        {{ videos[i]["body"]["created_time"] }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
+                        No videos added to favorite.
                     </div>
-                {% endfor %}
+                {% endif %}
             </div>
         </div>
     </section>

@@ -4,21 +4,22 @@
     </div>
 </div>
 <div class="row rix-categories">
-    {% if slideshares|length != 0 %}
+    {% if slideshares|length %}
         {% for i in 0..slideshares|length - 1 %}
             {% if(slideshares[i]['ID'] is defined and slideshares[i]['TAG'] is defined
             and slideshares[i]['USERNAME'] is defined and slideshares[i]['CREATED'] is defined and slideshares[i]['TITLE'] is defined)%}
                 <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
                     <div class="rix-post" >
-                        <a href="{{ path('rix_core_user_category_detail', {'language': slideshares[i]['topic'], 'api': 'slide', 'id':slideshares[i]['ID']}) }}">
                             <div class="rix-category" style="background-image: url('http://{{slideshares[i]['THUMBNAILXLARGEURL']}}')">
                                 <div class="rix-remove-favorite">
                                     {% image '@CoreBundle/Resources/public/assets/img/remove-favorite.png' %}
-                                        <img src="{{ asset_url }}" class="" data-link="{{ path('rix_core_user_remove_favorite',{'id': slideshares[i]['ID']}) }}"/>
+                                        <img src="{{ asset_url }}" class=""
+                                             data-link="{{ path('rix_core_user_remove_favorite',{'id': slideshares[i]['ID']}) }}"
+                                             data-reload="{{ path('rix_core_user_get_language_type', {type: 'slide'}) }}"
+                                        />
                                     {% endimage %}
                                 </div>
                             </div>
-                        </a>
                         <div class="rix-post-details">
                             <div class="post-tags">
                                 {% set foo = slideshares[i]['TAG']|split(',') %}
@@ -42,5 +43,9 @@
                 </div>
             {%endif %}
         {% endfor %}
+    {% else %}
+        <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
+            No slideshares added to favorite.
+        </div>
     {% endif %}
 </div>

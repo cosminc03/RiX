@@ -15,7 +15,7 @@ class Feedly {
         $_accessTokenPath = "/v3/auth/token",
         $_storeAccessTokenToSession;
     public
-        $_accesToken = "AwTbHqtO4qGpLkA0vR4ZTT_7RFpu1hwVwhK9ZFtf8wgd0pXDN4-LVpNE_lw_3VL3X3VbtnUmRmG1mxWcNN9wOVEgVFmSRegcMOm5Mc-bBB3RGo75W9Dmn6AotqjRLPEjQKqPKg7zXygxinFg4I8Z0yXT5nPEDVcE3x8V_ha0_pggeCSQcF7kCLPru5BJ6pNqzG0OFb214ilDclXME7OkECbKqqUcHA:feedlydev";
+        $_accesToken = "A0fNyqtpgU-yJOsLmux8FUx1_QjHnrxDM90TBcSDbUXNvO5l0UGg8zoq4dK57vDxOyGPRTdWmYvPDP0pNIxXCcv0D7bZHEPKgPigRYmy0eJpU_gb5VYtlKg44C6Y2Rl7FRETp6RBfpQ68ZK3JCYhAghpMEaVlJPgT9I6C7U9RvO9BOrn68yhb7WTmt-RgjR4rNy1zrCSgTg5SPsWiPkhIfWtjxqiyQ:feedlydev";
 
 
     /**

@@ -515,24 +515,43 @@ class UserController extends Controller
     public function addToFavoriteAction($language, $type, $key)
     {
         $em = $this->getDoctrine()->getManager();
-        $favorite = new Favorite();
-        $favorite->setUser($this->getUser());
-        $favorite->setTopic($language);
-        $favorite->setApiKey($key);
-        $favorite->setApiType($type);
+        $data = $em
+            ->getRepository(Favorite::class)
+            ->findOneBy([
+                'apiKey' => $key,
+            ]);
+        if ($data) {
+            return new Response('Item already added to favorite');
+        } else {
+            $favorite = new Favorite();
+            $favorite->setUser($this->getUser());
+            $favorite->setTopic($language);
+            $favorite->setApiKey($key);
+            $favorite->setApiType($type);
 
-        $em->persist($favorite);
-        $em->flush();
+            $em->persist($favorite);
+            $em->flush();
 
-        return new Response('New course added');
+            return new Response('New course added');
+        }
     }
 
     /**
-     * @Route("/favorite/remove/{id}", name="rix_core_user_remove_favorite")
+     * @Route("/favorite/remove/{id}", name="rix_core_user_remove_favorite", requirements={"id"=".+"})
      */
     public function removeFromFavoriteAction($id)
     {
-        return new Response('Removed');
+        $em = $this->getDoctrine()->getManager();
+        $favorite = $em
+            ->getRepository(Favorite::class)
+            ->findBy([
+                'apiKey' => $id,
+            ]);
+
+        $em->remove($favorite[0]);
+        $em->flush();
+
+        return new Response('Item deleted');
     }
 
     /**

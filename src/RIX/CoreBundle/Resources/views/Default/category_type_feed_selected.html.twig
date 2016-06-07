@@ -36,10 +36,10 @@
                             </div>
                             <div class="author">
                                 {% image '@CoreBundle/Resources/public/assets/img/favorite.png' %}
-                                    <img src="{{ asset_url }}" class="menu-arrow add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': res[i]['origin']['title'], 'type': 'article', 'key': res[i]['id']}) }}"/>
+                                    <img src="{{ asset_url }}" class="menu-arrow add-to-favorite"
+                                         data-link="{{ path('rix_core_user_favorite_add', {'language': res[i]['origin']['title'], 'type': 'article', 'key': res[i]['id']}) }}"/>
                                 {% endimage %}
                             </div>
-                            <div class="author"></div>
                         </div>
                     </div>
                 {% endfor %}

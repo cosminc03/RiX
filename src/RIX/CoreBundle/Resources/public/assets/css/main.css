@@ -83,6 +83,7 @@ header{
 	height: 60px;
 }
 #navigation, #navigation-mobile{
+	position:relative;
 	background-color: #000;
 	height: 60px;
 	color: #ffffff;
@@ -450,7 +451,6 @@ footer{
 	background-repeat: no-repeat;
 	background-position: top right;
 	border-radius:5px;
-	/*margin-top:25px;*/
 }
 	.rix-remove-favorite{
 		position:absolute;
@@ -462,6 +462,9 @@ footer{
 			position:absolute;
 			right:15px;
 			top:10px;
+		}
+		.rix-remove-favorite img:hover{
+			cursor:pointer;
 		}
 .rix-category > div{
 	position: absolute;
@@ -604,6 +607,8 @@ footer{
 		top:42px;
 		width:35px;
 		height:32px;
+		-webkit-transition: width 2s, height 4s; /* For Safari 3.1 to 6.0 */
+		transition: width 1s, height 2s;
 	}
 		.author img:hover{
 			cursor:pointer;
