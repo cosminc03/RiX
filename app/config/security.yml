@@ -28,8 +28,14 @@ security:
         - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(css|js|images), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(_wdt|_profiler), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/free/category/java/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/free/category/python/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/free/category/php/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/free/category/ruby/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/free/category/android/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/free/category/symfony/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/free/category/, roles: ROLE_USER }
         - { path: ^/free, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/free/category/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/account, roles: ROLE_USER }
         - { path: ^/change-email, roles: ROLE_USER }
         - { path: ^/change-password, roles: ROLE_USER }

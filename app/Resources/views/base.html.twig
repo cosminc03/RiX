@@ -35,11 +35,15 @@
                                         </a>
                                     </div>
                                     {% if app.user %}
+                                    {%  if app.request.get('_route') != 'rix_core_user_home' and
+                                    app.request.get('_route') != 'rix_core_free_user_home' %}
                                         <div id="mini-search">
-                                            <form >
-                                                <input type="text" placeholder="Search for documents or skills you want to learn"/>
+                                            <form action={{ path('rix_core_user_category' ,{'language'  : 'search' }) }} method="post">
+                                                <input type="text" name="miniSearch" placeholder="Search for documents or skills you want to learn"/>
+
                                             </form>
                                         </div>
+                                        {% endif %}
                                         <div id="account-wrapper">
                                             <div id="profile-picture">
                                                 {% if app.user.imageName %}
@@ -260,6 +264,9 @@
                     function(){
                         $('.rix-remove-favorite').css('display', 'none');
                     });
+
+
+
                 });
             </script>
         {% endblock %}

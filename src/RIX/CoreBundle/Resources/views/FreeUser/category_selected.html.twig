@@ -108,6 +108,56 @@
                     {% endfor %}
                 {% endif %}
             </div>
+
+        <div class="row">
+            <div class="col-xs-12 delimiter">
+                Articles
+            </div>
+        </div>
+        <div class="row rix-categories">
+            {% if articles|length != 0 %}
+
+                {% for i in 0..min(articles|length - 1,8) %}
+                    {% if(articles[i]['feedId'] is defined and articles[i]['deliciousTags'] is defined
+                    and articles[i]['website'] is defined and articles[i]['subscribers'] is defined and articles[i]['title'] is defined)%}
+                        <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
+                            <div class="rix-post" >
+                                <a href="{{ path('rix_core_free_user_category_type_article',{'id' : articles[i]['feedId'],'language' : language}) }}" >
+                                    <div class="rix-category"
+                                            {% if articles[i]['visualUrl'] is defined %}
+                                                style="background-image: url({{articles[i]['visualUrl']}})"
+                                            {% else %}
+                                                style="background-image: url('https://www.dwolla.com/avatars/812-999-0092')"
+                                            {% endif %}
+                                    ></div>
+                                </a>
+                                <div class="rix-post-details">
+                                    <div class="post-tags">
+
+
+                                        {% set foo = articles[i]['deliciousTags']%}
+                                        {% for tag in foo %}
+                                            <a href="{{ path('rix_core_free_user_category', {'language':tag|trim|replace({'/':''})}) }}">{{tag}}</a>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="post-title">
+                                        <a href="{{ path('rix_core_free_user_category_type_article',{'id' : articles[i]['feedId'], 'language' : language} ) }}" >
+                                            {% autoescape %}
+                                                {{articles[i]['title'][0:40]|raw}}
+                                            {% endautoescape %}
+                                        </a>
+                                    </div>
+                                    <div class="posted-by">
+                                        <a href="#">{{articles[i]['website'][0:17]}}</a>
+                                    </div>
+                                    <div class="posted-at">{{ articles[i]['subscribers'] }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {%endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
         </div>
     </section>
 {% endblock %}

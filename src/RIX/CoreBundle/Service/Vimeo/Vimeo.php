@@ -48,21 +48,26 @@ class Vimeo
      * @param string $client_secret Your applications client secret. Can be found on developer.vimeo.com/apps
      * @param string $access_token Your applications client id. Can be found on developer.vimeo.com/apps or generated using OAuth 2.
      */
-    private function checkTag($tag){
-        for ($i = 0 ; $i < strlen($tag); $i ++){
-            $sw = false;
-            for ($k='a' ; $k <= 'z' ; $k++)
-                if($tag[$i] == $k)
-                    $sw = true;
-            if ($sw == false)
-                return false;
+    private function checkTitle($title){
+        $count = 0;
+        $pl = '';
+        for($i = 0 ; $i < strlen($title);$i++){
+            $pl .= $title[$i];
+            if($title[$i] != ' ')
+                $count ++;
+            else $count = 0;
+            if($count == 20){
+                $pl .= ' ';
+                $count = 0;
+            }
         }
-        return true;
+        return $pl;
     }
 
     public function getInfo($response,$tag){
         for($i = 0;$i< sizeof($response['body']['data']);$i++){
             $response["body"]["data"][$i]["created_time"] = substr($response["body"]["data"][$i]["created_time"],0,10);
+            $response["body"]["data"][$i]["name"] = $this->checkTitle($response["body"]["data"][$i]["name"] );
             $response["body"]["data"][$i]["name"] = strlen($response["body"]["data"][$i]["name"]) <= 40 ? $response["body"]["data"][$i]["name"] : substr($response["body"]["data"][$i]["name"],0,40).'...';
             $tagsNumber = count($response["body"]["data"][$i]["tags"]);
             $maxthree = -1;
