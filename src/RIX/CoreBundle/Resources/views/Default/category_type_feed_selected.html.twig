@@ -26,16 +26,18 @@
                                 </div>
                                 <div class="posted-by">
                                     {%   if res[i]['author'] is defined    %}
-                                        <a href="#">{{res[i]['author']}}</a>
+                                        <a href="#">{{res[i]['author'][0:17]}}</a>
                                     {% else %}
                                         <a>No author</a>
                                     {% endif %}
-                                    {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
-                                        <img class="add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': res[i]['origin']['title'], 'type': 'article', 'key': res[i]['id']}) }}" src="{{ asset_url }}"/>
-                                    {% endimage %}
                                 </div>
 
                                 <div class="posted-at"> {{ data[i] }} </div>
+                            </div>
+                            <div class="author">
+                                {% image '@CoreBundle/Resources/public/assets/img/favorite.png' %}
+                                    <img src="{{ asset_url }}" class="menu-arrow add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': res[i]['origin']['title'], 'type': 'article', 'key': res[i]['id']}) }}"/>
+                                {% endimage %}
                             </div>
                             <div class="author"></div>
                         </div>

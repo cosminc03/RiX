@@ -36,7 +36,13 @@
                         <div class="rix-post" >
                             <a href="{{ path('rix_core_user_category_detail', {'language': videos[i]["topic"], 'api': 'vimeo', 'id':videos[i]["body"]["uri"][8:]}) }}">
                                 <div class="rix-category"
-                                     style="background-image: url('{{videos[i]["body"]["pictures"]["sizes"][2]["link"]}}')"></div>
+                                     style="background-image: url('{{videos[i]["body"]["pictures"]["sizes"][2]["link"]}}')">
+                                    <div class="rix-remove-favorite">
+                                        {% image '@CoreBundle/Resources/public/assets/img/remove-favorite.png' %}
+                                            <img src="{{ asset_url }}" class="" data-link="{{ path('rix_core_user_remove_favorite',{'id': videos[i]["body"]["uri"][8:]}) }}"/>
+                                        {% endimage %}
+                                    </div>
+                                </div>
                             </a>
 
                             <div class="rix-post-details">

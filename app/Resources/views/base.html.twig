@@ -150,67 +150,50 @@
                     <div id="fat-footer">
                         <div class="container">
                             <div class="row">
-                                <div class="col-xs-6 col-sm-2">
+                                <div class="col-xs-12 col-sm-2">
                                     <ul class="footer-category">
+                                        <li>Documentation</li>
+                                        <li><a href="http://symfony.com/" target="_blank">Symfony2</a></li>
+                                        <li><a href="http://www.doctrine-project.org/" target="_blank">Doctrine</a></li>
+                                        <li><a href="https://vimeo.com/" target="_blank">Vimeo</a></li>
+                                        <li><a href="http://www.slideshare.net/" target="_blank">Slideshare</a></li>
+                                        <li><a href="https://feedly.com/i/my" target="_blank">Feedly</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                    <ul class="footer-category" id="about-us">
                                         <li>About Us</li>
-                                        <li><a href="#">Careers</a></li>
-                                        <li><a href="#">Press Center</a></li>
-                                        <li><a href="#">Call for Trainers</a></li>
-                                        <li><a href="#">Video2Brain</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-xs-6 col-sm-2">
-                                    <ul class="footer-category">
-                                        <li>Products</li>
-                                        <li><a href="#">Our Plans</a></li>
-                                        <li><a href="#">Academic Solutions</a></li>
-                                        <li><a href="#">Business Solutions</a></li>
-                                        <li><a href="#">Government Solutions</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-xs-6 col-sm-2">
-                                    <ul class="footer-category">
-                                        <li>Support</li>
-                                        <li><a href="#">Support</a></li>
-                                        <li><a href="#">Contact Us</a></li>
-                                        <li><a href="#">System Requirements</a></li>
-                                        <li><a href="#">Site feedbacks</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-xs-6 col-sm-2">
-                                    <ul class="footer-category">
-                                        <li>iPhone & Ipad</li>
-                                        <li><a href="#">Android</a></li>
-                                        <li><a href="#">Windows 8</a></li>
-                                        <li><a href="#">Desktop App</a></li>
+                                        <li>RIX is made by a team of 4 students from UAIC Iasi. The site was created
+                                            in order to organize information from 3 different sites with reference to computer science domain.
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="col-xs-12 col-sm-4" id="connect-wrapper">
                                     <div id="connect">Connect</div>
                                     <ul id="social">
                                         <li>
-                                            <a href="#">
+                                            <a href="https://www.facebook.com/rixSitePage" target="_blank">
                                                 {% image '@CoreBundle/Resources/public/assets/img/facebook.png' %}
                                                 <img src="{{ asset_url }}"/>
                                                 {% endimage %}
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href="https://twitter.com/RiX_Site_Page" target="_blank">
                                                 {% image '@CoreBundle/Resources/public/assets/img/twitter.png' %}
                                                 <img src="{{ asset_url }}"/>
                                                 {% endimage %}
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href="https://plus.google.com/u/3/115353948070885776082?hl=ro" target="_blank">
                                                 {% image '@CoreBundle/Resources/public/assets/img/google-plus.png' %}
                                                 <img src="{{ asset_url }}"/>
                                                 {% endimage %}
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href="https://www.linkedin.com/in/rix-rix-30b600122" target="_blank">
                                                 {% image '@CoreBundle/Resources/public/assets/img/linkdin.png' %}
                                                 <img src="{{ asset_url }}"/>
                                                 {% endimage %}
@@ -269,6 +252,13 @@
 
                     $('#dropdown-content').hover(function(){},function(){
                         $('#dropdown-content').css('display','none');
+                    });
+
+                    $('.rix-category').hover(function(){
+                        $('.rix-remove-favorite').css('display', 'block');
+                    },
+                    function(){
+                        $('.rix-remove-favorite').css('display', 'none');
                     });
                 });
             </script>

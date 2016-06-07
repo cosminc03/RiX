@@ -1,6 +1,6 @@
 <?php
 namespace RIX\CoreBundle\Service\SlideShare;
-// This is the PHP class that can be used for accessing the API 
+// This is the PHP class that can be used for accessing the API
 
 class Helper{
 	//params for API requests
@@ -17,9 +17,9 @@ class Helper{
 		return false;
 	}
 
-	private function XMLtoArray($data)
+	public function XMLtoArray($data)
 	{
-		$parser = xml_parser_create("ISO-8859-1");
+		$parser = xml_parser_create("UTF-8");
 		xml_parse_into_struct($parser, $data, $values, $tags);
 		xml_parser_free($parser);
 		foreach ($tags as $key=>$val) {
@@ -138,13 +138,13 @@ class Helper{
 		error_reporting( error_reporting() & ~E_NOTICE );
 	}
 
-	private function get_data($call,$params) {
+	public function get_data($call,$params) {
 		$ts=time();
 		$hash=sha1($this->secret.$ts);
 		try {
 			$res=file_get_contents($this->apiurl.$call."?api_key=$this->key&ts=$ts&hash=$hash".$params);
 		} catch (Exception $e) {
-		// Log the exception and return $res as blank
+			// Log the exception and return $res as blank
 		}
 		return utf8_encode($res);
 	}
@@ -173,6 +173,7 @@ class Helper{
 	/* Get all the tags's slide information  in a simple multi-dimensional array */
 	public function get_slideTag($tag,$offset=0,$limit=0) {
 		$tag2 = str_replace(' ','-',$tag);
+		$tag2 = str_replace('.','-',$tag2);
 		$data = $this->XMLtoArray4Tag($this->get_data("get_slideshows_by_tag","&tag=$tag2&offset=$offset&limit=$limit&detailed=1"),$tag);
 		for ($i = 0; $i < sizeof($data); $i ++){
 			$tags = strlen($data[$i]['TAG']) ? $tag . ', '.$data[$i]['TAG'] : $tag;
