@@ -28,6 +28,20 @@ class APIController extends Controller{
         }
     }
     /**
+     * @Route("/api/get_article_by_tag/{tag}")
+     * @Method("GET")
+     */
+    public function get_articles_by_tag($tag)
+    {
+
+        $feedly = $this->get('rix_feedly');
+        $articles = $feedly->searchFeeds($tag, 3,"en_EN", $feedly->_accesToken);
+        $this->utf8_encode_deep($articles);
+        $response = new Response(json_encode(array('name' => $articles)));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+    /**
      * @Route("/api/get_videos_by_tag/{tag}/{per_page}/{page}")
      * @Method("GET")
      */
@@ -35,6 +49,7 @@ class APIController extends Controller{
         $tag = str_replace(' ','%20',$tag);
         $vimeo = $this->get('rix_vimeo');
         $videos = $vimeo->request("/tags/" . $tag. "/videos?".$per_page."&page=" . $page);
+
         $this->utf8_encode_deep($videos);
         $response = new Response(json_encode(array('name' => $videos)));
         $response->headers->set('Content-Type', 'application/json');

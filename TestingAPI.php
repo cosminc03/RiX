@@ -1,5 +1,5 @@
 <?php
-define ('URL', 'http://dev.rix.ro/app_dev.php/api/get_slideshows_by_tag/java');
+define ('URL', 'http://dev.rix.ro/app_dev.php/api/get_article_by_tag/java');
 echo '<p>Invocam serviciul Web de la <code>' . URL . '</code></p>';
 // initializam cURL
 $c = curl_init ();
