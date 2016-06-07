@@ -433,7 +433,6 @@ class UserController extends Controller
                 ]);
 
             $articlesFeedly = array();
-            $data = array();
             $iterator = 0;
             foreach ($articles as $article) {
                 $articlesFeedly[$iterator] = $feedly->getEntries($article->getApiKey(), $feedly->_accesToken);
