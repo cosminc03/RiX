@@ -64,11 +64,13 @@
                                         </div>
                                         <div class="posted-by">
                                             <a href="#">{{slideshares[i]['USERNAME'][0:17]}}</a>
-                                            {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
-                                            <img class="add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': language, 'type': 'slide', 'key': slideshares[i]['ID']}) }}" src="{{ asset_url }}"/>
-                                            {% endimage %}
                                         </div>
                                         <div class="posted-at">{{ slideshares[i]['CREATED'] }}</div>
+                                    </div>
+                                    <div class="author">
+                                        {% image '@CoreBundle/Resources/public/assets/img/favorite.png' %}
+                                            <img src="{{ asset_url }}" class="menu-arrow add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': language, 'type': 'slide', 'key': slideshares[i]['ID']}) }}"/>
+                                        {% endimage %}
                                     </div>
                                 </div>
                             </div>
@@ -78,47 +80,60 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 pagination">
-                    {% if page > 1 %}
-                        <a class="pagination_arrow-button pagination_prev-button"  href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page - 1}) }}">
-                            {% image '@CoreBundle/Resources/public/assets/img/arrow-right.png' %}
-                            <img src="{{ asset_url }}"/>
-                            {% endimage %}
-                        </a>
-                    {% endif %}
-                    <a class="pagination_button {% if page == 1 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category', {'language': language }) }}">1</a>
-                    {% if page < 6 %}
-                        {% for i  in 2..page + 1 %}
-                            <a class="pagination_button {% if page == i %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': i}) }}">{{ i }}</a>
-                        {% endfor %}
-                    {% else %}
-                        <a class="pagination_button {% if page == 2 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': '2'}) }}">2</a>
-                        <a class="pagination_button {% if page == 3 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': '3'}) }}">3</a>
-                        <div class="pagination-delimiter">...</div>
-                        {% if page >= lastPage-2 %}
-                            {% if page == lastPage-2 %}
-                                <a class="pagination_button {% if page == lastPage-3 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': lastPage-3}) }}">{{ lastPage-3 }}</a>
-                            {% endif %}
-                            <a class="pagination_button {% if page == lastPage-2 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': lastPage-2}) }}">{{ lastPage-2 }}</a>
-                            <a class="pagination_button {% if page == lastPage-1 %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': lastPage-1}) }}">{{ lastPage-1 }}</a>
-                        {% else %}
-                            {% for i  in page - 2..page + 2 %}
+                    {% if lastPage is not null and lastPage > 1 %}
+                        {% if page > 1 %}
+                            <a class="pagination_arrow-button pagination_prev-button"  href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page - 1}) }}">
+                                {% image '@CoreBundle/Resources/public/assets/img/arrow-right.png' %}
+                                <img src="{{ asset_url }}"/>
+                                {% endimage %}
+                            </a>
+                        {% endif %}
+                        {% if lastPage <= 6 %}
+                            {% for i  in 1..lastPage%}
                                 <a class="pagination_button {% if page == i %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': i}) }}">{{ i }}</a>
                             {% endfor %}
+                        {% else %}
+                            {% if page > 3 and page < lastPage %}
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': 1}) }}">1</a>
+                                <div class="pagination-delimiter">...</div>
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page-1}) }}">{{ page -1 }}</a>
+                                <a class="pagination_button-active" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page}) }}">{{ page }}</a>
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page+1}) }}">{{ page +1}}</a>
+                            {% elseif page == 1 %}
+                                <a class="pagination_button-active" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page}) }}">{{ page }}</a>
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page+1}) }}">{{ page+1 }}</a>
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page+2}) }}">{{ page+2 }}</a>
+                            {% elseif page == 2 %}
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': 1}) }}">1</a>
+                                <a class="pagination_button-active" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page}) }}">{{ page }}</a>
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page+1}) }}">{{ page+1 }}</a>
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page+2}) }}">{{ page+2 }}</a>
+                            {% elseif page == 3 %}
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': 1}) }}">1</a>
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page-1}) }}">{{ page-1 }}</a>
+                                <a class="pagination_button-active" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page}) }}">{{ page }}</a>
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page+1}) }}">{{ page+1 }}</a>
+                            {% endif %}
+                            {% if page < lastPage - 2 %}
+                                <div class="pagination-delimiter">...</div>
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': lastPage}) }}">{{ lastPage}}</a>
+                            {% elseif page == lastPage %}
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': 1}) }}">1</a>
+                                <div class="pagination-delimiter">...</div>
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': lastPage-2}) }}">{{ lastPage-2}}</a>
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': lastPage-1}) }}">{{ lastPage-1}}</a>
+                                <a class="pagination_button-active" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': lastPage}) }}">{{ lastPage}}</a>
+                            {% elseif page == lastPage - 2 %}
+                                <a class="pagination_button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': lastPage}) }}">{{ lastPage}}</a>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                    {% if page < lastPage-4 %}
-                        <div class="pagination-delimiter">...</div>
-                        {% for i in lastPage-2..lastPage-1 %}
-                            <a class="pagination_button {% if page == i %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': i}) }}">{{ i }}</a>
-                        {% endfor %}
-                    {% endif %}
-                    <a class="pagination_button {% if page == lastPage %} pagination_button-active {% endif %}" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': lastPage}) }}">{{ lastPage }}</a>
-                    {% if page < lastPage %}
-                        <a class="pagination_arrow-button pagination_next-button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page + 1}) }}">
-                            {% image '@CoreBundle/Resources/public/assets/img/arrow-right.png' %}
-                            <img src="{{ asset_url }}"/>
-                            {% endimage %}
-                        </a>
+                        {% if page < lastPage %}
+                            <a class="pagination_arrow-button pagination_next-button" href="{{ path('rix_core_user_category_type_slide', {'language': language, 'page': page + 1}) }}">
+                                {% image '@CoreBundle/Resources/public/assets/img/arrow-right.png' %}
+                                <img src="{{ asset_url }}"/>
+                                {% endimage %}
+                            </a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

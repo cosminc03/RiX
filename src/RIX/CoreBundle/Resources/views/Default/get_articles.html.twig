@@ -4,36 +4,60 @@
     </div>
 </div>
 <div class="row rix-categories">
-    {%  for i in 0..res|length - 1 %}
-        <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
-            <div class="rix-post" >
-                {%   if res[i][0]['thumbnail']['0']['url'] is defined    %}
-                    <div style="background-image: url({{ res[i][0]['thumbnail']['0']['url']}})"></div>
-                {% else %}
-                    <div style="background-image: url('https://www.dwolla.com/avatars/812-999-0092')"></div>
-                {% endif %}
-                <div class="rix-post-details">
-                    <div class="post-tags">
+    {% if res|length %}
+        {%  for i in 0..res|length - 1 %}
+            <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
+                <div class="rix-post" >
+                    {%   if res[i][0]['thumbnail']['0']['url'] is defined    %}
+                        <div class="rix-category" style="background-image: url({{ res[i][0]['thumbnail']['0']['url']}})">
+                            <div class="rix-remove-favorite">
+                                {% image '@CoreBundle/Resources/public/assets/img/remove-favorite.png' %}
+                                    <img src="{{ asset_url }}" class=""
+                                         data-link="{{ path('rix_core_user_remove_favorite',{'id': res[i][0]['id']}) }}"
+                                         data-reload="{{ path('rix_core_user_get_language_type', {type: 'article'}) }}"
+                                    />
+                                {% endimage %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="rix-category" style="background-image: url('https://www.dwolla.com/avatars/812-999-0092')">
+                            <div class="rix-remove-favorite">
+                                {% image '@CoreBundle/Resources/public/assets/img/remove-favorite.png' %}
+                                    <img src="{{ asset_url }}" class=""
+                                           data-link="{{ path('rix_core_user_remove_favorite',{'id': res[i][0]['id']}) }}"
+                                           data-reload="{{ path('rix_core_user_get_language_type', {type: 'article'}) }}"
+                                    />
+                                {% endimage %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="rix-post-details">
+                        <div class="post-tags">
 
-                    </div>
-                    <div class="post-title">
-                        <a href="{{ path('rix_core_user_category_detail', {'language': res[i][0]['origin']['title'], 'api' : 'feedly', 'id': res[i][0]['id'] }) }}">{{res[i][0]['title']}}</a>
-                    </div>
-                    <div class="posted-by">
-                        {%   if res[i][0]['author'] is defined    %}
-                            <a href="#">{{res[i][0]['author']}}</a>
-                        {% else %}
-                            <a>No author</a>
-                        {% endif %}
-                        {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
-                        <img class="add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': res[i][0]['origin']['title'], 'type': 'article', 'key': res[i][0]['id']}) }}" src="{{ asset_url }}"/>
-                        {% endimage %}
-                    </div>
+                        </div>
+                        <div class="post-title">
+                            <a href="{{ path('rix_core_user_category_detail', {'language': res[i][0]['origin']['title'], 'api' : 'feedly', 'id': res[i][0]['id'] }) }}">{{res[i][0]['title']}}</a>
+                        </div>
+                        <div class="posted-by">
+                            {%   if res[i][0]['author'] is defined    %}
+                                {{res[i][0]['author'][0:17]}}
+                            {% else %}
+                                No author
+                            {% endif %}
+                            {% image '@CoreBundle/Resources/public/assets/img/plus.png' %}
+                            <img class="add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': res[i][0]['origin']['title'], 'type': 'article', 'key': res[i][0]['id']}) }}" src="{{ asset_url }}"/>
+                            {% endimage %}
+                        </div>
 
-                    <div class="posted-at"> {{  data[i] }} </div>
+                        <div class="posted-at"> {{  data[i] }} </div>
+                    </div>
+                    <div class="author"></div>
                 </div>
-                <div class="author"></div>
             </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-0 col-md-3">
+            No feedly articles added to favorite.
         </div>
-    {% endfor %}
+    {% endif %}
 </div>

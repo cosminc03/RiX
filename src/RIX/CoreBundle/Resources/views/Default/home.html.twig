@@ -3,14 +3,15 @@
 {% block body %}
     <section>
         <div class="container">
-
+            {% if app.user %}
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-                    <form id="search">
-                        <input type="text" placeholder="Search for documents or skills you want to learn" />
+                    <form id="search" action={{ path('rix_core_user_category' ,{'language'  : 'search' }) }} method="post">
+                        <input type="text" name="miniSearch" placeholder="Search for documents or skills you want to learn" />
                     </form>
                 </div>
             </div>
+            {% endif %}
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-sm-offset-2" id="main-messages">
                     <div>Learn a New Skill Online, on Your Time</div>
