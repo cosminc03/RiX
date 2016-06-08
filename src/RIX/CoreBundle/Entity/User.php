@@ -66,9 +66,6 @@ class User implements AdvancedUserInterface, \Serializable
      * Just stores the plain password temporarily
      *
      * @var string
-     * @Assert\NotBlank(
-     *     message="Your password should not be blank"
-     * )
      * @Assert\Regex(
      *     pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/",
      *     message="Your password should contain at least 1 lower case letter, 1 upper case letter and 1 number"
@@ -81,27 +78,6 @@ class User implements AdvancedUserInterface, \Serializable
      * )
      */
     private $plainPassword;
-
-    /**
-     * Add SecurityAssert\UserPassword(
-     *     message = "Wrong value for your current password"
-     * )
-     *
-     * Just stores the old password when password and email are changed
-     *
-     * @var string
-     * @Assert\Regex(
-     *     pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/",
-     *     message="Your password should contain at least 1 lower case letter, 1 upper case letter and 1 number"
-     * )
-     * @Assert\Length(
-     *     min = 6,
-     *     max = 15,
-     *     minMessage = "Your password must be at least {{ limit }} characters long",
-     *     maxMessage= "Your password cannot be longer then {{ limit }} characters"
-     * )
-     */
-    private $oldPassword;
 
     /**
      * @var \DateTime
@@ -210,11 +186,6 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->setPlainPassword(null);
     }
-    
-    public function eraseOldPassword()
-    {
-        $this->setOldPassword(null);
-    }
 
     /**
      * @return string
@@ -314,22 +285,6 @@ class User implements AdvancedUserInterface, \Serializable
     public function getPlainPassword()
     {
         return $this->plainPassword;
-    }
-
-    /**
-     * @param string $oldPassword
-     */
-    public function setOldPassword($oldPassword)
-    {
-        $this->oldPassword = $oldPassword;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOldPassword()
-    {
-        return $this->oldPassword;
     }
 
     /**

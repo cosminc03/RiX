@@ -3,6 +3,8 @@
 namespace RIX\CoreBundle\Controller;
 
 use RIX\CoreBundle\Entity\Favorite;
+use RIX\CoreBundle\Form\Model\ChangeEmail;
+use RIX\CoreBundle\Form\Model\ChangePassword;
 use RIX\CoreBundle\Form\User\ChangeEmailTypeForm;
 use RIX\CoreBundle\Form\User\ChangePasswordTypeForm;
 use RIX\CoreBundle\Form\User\RegisterTypeForm;
@@ -24,10 +26,6 @@ class UserController extends Controller
     public function homeAction()
     {
         return $this->render('CoreBundle:Default:home.html.twig');
-    }
-
-    public function __construct() {
-        error_reporting( error_reporting() & ~E_NOTICE );
     }
 
     /**
@@ -291,23 +289,24 @@ class UserController extends Controller
     public function changeEmailAction(Request $request)
     {
         $valid = false;
-        $user = $this->getUser();
-        $form = $this->createForm(ChangeEmailTypeForm::class, $user);
+
+        $changeEmailModel = new ChangeEmail();
+        $form = $this->createForm(ChangeEmailTypeForm::class, $changeEmailModel);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->eraseOldPassword();
-
             $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $user->setEmail($changeEmailModel->getEmail());
             $em->persist($user);
             $em->flush();
             $valid = true;
+            
         }
 
         return $this->render(
             '@Core/Default/change_email.html.twig',
             [
-                'user' => $user,
                 'form' => $form->createView(),
                 'valid' => $valid,
             ]
@@ -323,16 +322,14 @@ class UserController extends Controller
     public function changePasswordAction(Request $request)
     {
         $valid = false;
-        $user = $this->getUser();
-        $form = $this->createForm(ChangePasswordTypeForm::class, $user);
+        $changePasswordModel = new ChangePassword();
+        $form = $this->createForm(ChangePasswordTypeForm::class, $changePasswordModel);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($this->encodePassword($user, $user->getPlainPassword()));
-            $user->eraseCredentials();
-            $user->eraseOldPassword();
-
             $em = $this->getDoctrine()->getManager();
+            $user = $this->getUser();
+            $user->setPassword($this->encodePassword($user, $changePasswordModel->getNewPassword()));
             $em->persist($user);
             $em->flush();
             $valid = true;
@@ -341,7 +338,6 @@ class UserController extends Controller
         return $this->render(
             '@Core/Default/change_password.html.twig',
             [
-                'user' => $user,
                 'form' => $form->createView(),
                 'valid' => $valid,
             ]
