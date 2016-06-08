@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="author">
                                     {% image '@CoreBundle/Resources/public/assets/img/favorite.png' %}
-                                        <img src="{{ asset_url }}" class="menu-arrow add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': language, 'type': 'video', 'key': videos["body"]["data"][i]["uri"][8:]}) }}"/>
+                                        <img src="{{ asset_url }}" class="menu-arrow add-to-favorite" data-link="{{ path('rix_core_user_favorite_add', {'language': language, 'type': 'video', 'key': videos["body"]["data"][i]["uri"][8:]}) }}" alt ="img"/>
                                     {% endimage %}
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                         {% if page > 1 %}
                             <a class="pagination_arrow-button pagination_prev-button"  href="{{ path('rix_core_user_category_type_video', {'language': language, 'page': page - 1}) }}">
                                 {% image '@CoreBundle/Resources/public/assets/img/arrow-right.png' %}
-                                <img src="{{ asset_url }}"/>
+                                <img src="{{ asset_url }}" alt ="img"/>
                                 {% endimage %}
                             </a>
                         {% endif %}
@@ -135,7 +135,7 @@
                         {% if page < lastPage %}
                             <a class="pagination_arrow-button pagination_next-button" href="{{ path('rix_core_user_category_type_video', {'language': language, 'page': page + 1}) }}">
                                 {% image '@CoreBundle/Resources/public/assets/img/arrow-right.png' %}
-                                <img src="{{ asset_url }}"/>
+                                <img src="{{ asset_url }}" alt ="img"/>
                                 {% endimage %}
                             </a>
                         {% endif %}

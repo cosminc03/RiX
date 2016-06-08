@@ -21,7 +21,7 @@
     <section>
         <div id="preloader">
             {% image '@CoreBundle/Resources/public/assets/img/preloader.gif' %}
-                <img src="{{ asset_url }}"/>
+                <img src="{{ asset_url }}" alt="img"/>
             {% endimage %}
         </div>
         <div class="container" id="favorite-container">
@@ -42,7 +42,7 @@
                                             <img src="{{ asset_url }}" class=""
                                                  data-link="{{ path('rix_core_user_remove_favorite',{'id': videos[i]["body"]["uri"][8:]}) }}"
                                                  data-reload="{{ path('rix_core_user_get_language_type', {type: 'video'}) }}"
-                                            />
+                                                 alt="img"/>
                                         {% endimage %}
                                     </div>
                                 </div>

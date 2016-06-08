@@ -22,7 +22,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <div id="logo">
+                                    <div class="logo">
                                         <a href="
                                             {% if app.user %}
                                                 {{ path('rix_core_user_home') }}
@@ -47,9 +47,9 @@
                                         <div id="account-wrapper">
                                             <div id="profile-picture">
                                                 {% if app.user.imageName %}
-                                                    <img src="{{ asset('images/products/' ~ app.user.imageName) }}"  alt="" />
+                                                    <img src="{{ asset('images/products/' ~ app.user.imageName) }}"  alt="img" />
                                                 {% else %}
-                                                    <img src="{{ asset('bundles/core/assets/img/user.png') }}" alt="" />
+                                                    <img src="{{ asset('bundles/core/assets/img/user.png') }}" alt="img" />
                                                 {% endif %}
                                             </div>
                                             <!--<div id="profile-name">
@@ -57,7 +57,7 @@
                                             </div>-->
                                             <div id="dropdown">
                                                 {% image '@CoreBundle/Resources/public/assets/img/arrow-down.png' %}
-                                                    <img src="{{ asset_url }}" class="menu-arrow dropbtn"/>
+                                                    <img src="{{ asset_url }}" class="menu-arrow dropbtn" alt="img" />
                                                 {% endimage %}
                                                 <div id="dropdown-content">
                                                     <div class="arrow-up"></div>
@@ -91,19 +91,18 @@
                                 <div class="col-xs-12">
                                     <div id="menu-sandwich">
                                         {% image '@CoreBundle/Resources/public/assets/img/menu-mobile.png' %}
-                                        <img src="{{ asset_url }}"/>
+                                        <img src="{{ asset_url }}" alt="img" />
                                         {% endimage %}
                                     </div>
-                                    <div id="logo">
+                                    <div class="logo">
                                         <div>RiX.com</div>
                                         <div>Resource Interactive Explorer</div>
                                     </div>
                                     <div id="search-mobile">
                                         {% image '@CoreBundle/Resources/public/assets/img/search-mobile.png' %}
-                                        <img src="{{ asset_url }}">
+                                        <img src="{{ asset_url }}" alt="img" />
                                         {% endimage %}
                                     </div>
-                                    <div id="profile-picture"></div>
                                 </div>
                             </div>
                         </div>
@@ -177,35 +176,35 @@
                                         <li>
                                             <a href="https://www.facebook.com/rixSitePage" target="_blank">
                                                 {% image '@CoreBundle/Resources/public/assets/img/facebook.png' %}
-                                                <img src="{{ asset_url }}"/>
+                                                <img src="{{ asset_url }}" alt="img" />
                                                 {% endimage %}
                                             </a>
                                         </li>
                                         <li>
                                             <a href="https://twitter.com/RiX_Site_Page" target="_blank">
                                                 {% image '@CoreBundle/Resources/public/assets/img/twitter.png' %}
-                                                <img src="{{ asset_url }}"/>
+                                                <img src="{{ asset_url }}" alt="img" />
                                                 {% endimage %}
                                             </a>
                                         </li>
                                         <li>
                                             <a href="https://plus.google.com/u/3/115353948070885776082?hl=ro" target="_blank">
                                                 {% image '@CoreBundle/Resources/public/assets/img/google-plus.png' %}
-                                                <img src="{{ asset_url }}"/>
+                                                <img src="{{ asset_url }}" alt="img"  />
                                                 {% endimage %}
                                             </a>
                                         </li>
                                         <li>
                                             <a href="https://www.linkedin.com/in/rix-rix-30b600122" target="_blank">
                                                 {% image '@CoreBundle/Resources/public/assets/img/linkdin.png' %}
-                                                <img src="{{ asset_url }}"/>
+                                                <img src="{{ asset_url }}" alt="img"/>
                                                 {% endimage %}
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#">
                                                 {% image '@CoreBundle/Resources/public/assets/img/email.png' %}
-                                                <img src="{{ asset_url }}"/>
+                                                <img src="{{ asset_url }}" alt="img" />
                                                 {% endimage %}
                                             </a>
                                         </li>
@@ -225,7 +224,7 @@
                                         <div>RiX.com</div>
                                         <div>Resource Interactive Explorer</div>
                                         {% image '@CoreBundle/Resources/public/assets/img/scroll-arrow.png' %}
-                                        <img src="{{ asset_url }}" class="scroll"/>
+                                        <img src="{{ asset_url }}" alt="img"  class="scroll"/>
                                         {% endimage %}
                                     </div>
                                 </div>

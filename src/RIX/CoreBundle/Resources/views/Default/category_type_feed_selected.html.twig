@@ -22,7 +22,7 @@
 
                                 </div>
                                 <div class="post-title">
-                                    <a href="{{ path('rix_core_user_category_detail', {'language': res[i]['origin']['title'], 'api' : 'feedly', 'id': res[i]['id'] }) }}">{{res[i]['title']}}</a>
+                                    <a href="{{ path('rix_core_user_category_detail', {'language': res[i]['origin']['title'], 'api' : 'feedly', 'id': res[i]['id'] }) }}">{{res[i]['title'][0:40]}}</a>
                                 </div>
                                 <div class="posted-by">
                                     {%   if res[i]['author'] is defined    %}
@@ -37,7 +37,7 @@
                             <div class="author">
                                 {% image '@CoreBundle/Resources/public/assets/img/favorite.png' %}
                                     <img src="{{ asset_url }}" class="menu-arrow add-to-favorite"
-                                         data-link="{{ path('rix_core_user_favorite_add', {'language': res[i]['origin']['title'], 'type': 'article', 'key': res[i]['id']}) }}"/>
+                                         data-link="{{ path('rix_core_user_favorite_add', {'language': res[i]['origin']['title'], 'type': 'article', 'key': res[i]['id']}) }}" alt="img"/>
                                 {% endimage %}
                             </div>
                         </div>
@@ -47,7 +47,7 @@
             <div class="more-items">
                 <div id="preloader">
                     {% image '@CoreBundle/Resources/public/assets/img/preloader.gif' %}
-                    <img src="{{ asset_url }}"/>
+                    <img src="{{ asset_url }}" alt="img"/>
                     {% endimage %}
                 </div>
                 <div class="row">

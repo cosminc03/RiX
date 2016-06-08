@@ -101,20 +101,20 @@ header{
 #buffered-height{
 	height: 60px;
 }
-#logo{
+.logo{
 	position:absolute;
 	top:7px;
 	left:15px;
 }
-#logo a{
+.logo a{
 	color:#ffffff;
 	text-decoration: none;
 }
-#logo div:nth-child(1){
+.logo div:nth-child(1){
 	font-size: 1.75rem;
 	font-weight: 600;
 }
-#logo div:nth-child(2){
+.logo div:nth-child(2){
 	font-size:0.75rem;
 	margin-top:-7px;
 }
@@ -336,9 +336,6 @@ header{
 }
 .menu-item-active a{
 	color:#000000!important;
-}
-#account-errors{
-	padding:15px 35px;
 }
 /****************** footer *********************/
 footer{
