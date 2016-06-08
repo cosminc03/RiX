@@ -20,11 +20,10 @@
                             {% if form_errors(form.email) %}
                                 <div>{{ form_errors(form.email) }}</div>
                             {% endif %}
-                            {% if  form_errors(form.plainPassword) %}
-                                {% for passwordField in form.plainPassword %}
-                                    <div>{{ form_errors(passwordField) }}</div>
-                                {% endfor %}
+                            {% if form_errors(form.plainPassword.first) %}
+                                <div>{{ form_errors(form.plainPassword.first) }}</div>
                             {% endif %}
+
                     </div>
                     <form class="user-form" action="{{ path('rix_core_user_register') }}" method="POST" role="form" novalidate>
                         <div class="form-group">

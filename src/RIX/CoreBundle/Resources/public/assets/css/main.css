@@ -337,6 +337,9 @@ header{
 .menu-item-active a{
 	color:#000000!important;
 }
+#account-errors{
+	padding:15px 35px;
+}
 /****************** footer *********************/
 footer{
 	margin-top:50px;

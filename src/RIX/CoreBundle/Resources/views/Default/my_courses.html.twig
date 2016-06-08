@@ -49,14 +49,15 @@
 
                                 <div class="rix-post-details">
                                     <div class="post-tags">
-                                        <a href="{{ path('rix_core_user_category', {'language':videos[i]["topic"]|trim|replace({'/':''})}) }}">{{ videos[i]["topic"] }}</a>
-                                        {% for j in 0..1 %}
+                                        {% for j in 0..2 %}
+                                            {% if(videos[i]["body"]["tags"]|length > j) %}
                                                 <a href="{{ path('rix_core_user_category', {'language':videos[i]["body"]["tags"][j]["name"]|trim|replace({'/':''})}) }}">{{ videos[i]["body"]["tags"][j]["name"] }}</a>
+                                            {% endif %}
                                         {% endfor %}
                                     </div>
                                     <div class="post-title">
                                         <a href="{{ path('rix_core_free_user_category_detail', {'language':videos[i]["topic"], 'api': 'vimeo', 'id':videos[i]["body"]["uri"][8:]}) }}">
-                                            {{videos[i]["body"]["name"] }}
+                                            {{videos[i]["body"]["name"][0:40] }}
                                         </a>
                                     </div>
                                     <div class="posted-by">
