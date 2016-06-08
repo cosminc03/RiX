@@ -3,12 +3,13 @@
 namespace RIX\CoreBundle\Form\User;
 
 use RIX\CoreBundle\Entity\User;
+use RIX\CoreBundle\Form\Model\ChangeEmail;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 
 class ChangeEmailTypeForm extends AbstractType
 {
@@ -17,7 +18,11 @@ class ChangeEmailTypeForm extends AbstractType
         $builder
             ->add('email', TextType::class, [
                 'label' => 'Email:',
-                'invalid_message' => 'Email incorect',
+                'constraints' => array(
+                    new Email(array(
+                        "message" => "The email {{ value }} is not a valid email"
+                    ))
+                ),
                 'required' => true,
             ])
             ->add('oldPassword', PasswordType::class,[
@@ -31,7 +36,7 @@ class ChangeEmailTypeForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => User::class,
+            'data_class' => ChangeEmail::class,
         ));
     }
 

@@ -27,7 +27,7 @@ class RegisterTypeForm extends AbstractType
                     'label' => 'Password:',
                     'constraints' => array(
                         new NotBlank(array(
-                            "message" => " should not be blank"
+                            "message" => "Your password should not be blank"
                         ))
                     )
                 ),
