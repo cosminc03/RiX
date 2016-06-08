@@ -23,9 +23,13 @@
                         <div class="rix-post-details">
                             <div class="post-tags">
                                 {% set foo = slideshares[i]['TAG']|split(',') %}
+                                {% if foo|length > 0 %}
                                 {% for tag in foo %}
                                     <a href="{{ path('rix_core_user_category', {'language':tag|trim|replace({'/':''})}) }}">{{tag}}</a>
                                 {% endfor %}
+                                {% else %}
+                                    <a href="{{ path('rix_core_user_category', {'language':slideshares[i]['TAG']|trim|replace({'/':''})}) }}">{{slideshares[i]['TAG']}}</a>
+                                {% endif %}
                             </div>
                             <div class="post-title">
                                 <a href="{{ path('rix_core_user_category_detail', {'language':slideshares[i]['topic'], 'api': 'slide', 'id':slideshares[i]['ID']}) }}">

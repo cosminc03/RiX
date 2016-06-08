@@ -26,27 +26,10 @@ class UserController extends Controller
         return $this->render('CoreBundle:Default:home.html.twig');
     }
 
-
-    /**
-     * @Route("/search", name = "rix_core_mini_search")
-     *
-     * @return Response
-     */
-    public function miniSearchAction(Request $request)
-    {
-
-
-        $language = $request->request->get('miniSearch');
-        if($language=="")
-            $language="rix";
-        return  $this->categoryAction($language, "video");
-
-
-
-
-
-
+    public function __construct() {
+        error_reporting( error_reporting() & ~E_NOTICE );
     }
+
     /**
      * @Route("/category/{language}/video/page/{page}", name="rix_core_user_category_type_video")
      * 
