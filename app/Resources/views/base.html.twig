@@ -52,9 +52,6 @@
                                                     <img src="{{ asset('bundles/core/assets/img/user.png') }}" alt="img" />
                                                 {% endif %}
                                             </div>
-                                            <!--<div id="profile-name">
-                                                <a href="{{ path('rix_core_user_account') }}">{{ app.user.username }}</a>
-                                            </div>-->
                                             <div id="dropdown">
                                                 {% image '@CoreBundle/Resources/public/assets/img/arrow-down.png' %}
                                                     <img src="{{ asset_url }}" class="menu-arrow dropbtn" alt="img" />
@@ -70,13 +67,21 @@
                                         </div>
                                         <ul id="menu">
                                             <li><a href="{{ path('rix_core_user_home') }}">Home</a></li>
-                                            <li><a href="#">Categories</a></li>
+                                            <li><a href="#" class="dropcategories">Categories</a></li>
                                             <li><a href="{{ path('rix_core_user_logout') }}" id="sign-up">Sign Out</a></li>
+                                            <div id="dropdown-categories">
+                                                <div class="arrow-up"></div>
+                                                <a href="{{ path('rix_core_user_category', {'language': 'java'}) }}">Learn Java</a>
+                                                <a href="{{ path('rix_core_user_category', {'language': 'python'}) }}">Learn Python</a>
+                                                <a href="{{ path('rix_core_user_category', {'language': 'php'}) }}">Learn PHP</a>
+                                                <a href="{{ path('rix_core_user_category', {'language': 'ruby'}) }}">Learn Ruby</a>
+                                                <a href="{{ path('rix_core_user_category', {'language': 'symfony'}) }}">Learn Symfony</a>
+                                                <a href="{{ path('rix_core_user_category', {'language': 'android'}) }}">Learn Android</a>
+                                            </div>
                                         </ul>
                                     {% else %}
                                         <ul id="menu">
                                             <li><a href="{{ path('rix_core_free_user_home') }}">Home</a></li>
-                                            <li><a href="#">Cateogries</a></li>
                                             <li><a href="{{ path('rix_core_user_login') }}" id="sign-in">Sign In</a></li>
                                             <li><a href="{{ path('rix_core_user_register') }}" id="sign-up">Sign Up</a></li>
                                         </ul>
@@ -254,6 +259,15 @@
 
                     $('#dropdown-content').hover(function(){},function(){
                         $('#dropdown-content').css('display','none');
+                    });
+
+                    $('.dropcategories').hover(function(){
+                        $('#dropdown-categories').css('display','block');
+                    }, function(){
+                    });
+
+                    $('#dropdown-categories').hover(function(){},function(){
+                        $('#dropdown-categories').css('display','none');
                     });
                 });
 

@@ -1,13 +1,7 @@
 <?php
 namespace RIX\CoreBundle\Service\Feedly;
 use Symfony\Component\Config\Definition\Exception\Exception;
-/**
- * PHP Wrapper arround Feedly's REST API.
- *
- * @see http://developers.feedly.com
- * @author Kostas Bariotis / konmpar@gmail.com / @kbariotis
- *
- */
+
 class Feedly {
     private
         $_apiBaseUrl = "https://cloud.feedly.com",

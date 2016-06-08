@@ -286,6 +286,31 @@ header{
 	border-bottom: 11px solid #ffffff;
 }
 
+#menu{
+	position:relative;
+}
+#dropdown-categories{
+	display: none;
+	position:absolute;
+	top: 34px;
+	left:35px;
+	width:165px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+	padding: 10px;
+	border-radius: 5px;
+	background: #ffffff;
+	z-index:20000;
+}
+#dropdown-categories a{
+	display:block;
+	color:#000;
+	padding:5px 5px;
+	font-size:1.1rem;
+}
+#dropdown-categories a:hover{
+	text-decoration: none;
+	font-weight: 700;
+}
 /***************** user-menu ******************/
 #user-menu-wrapper{
 	margin-bottom: 20px;
